@@ -31,7 +31,14 @@ import {
 } from 'lucide-react';
 import { api } from '@/utils/api';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+let API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+if (API_BASE.endsWith('/')) {
+  API_BASE = API_BASE.slice(0, -1);
+}
+if (!API_BASE.includes('/api/v1')) {
+  API_BASE = `${API_BASE}/api/v1`;
+}
+
 
 async function adminFetch(endpoint, options = {}) {
   const token = typeof window !== 'undefined' ? localStorage.getItem('mahalaxmi-token') : null;

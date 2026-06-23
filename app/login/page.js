@@ -110,19 +110,7 @@ export default function LoginPage() {
     setIsSubmitting(true);
 
     try {
-      // Corrected call structure for forgot password
-      await fetch('http://localhost:5000/api/v1/auth/forgot-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      }).then(async r => {
-        const text = await r.text();
-        if (!r.ok) {
-          let errData;
-          try { errData = JSON.parse(text); } catch(ex) { errData = { message: text }; }
-          throw new Error(errData.message || 'Request failed');
-        }
-      });
+      await api.auth.forgotPassword(email);
 
       setIsSubmitting(false);
       setSuccessMsg('Password reset instructions sent to your email.');

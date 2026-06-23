@@ -1,6 +1,12 @@
 // API client helper for Mahalaxmi Mithaiwala Ecommerce Backend
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+let API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/v1';
+if (API_BASE.endsWith('/')) {
+  API_BASE = API_BASE.slice(0, -1);
+}
+if (!API_BASE.includes('/api/v1')) {
+  API_BASE = `${API_BASE}/api/v1`;
+}
 
 // Get or generate a guest session ID for guest carts
 export const getOrCreateGuestId = () => {
@@ -103,6 +109,10 @@ export const api = {
     changePassword: (currentPassword, newPassword) => apiFetch('/auth/change-password', {
       method: 'PUT',
       body: { currentPassword, newPassword }
+    }),
+    forgotPassword: (email) => apiFetch('/auth/forgot-password', {
+      method: 'POST',
+      body: { email }
     })
   },
 
