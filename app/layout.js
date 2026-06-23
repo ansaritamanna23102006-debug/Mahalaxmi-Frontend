@@ -9,7 +9,7 @@ export const viewport = {
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   title: {
-    default: "Mahalaxmi Mithaiwala | Premium Sweets & Farsan Since 1982 | Mumbai",
+    default: "Mahalaxmi Mithaiwala | Premium Sweets & Farsan",
     template: "%s | Mahalaxmi Mithaiwala"
   },
   description: "Serving Mumbai with premium sweets, farsan, gift boxes, and festive collections for over four decades. Handcrafted with traditional recipes since 1982.",

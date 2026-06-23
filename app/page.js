@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
@@ -403,10 +404,13 @@ export default function Home() {
 
             {/* Hero Main Sweet Image */}
             <div className="relative w-[280px] sm:w-[420px] h-[280px] sm:h-[420px] rounded-full overflow-hidden border-8 border-brand-cream shadow-2xl glow-gold group">
-              <img 
+              <Image 
                 src="/hero_sweets.png" 
                 alt="Premium Mithai Platter" 
-                className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" 
+                fill
+                priority
+                sizes="(max-width: 640px) 280px, 420px"
+                className="object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" 
               />
             </div>
           </motion.div>
@@ -956,6 +960,21 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* ----------------- SEO CONTENT BLOCK ----------------- */}
+      <section className="py-16 bg-brand-cream border-t border-brand-gold/20 text-center px-4 md:px-8">
+        <div className="max-w-4xl mx-auto space-y-6">
+          <h2 className="font-playfair text-2xl font-bold text-brand-brown">Traditional Indian Sweets & Premium Quality Farsan</h2>
+          <div className="space-y-4 text-sm font-poppins font-light text-brand-text/80 leading-relaxed text-justify sm:text-center">
+            <p>
+              For over <strong>four decades</strong>, Mahalaxmi Mithaiwala has been the trusted <strong>home</strong> of authentic, <strong>traditional</strong> culinary delights. We take immense pride in <strong>serving Mumbai</strong> with the finest <strong>Indian sweets</strong> and <strong>premium quality</strong> snacks since 1982. Our time-tested recipes use only the purest ingredients, ensuring that every bite of our <strong>sweets farsan</strong> collection brings true heritage and joy to your family's table.
+            </p>
+            <p>
+              Beyond our daily treats, we specialize in beautifully curated <strong>farsan gift</strong> options and exquisite <strong>gift boxes</strong> perfect for corporate gifting, grand weddings, and festive celebrations like Diwali and Raksha Bandhan. We believe that maintaining our high standards is not just a business practice, but a legacy we uphold for every customer. Experience the unmatched taste of authenticity and bring home the true essence of celebration with Mumbai's premier sweet artisans.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* ----------------- FOOTER ----------------- */}
       <Footer />
