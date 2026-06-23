@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -179,12 +180,14 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetchProducts();
-    fetchCategories();
-    fetchTestimonials();
-    fetchFestivalProducts();
-    fetchGalleryItems();
-    loadWishlist();
+    Promise.resolve().then(() => {
+      fetchProducts();
+      fetchCategories();
+      fetchTestimonials();
+      fetchFestivalProducts();
+      fetchGalleryItems();
+      loadWishlist();
+    });
 
     const handleWishlistUpdate = () => {
       loadWishlist();
@@ -807,7 +810,7 @@ export default function Home() {
                       ))}
                     </div>
                     <p className="text-brand-text/80 text-sm font-poppins italic leading-relaxed mb-6">
-                      "{test.comment}"
+                      &quot;{test.comment}&quot;
                     </p>
                   </div>
                   <div className="flex items-center gap-3 pt-4 border-t border-brand-gold/10">
@@ -967,10 +970,10 @@ export default function Home() {
           <h2 className="font-playfair text-2xl font-bold text-brand-brown">Traditional Indian Sweets & Premium Quality Farsan</h2>
           <div className="space-y-4 text-sm font-poppins font-light text-brand-text/80 leading-relaxed text-justify sm:text-center">
             <p>
-              For over <strong>four decades</strong>, Mahalaxmi Mithaiwala has been the trusted <strong>home</strong> of authentic, <strong>traditional</strong> culinary delights. We take immense pride in <strong>serving Mumbai</strong> with the finest <strong>Indian sweets</strong> and <strong>premium quality</strong> snacks since 1982. Our time-tested recipes use only the purest ingredients, ensuring that every bite of our <strong>sweets farsan</strong> collection brings true heritage and joy to your family's table.
+              For over <strong>four decades</strong>, Mahalaxmi Mithaiwala has been the trusted <strong>home</strong> of authentic, <strong>traditional</strong> culinary delights. We take immense pride in <strong>serving Mumbai</strong> with the finest <strong>Indian sweets</strong> and <strong>premium quality</strong> snacks since 1982. Our time-tested recipes use only the purest ingredients, ensuring that every bite of our <strong>sweets farsan</strong> collection brings true heritage and joy to your family&apos;s table.
             </p>
             <p>
-              Beyond our daily treats, we specialize in beautifully curated <strong>farsan gift</strong> options and exquisite <strong>gift boxes</strong> perfect for corporate gifting, grand weddings, and festive celebrations like Diwali and Raksha Bandhan. We believe that maintaining our high standards is not just a business practice, but a legacy we uphold for every customer. Experience the unmatched taste of authenticity and bring home the true essence of celebration with Mumbai's premier sweet artisans.
+              Beyond our daily treats, we specialize in beautifully curated <strong>farsan gift</strong> options and exquisite <strong>gift boxes</strong> perfect for corporate gifting, grand weddings, and festive celebrations like Diwali and Raksha Bandhan. We believe that maintaining our high standards is not just a business practice, but a legacy we uphold for every customer. Experience the unmatched taste of authenticity and bring home the true essence of celebration with Mumbai&apos;s premier sweet artisans.
             </p>
           </div>
         </div>
