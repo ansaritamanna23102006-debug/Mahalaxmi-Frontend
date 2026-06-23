@@ -41,7 +41,7 @@ export default function LoginPage() {
   useEffect(() => {
     const user = localStorage.getItem('mahalaxmi-user');
     if (user) {
-      window.location.href = '/account';
+      window.location.href = '/';
     }
   }, []);
 
@@ -57,10 +57,10 @@ export default function LoginPage() {
       setSuccessMsg('Logged in successfully! Redirecting...');
       window.dispatchEvent(new Event('storage'));
 
-      // Redirect admin to admin panel, regular users to account
+      // Redirect admin to admin panel, regular users to home
       const isAdmin = data?.user?.role === 'admin';
       setTimeout(() => {
-        window.location.href = isAdmin ? '/admin' : '/account';
+        window.location.href = isAdmin ? '/admin' : '/';
       }, 1500);
     } catch (err) {
       setIsSubmitting(false);
@@ -95,7 +95,7 @@ export default function LoginPage() {
       window.dispatchEvent(new Event('storage'));
 
       setTimeout(() => {
-        window.location.href = '/account';
+        window.location.href = '/';
       }, 1500);
     } catch (err) {
       setIsSubmitting(false);
