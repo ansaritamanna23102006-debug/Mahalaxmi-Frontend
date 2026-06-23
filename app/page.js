@@ -263,6 +263,27 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen font-sans antialiased text-brand-text bg-brand-bg select-none">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Mahalaxmi Mithaiwala",
+            "image": "http://localhost:3000/hero_sweets.png",
+            "@id": "http://localhost:3000",
+            "url": "http://localhost:3000",
+            "telephone": "+91-9999999999",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Kurla",
+              "addressLocality": "Mumbai",
+              "postalCode": "400070",
+              "addressCountry": "IN"
+            }
+          })
+        }}
+      />
       <Navbar transparent={true} />
       
       {/* ----------------- HERO SECTION ----------------- */}
