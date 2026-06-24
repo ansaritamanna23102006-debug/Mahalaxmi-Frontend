@@ -288,7 +288,7 @@ export default function Navbar({ transparent = false }) {
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
           
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center w-48 md:w-56 h-12 transition-transform duration-300 hover:scale-105">
+          <Link href="/" className="flex items-center w-32 sm:w-44 md:w-56 h-12 transition-transform duration-300 hover:scale-105">
             <Image src="/logo.png" alt="Mahalaxmi Mithaiwala Logo" width={224} height={48} priority className="w-full h-full object-contain" />
           </Link>
 
@@ -338,7 +338,7 @@ export default function Navbar({ transparent = false }) {
             {/* Wishlist */}
             <button 
               onClick={() => setIsWishlistOpen(true)}
-              className={`p-2 rounded-full relative transition-all duration-300 ${
+              className={`hidden sm:inline-flex p-2 rounded-full relative transition-all duration-300 ${
                 transparent 
                   ? (isScrolled ? 'text-brand-cream hover:bg-brand-cream/10' : 'text-brand-brown hover:bg-brand-brown/5')
                   : 'text-brand-cream hover:bg-brand-cream/10'
@@ -374,7 +374,7 @@ export default function Navbar({ transparent = false }) {
             {/* User Profile */}
             <Link 
               href="/account"
-              className={`p-2 rounded-full transition-all duration-300 ${
+              className={`hidden sm:inline-flex p-2 rounded-full transition-all duration-300 ${
                 transparent 
                   ? (isScrolled ? 'text-brand-cream hover:bg-brand-cream/10' : 'text-brand-brown hover:bg-brand-brown/5')
                   : 'text-brand-cream hover:bg-brand-cream/10'
@@ -430,6 +430,26 @@ export default function Navbar({ transparent = false }) {
                   </Link>
                 );
               })}
+              
+              {/* Wishlist and Account links in Mobile Menu */}
+              <button 
+                onClick={() => { setIsMobileMenuOpen(false); setIsWishlistOpen(true); }}
+                className="flex items-center justify-between font-poppins font-medium text-lg text-brand-cream hover:text-brand-gold py-2 border-b border-brand-cream/5 text-left w-full cursor-pointer"
+              >
+                <span>My Wishlist</span>
+                {wishlist.length > 0 && (
+                  <span className="bg-brand-maroon text-brand-cream text-[10px] px-2 py-0.5 rounded-full font-bold border border-brand-gold">
+                    {wishlist.length}
+                  </span>
+                )}
+              </button>
+              <Link 
+                href="/account"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="font-poppins font-medium text-lg text-brand-cream hover:text-brand-gold py-2 border-b border-brand-cream/5"
+              >
+                My Account
+              </Link>
             </div>
           </motion.div>
         )}

@@ -390,15 +390,15 @@ export default function Home() {
 
             {/* Statistics */}
             <div className="grid grid-cols-3 gap-4 pt-6 border-t lg:border-t-0 border-brand-gold/20">
-              <div className="text-center sm:text-left">
+              <div className="text-left">
                 <h3 className="font-playfair text-2xl sm:text-3xl font-black text-brand-maroon">500+</h3>
                 <p className="text-xs text-brand-text/75 font-poppins">Sweet Varieties</p>
               </div>
-              <div className="text-center sm:text-left">
+              <div className="text-left">
                 <h3 className="font-playfair text-2xl sm:text-3xl font-black text-brand-maroon">50+</h3>
                 <p className="text-xs text-brand-text/75 font-poppins">Farsan Items</p>
               </div>
-              <div className="text-center sm:text-left">
+              <div className="text-left">
                 <h3 className="font-playfair text-2xl sm:text-3xl font-black text-brand-maroon">1M+</h3>
                 <p className="text-xs text-brand-text/75 font-poppins">Happy Customers</p>
               </div>
@@ -484,7 +484,7 @@ export default function Home() {
                         transition={{ duration: 0.5, delay: idx * 0.05 }}
                         className="group cursor-pointer flex flex-col items-center bg-brand-bg p-4 rounded-3xl border border-brand-gold/15 shadow-sm hover:shadow-xl hover:border-brand-gold transition-all duration-300 text-center h-full"
                       >
-                        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white shadow-md mb-4 group-hover:scale-105 transition-transform duration-500">
+                        <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white shadow-md mb-4 group-hover:scale-105 transition-transform duration-500">
                           <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
                         </div>
                         <h3 className="font-playfair text-md font-bold text-brand-brown group-hover:text-brand-maroon transition-colors duration-300">{cat.name}</h3>
@@ -772,13 +772,12 @@ export default function Home() {
               transition={{ duration: 0.8 }}
               className="lg:col-span-6 relative flex justify-center"
             >
-              {/* Legacy Floating Badge */}
-              <div className="absolute top-4 left-4 z-20 bg-brand-gold text-brand-brown font-playfair font-bold text-lg px-6 py-3 rounded-2xl shadow-xl border border-brand-cream/30">
-                Since 1982
-              </div>
-
-              {/* Photo Frame */}
+              {/* Photo Frame with Badge inside */}
               <div className="relative w-full max-w-lg aspect-[4/3] rounded-3xl overflow-hidden border-8 border-white shadow-2xl">
+                {/* Legacy Floating Badge - Placed inside relative container to stay perfectly aligned with the image on mobile */}
+                <div className="absolute top-4 left-4 z-20 bg-brand-gold text-brand-brown font-playfair font-bold text-xs sm:text-lg px-3.5 sm:px-6 py-1.5 sm:py-3 rounded-2xl shadow-xl border border-brand-cream/30">
+                  Since 1982
+                </div>
                 <img 
                   src="/traditional_maker.png" 
                   alt="Traditional Indian Sweet Maker" 
