@@ -326,27 +326,27 @@ function SweetsPageContent() {
                 <p className="text-brand-brown/60 font-poppins text-sm">No sweets match your filters. Try adjusting filters.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
                 {sorted.map((product) => {
                   const isFav = wishlist.some(i => i.id === product.id);
                   return (
                     <div 
                       key={product.id}
-                      className="bg-white rounded-3xl overflow-hidden border border-brand-gold/15 shadow-md hover:shadow-xl hover:border-brand-gold transition-all duration-300 group flex flex-col justify-between"
+                      className="bg-white rounded-2xl sm:rounded-3xl overflow-hidden border border-brand-gold/15 shadow-md hover:shadow-xl hover:border-brand-gold transition-all duration-300 group flex flex-col justify-between"
                     >
                       {/* Top image overlay */}
                       {(() => {
                         const isFav = wishlist.some(i => i.id === product.id);
                         return (
-                      <div className="relative h-48 sm:h-52 overflow-hidden">
+                      <div className="relative h-32 sm:h-52 overflow-hidden">
                         <Image src={product.image} alt={product.name} fill unoptimized className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-500" />
                         <button 
                           onClick={() => toggleWishlist(product)}
-                          className={`absolute top-4 right-4 bg-white/80 hover:bg-white p-2 rounded-full shadow-md backdrop-blur-sm transition-transform duration-300 hover:scale-110 ${isFav ? 'text-brand-maroon' : 'text-gray-400'}`}
+                          className={`absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/80 hover:bg-white p-1.5 sm:p-2 rounded-full shadow-md backdrop-blur-sm transition-transform duration-300 hover:scale-110 ${isFav ? 'text-brand-maroon' : 'text-gray-400'}`}
                         >
-                          <Heart className={`w-4 h-4 transition-all ${isFav ? 'fill-brand-maroon' : ''}`} />
+                          <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-all ${isFav ? 'fill-brand-maroon' : ''}`} />
                         </button>
-                        <span className="absolute bottom-4 left-4 bg-brand-brown/90 text-brand-gold text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full">
+                        <span className="hidden sm:inline-block absolute bottom-4 left-4 bg-brand-brown/90 text-brand-gold text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full">
                           {product.category}
                         </span>
                       </div>
@@ -354,9 +354,9 @@ function SweetsPageContent() {
                       })()}
 
                       {/* Content details */}
-                      <div className="p-6 flex-grow flex flex-col justify-between">
+                      <div className="p-3 sm:p-6 flex-grow flex flex-col justify-between">
                         <div>
-                          <div className="flex items-center gap-1 mb-2">
+                          <div className="flex items-center gap-1 mb-1 sm:mb-2">
                             <div className="flex text-brand-gold">
                               {[...Array(5)].map((_, i) => (
                                 <Star key={i} className="w-3 h-3 fill-current" />
@@ -366,25 +366,25 @@ function SweetsPageContent() {
                           </div>
                           
                           <Link href={`/product/${product.slug}`} className="hover:underline">
-                            <h3 className="font-playfair text-lg font-bold text-brand-brown mb-2 group-hover:text-brand-maroon transition-colors duration-300">{product.name}</h3>
+                            <h3 className="font-playfair text-sm sm:text-lg font-bold text-brand-brown mb-1 sm:mb-2 group-hover:text-brand-maroon transition-colors duration-300 line-clamp-2">{product.name}</h3>
                           </Link>
                           
-                          <p className="text-xs text-brand-text/70 line-clamp-2 font-poppins font-light leading-relaxed mb-4">{product.description}</p>
+                          <p className="hidden sm:block text-xs text-brand-text/70 line-clamp-2 font-poppins font-light leading-relaxed mb-4">{product.description}</p>
                         </div>
 
-                        <div className="pt-4 border-t border-brand-gold/10">
-                          <div className="flex items-center justify-between mb-3">
+                        <div className="pt-2 sm:pt-4 border-t border-brand-gold/10">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2 sm:mb-3">
                             <div>
-                              <span className="text-[9px] uppercase font-bold tracking-wider text-brand-text/40">Starting from</span>
-                              <h4 className="font-poppins font-black text-lg text-brand-maroon">₹{product.price}</h4>
+                              <span className="text-[8px] sm:text-[9px] uppercase font-bold tracking-wider text-brand-text/40">Starting from</span>
+                              <h4 className="font-poppins font-black text-sm sm:text-lg text-brand-maroon">₹{product.price}</h4>
                             </div>
-                            <span className="text-[10px] text-brand-text/40 font-poppins">per {product.weight}</span>
+                            <span className="text-[9px] sm:text-[10px] text-brand-text/40 font-poppins">per {product.weight}</span>
                           </div>
                           <Link
                             href={`/product/${product.slug}`}
-                            className="w-full flex items-center justify-center gap-2 bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown font-bold font-poppins text-xs py-3 px-4 rounded-2xl transition-all duration-300 shadow-md active:scale-95"
+                            className="w-full flex items-center justify-center gap-1 sm:gap-2 bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown font-bold font-poppins text-[10px] sm:text-xs py-2 sm:py-3 px-3 sm:px-4 rounded-xl sm:rounded-2xl transition-all duration-300 shadow-md active:scale-95"
                           >
-                            Order Now <ArrowRight className="w-3.5 h-3.5" />
+                            Order Now <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                           </Link>
                         </div>
                       </div>

@@ -230,3 +230,27 @@ footer a:not(.bg-brand-gold) {
 footer a:hover:not(.bg-brand-gold) {
   color: #F59E0B !important;
 }
+
+/* Force equal-height cards in all Swiper sliders */
+.swiper-slide {
+  display: flex !important;
+  flex-direction: column !important;
+  height: auto !important;
+}
+
+.swiper-slide > a {
+  display: flex !important;
+  flex-direction: column !important;
+  flex-grow: 1 !important;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.swiper-slide > a > div,
+.swiper-slide > div {
+  display: flex !important;
+  flex-direction: column !important;
+  flex-grow: 1 !important;
+  height: 100% !important;
+  justify-content: space-between !important;
+}

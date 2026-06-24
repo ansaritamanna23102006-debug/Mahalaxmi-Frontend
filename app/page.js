@@ -327,8 +327,9 @@ export default function Home() {
             {/* Headline */}
             <h1 className="font-playfair text-4xl sm:text-5xl lg:text-6xl font-black text-brand-brown leading-[1.1]">
               Sweets & Farsan <br />
+              Crafted with{" "}
               <span className="text-brand-maroon relative inline-block">
-                Crafted with Tradition
+                Tradition
                 <span className="absolute bottom-1 left-0 w-full h-[4px] bg-brand-gold rounded-full opacity-60"></span>
               </span>
             </h1>
@@ -475,20 +476,22 @@ export default function Home() {
                 }
 
                 return (
-                  <SwiperSlide key={cat.name} className="h-auto">
-                    <Link href={link} className="block h-full">
+                  <SwiperSlide key={cat.name} className="h-auto flex flex-col">
+                    <Link href={link} className="flex flex-col flex-grow h-full w-full">
                       <motion.div 
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: idx * 0.05 }}
-                        className="group cursor-pointer flex flex-col items-center bg-brand-bg p-4 rounded-3xl border border-brand-gold/15 shadow-sm hover:shadow-xl hover:border-brand-gold transition-all duration-300 text-center h-full"
+                        className="group cursor-pointer flex flex-col items-center bg-brand-bg p-4 rounded-3xl border border-brand-gold/15 shadow-sm hover:shadow-xl hover:border-brand-gold transition-all duration-300 text-center w-full flex-grow justify-between"
                       >
-                        <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white shadow-md mb-4 group-hover:scale-105 transition-transform duration-500">
-                          <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
+                        <div className="flex flex-col items-center">
+                          <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white shadow-md mb-4 group-hover:scale-105 transition-transform duration-500">
+                            <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
+                          </div>
+                          <h3 className="font-playfair text-md font-bold text-brand-brown group-hover:text-brand-maroon transition-colors duration-300 line-clamp-2 px-1">{cat.name}</h3>
                         </div>
-                        <h3 className="font-playfair text-md font-bold text-brand-brown group-hover:text-brand-maroon transition-colors duration-300">{cat.name}</h3>
-                        <span className="text-xs text-brand-maroon font-bold mt-1">{cat.count}</span>
+                        <span className="text-xs text-brand-maroon font-bold mt-3 block shrink-0">{cat.count}</span>
                       </motion.div>
                     </Link>
                   </SwiperSlide>
@@ -526,7 +529,7 @@ export default function Home() {
           </div>
 
           {/* Product Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6 md:gap-8">
             {products.map((product, idx) => {
               const inWishlist = wishlist.some(item => item.id === product.id);
               
@@ -537,10 +540,10 @@ export default function Home() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: idx * 0.05 }}
-                  className="bg-brand-cream rounded-3xl overflow-hidden border border-brand-gold/15 shadow-md hover:shadow-xl hover:border-brand-gold transition-all duration-300 group flex flex-col h-full"
+                  className="bg-brand-cream rounded-2xl sm:rounded-3xl overflow-hidden border border-brand-gold/15 shadow-md hover:shadow-xl hover:border-brand-gold transition-all duration-300 group flex flex-col h-full"
                 >
                   {/* Product Image Panel */}
-                  <div className="relative h-56 overflow-hidden">
+                  <div className="relative h-32 sm:h-56 overflow-hidden">
                     <img 
                       src={product.image} 
                       alt={product.name} 
@@ -550,54 +553,54 @@ export default function Home() {
                     {/* Floating Wishlist Button */}
                     <button 
                       onClick={() => toggleWishlist(product)}
-                      className="absolute top-4 right-4 bg-white/80 hover:bg-white text-brand-maroon p-2 rounded-full shadow-md backdrop-blur-sm transition-transform duration-300 hover:scale-110 active:scale-95"
+                      className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/80 hover:bg-white text-brand-maroon p-1.5 sm:p-2 rounded-full shadow-md backdrop-blur-sm transition-transform duration-300 hover:scale-110 active:scale-95"
                       aria-label="Wishlist"
                     >
-                      <Heart className={`w-4 h-4 ${inWishlist ? 'fill-brand-maroon' : 'none'}`} />
+                      <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${inWishlist ? 'fill-brand-maroon' : 'none'}`} />
                     </button>
 
                     {/* Category Overlay */}
-                    <span className="absolute bottom-4 left-4 bg-brand-brown/90 text-brand-gold text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full border border-brand-gold/30">
+                    <span className="hidden sm:inline-block absolute bottom-4 left-4 bg-brand-brown/90 text-brand-gold text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full border border-brand-gold/30">
                       {product.category}
                     </span>
                   </div>
 
                   {/* Product Details */}
-                  <div className="p-6 flex flex-col flex-grow justify-between">
+                  <div className="p-3 sm:p-6 flex flex-col flex-grow justify-between">
                     <div>
                       {/* Rating Panel */}
-                      <div className="flex items-center gap-1 mb-2">
+                      <div className="flex items-center gap-1 mb-1 sm:mb-2">
                         <div className="flex items-center text-brand-gold">
                           {[...Array(5)].map((_, i) => (
                             <Star key={i} className="w-3.5 h-3.5 fill-current" />
                           ))}
                         </div>
-                        <span className="text-xs text-brand-text/60 font-poppins">({product.reviews})</span>
+                        <span className="text-[10px] sm:text-xs text-brand-text/60 font-poppins">({product.reviews})</span>
                       </div>
 
-                      <h3 className="font-playfair text-lg font-bold text-brand-brown mb-2 group-hover:text-brand-maroon transition-colors duration-300">
+                      <h3 className="font-playfair text-sm sm:text-lg font-bold text-brand-brown mb-1 sm:mb-2 group-hover:text-brand-maroon transition-colors duration-300 line-clamp-2">
                         {product.name}
                       </h3>
-                      <p className="text-xs text-brand-text/70 line-clamp-2 mb-4 font-poppins leading-relaxed">
+                      <p className="hidden sm:block text-xs text-brand-text/70 line-clamp-2 mb-4 font-poppins leading-relaxed">
                         {product.description}
                       </p>
                     </div>
 
                     <div>
                       {/* Price & Action Row */}
-                      <div className="pt-4 border-t border-brand-gold/10">
-                        <div className="flex items-center justify-between mb-3">
+                      <div className="pt-2 sm:pt-4 border-t border-brand-gold/10">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2 sm:mb-3">
                           <div>
-                            <p className="text-[10px] text-brand-text/50 uppercase tracking-widest font-bold">Starting from</p>
-                            <span className="font-poppins font-black text-xl text-brand-maroon">₹{product.price}</span>
+                            <p className="text-[8px] sm:text-[10px] text-brand-text/50 uppercase tracking-widest font-bold">Starting from</p>
+                            <span className="font-poppins font-black text-sm sm:text-xl text-brand-maroon">₹{product.price}</span>
                           </div>
-                          <span className="text-[10px] text-brand-text/40 font-poppins">per {product.weight}</span>
+                          <span className="text-[9px] sm:text-[10px] text-brand-text/40 font-poppins">per {product.weight}</span>
                         </div>
                         <Link
                           href={`/product/${product.slug}`}
-                          className="w-full flex items-center justify-center gap-2 bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown font-bold font-poppins text-xs py-3 px-4 rounded-2xl transition-all duration-300 shadow-md active:scale-95"
+                          className="w-full flex items-center justify-center gap-1 sm:gap-2 bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown font-bold font-poppins text-[10px] sm:text-xs py-2 sm:py-3 px-3 sm:px-4 rounded-xl sm:rounded-2xl transition-all duration-300 shadow-md active:scale-95"
                         >
-                          Order Now <ArrowRight className="w-3.5 h-3.5" />
+                          Order Now <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                         </Link>
                       </div>
                     </div>
