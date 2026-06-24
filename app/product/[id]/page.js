@@ -37,7 +37,6 @@ export default function ProductDetailPage({ params }) {
   const [quantity, setQuantity] = useState(1);
   const [wishlist, setWishlist] = useState([]);
   const [reviews, setReviews] = useState([]);
-  const [zoomStyle, setZoomStyle] = useState({ display: 'none' });
   const [loading, setLoading] = useState(true);
 
 
@@ -173,22 +172,7 @@ export default function ProductDetailPage({ params }) {
     }
   };
 
-  // Magnifier Zoom Effect
-  const handleMouseMove = (e) => {
-    const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-    const x = ((e.pageX - left - window.scrollX) / width) * 100;
-    const y = ((e.pageY - top - window.scrollY) / height) * 100;
-    setZoomStyle({
-      display: 'block',
-      backgroundImage: `url(${activeImage})`,
-      backgroundPosition: `${x}% ${y}%`,
-      backgroundSize: '200%'
-    });
-  };
 
-  const handleMouseLeave = () => {
-    setZoomStyle({ display: 'none' });
-  };
 
   if (loading) {
     return (
@@ -233,17 +217,11 @@ export default function ProductDetailPage({ params }) {
           {/* Left Column: Image Panel */}
           <div className="lg:col-span-6 space-y-4">
             
-            {/* Main Stage Image with Zoom overlay */}
+            {/* Main Stage Image */}
             <div 
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-              className="relative w-full aspect-square rounded-2xl overflow-hidden border border-brand-gold/15 bg-brand-bg cursor-zoom-in"
+              className="relative w-full aspect-square rounded-2xl overflow-hidden border border-brand-gold/15 bg-brand-bg"
             >
               <Image src={activeImage || 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500'} alt={product.name} fill className="object-cover" unoptimized />
-              <div 
-                style={zoomStyle} 
-                className="absolute inset-0 pointer-events-none border-2 border-brand-gold bg-no-repeat z-10"
-              ></div>
             </div>
 
             {/* Thumbnails */}
