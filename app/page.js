@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
@@ -68,7 +69,8 @@ export default function Home() {
           reviews: p.reviewsCount || 40,
           category: p.category,
           image: p.images ? p.images[0] : '',
-          description: p.description
+          description: p.description,
+          weight: p.variants && p.variants[0] ? p.variants[0].weight : '500g'
         })));
       } else {
         setProducts([]);
@@ -110,8 +112,8 @@ export default function Home() {
         // Sort by product count descending so popular categories are featured
         mappedCats.sort((a, b) => b.rawCount - a.rawCount);
 
-        // Limit to top 6 categories for a clean single-row presentation
-        setCategories(mappedCats.slice(0, 6));
+        // Set all categories for the sliding carousel
+        setCategories(mappedCats);
       }
     } catch (e) {
       console.warn('Failed to load categories:', e.message);
@@ -435,7 +437,7 @@ export default function Home() {
       <section id="categories" className="py-20 bg-brand-cream border-t border-brand-gold/10">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           
-          <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-bold text-brand-maroon tracking-widest uppercase font-poppins">Handpicked Collections</span>
             <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-black text-brand-brown mt-2">
               Every Craving, Every Celebration
@@ -443,24 +445,69 @@ export default function Home() {
             <div className="w-16 h-1 bg-brand-maroon mx-auto mt-4 rounded-full"></div>
           </div>
 
-          {/* Categories Horizontal Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {categories.map((cat, idx) => (
-              <motion.div 
-                key={cat.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group cursor-pointer flex flex-col items-center bg-brand-bg p-4 rounded-3xl border border-brand-gold/15 shadow-sm hover:shadow-xl hover:border-brand-gold transition-all duration-300 text-center"
-              >
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white shadow-md mb-4 group-hover:scale-105 transition-transform duration-500">
-                  <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
-                </div>
-                <h3 className="font-playfair text-md font-bold text-brand-brown group-hover:text-brand-maroon transition-colors duration-300">{cat.name}</h3>
-                <span className="text-xs text-brand-maroon font-bold mt-1">{cat.count}</span>
-              </motion.div>
-            ))}
+          {/* Categories Slider */}
+          <div className="relative px-2">
+            <Swiper
+              modules={[Autoplay, Navigation, Pagination]}
+              spaceBetween={20}
+              slidesPerView={2}
+              breakpoints={{
+                480: { slidesPerView: 2 },
+                640: { slidesPerView: 3 },
+                768: { slidesPerView: 4 },
+                1024: { slidesPerView: 5 },
+                1280: { slidesPerView: 6 }
+              }}
+              autoplay={{ delay: 3500, disableOnInteraction: false }}
+              pagination={{ clickable: true, el: '.categories-pagination' }}
+              navigation={{
+                nextEl: '.categories-next',
+                prevEl: '.categories-prev',
+              }}
+              className="py-6"
+            >
+              {categories.map((cat, idx) => {
+                let link = `/sweets?category=${encodeURIComponent(cat.name)}`;
+                if (cat.name.toLowerCase() === 'farsan') {
+                  link = '/farsan';
+                } else if (cat.name.toLowerCase() === 'gift boxes' || cat.name.toLowerCase() === 'gift box') {
+                  link = '/festive-offers';
+                }
+
+                return (
+                  <SwiperSlide key={cat.name} className="h-auto">
+                    <Link href={link} className="block h-full">
+                      <motion.div 
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: idx * 0.05 }}
+                        className="group cursor-pointer flex flex-col items-center bg-brand-bg p-4 rounded-3xl border border-brand-gold/15 shadow-sm hover:shadow-xl hover:border-brand-gold transition-all duration-300 text-center h-full"
+                      >
+                        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-white shadow-md mb-4 group-hover:scale-105 transition-transform duration-500">
+                          <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
+                        </div>
+                        <h3 className="font-playfair text-md font-bold text-brand-brown group-hover:text-brand-maroon transition-colors duration-300">{cat.name}</h3>
+                        <span className="text-xs text-brand-maroon font-bold mt-1">{cat.count}</span>
+                      </motion.div>
+                    </Link>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+            
+            {/* Custom Pagination & Navigation Controls */}
+            <div className="flex justify-between items-center mt-4">
+              <div className="categories-pagination flex justify-center gap-2 w-auto"></div>
+              <div className="flex space-x-2">
+                <button className="categories-prev p-2.5 bg-brand-cream border border-brand-gold/40 text-brand-brown rounded-full hover:bg-brand-brown hover:text-brand-cream transition-colors duration-300">
+                  <ChevronRight className="w-5 h-5 rotate-180" />
+                </button>
+                <button className="categories-next p-2.5 bg-brand-cream border border-brand-gold/40 text-brand-brown rounded-full hover:bg-brand-brown hover:text-brand-cream transition-colors duration-300">
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -544,14 +591,14 @@ export default function Home() {
                             <p className="text-[10px] text-brand-text/50 uppercase tracking-widest font-bold">Starting from</p>
                             <span className="font-poppins font-black text-xl text-brand-maroon">₹{product.price}</span>
                           </div>
-                          <span className="text-[10px] text-brand-text/40 font-poppins">per 500g</span>
+                          <span className="text-[10px] text-brand-text/40 font-poppins">per {product.weight}</span>
                         </div>
-                        <a
+                        <Link
                           href={`/product/${product.slug}`}
                           className="w-full flex items-center justify-center gap-2 bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown font-bold font-poppins text-xs py-3 px-4 rounded-2xl transition-all duration-300 shadow-md active:scale-95"
                         >
                           Order Now <ArrowRight className="w-3.5 h-3.5" />
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -956,12 +1003,12 @@ export default function Home() {
                             <p className="text-[10px] text-brand-maroon font-bold">Starting from ₹{p.discountPrice || p.price}</p>
                           </div>
                         </div>
-                        <a 
+                        <Link 
                           href={`/product/${p.slug || p._id}`}
                           className="bg-brand-maroon text-brand-cream hover:bg-brand-gold hover:text-brand-brown px-4 py-2 rounded-xl text-[10px] font-bold transition-all"
                         >
                           Order Now
-                        </a>
+                        </Link>
                       </div>
                     ))}
                     {(!selectedCollection.products || selectedCollection.products.length === 0) && (
