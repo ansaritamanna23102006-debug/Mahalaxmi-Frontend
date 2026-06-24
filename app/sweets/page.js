@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, Suspense } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -49,7 +51,7 @@ function SweetsPageContent() {
           rating: p.ratings || 4.8,
           reviews: p.reviewsCount || 50,
           category: p.category || 'Sweets',
-          weight: p.weightOptions ? p.weightOptions[0] : '500g',
+          weight: p.variants && p.variants.length > 0 ? p.variants[0].weight : (p.weightOptions ? p.weightOptions[0] : '500g'),
           image: p.images ? p.images[0] : 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500',
           description: p.description
         })));
@@ -93,21 +95,30 @@ function SweetsPageContent() {
   };
 
   useEffect(() => {
-    fetchSweets();
-    loadCategories();
-    loadWishlist();
+    // Defer data loading to prevent synchronous state updates during mounting
+    const timer = setTimeout(() => {
+      fetchSweets();
+      loadCategories();
+      loadWishlist();
+    }, 0);
 
     const handleWishlistUpdate = () => {
       loadWishlist();
     };
     window.addEventListener('wishlist-updated', handleWishlistUpdate);
-    return () => window.removeEventListener('wishlist-updated', handleWishlistUpdate);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('wishlist-updated', handleWishlistUpdate);
+    };
   }, []);
 
   useEffect(() => {
     const catParam = searchParams.get('category');
     if (catParam) {
-      setCategory(catParam);
+      const timer = setTimeout(() => {
+        setCategory(catParam);
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, [searchParams]);
 
@@ -208,7 +219,7 @@ function SweetsPageContent() {
       <section className="pt-32 pb-12 bg-brand-brown text-brand-cream relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10 space-y-2">
           <div className="flex items-center gap-2 text-xs font-poppins text-brand-gold uppercase tracking-widest">
-            <a href="/" className="hover:underline">Home</a>
+            <Link href="/" className="hover:underline">Home</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-brand-cream/80">Shop</span>
           </div>
@@ -328,7 +339,7 @@ function SweetsPageContent() {
                         const isFav = wishlist.some(i => i.id === product.id);
                         return (
                       <div className="relative h-48 sm:h-52 overflow-hidden">
-                        <img src={product.image} alt={product.name} className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-500" />
+                        <Image src={product.image} alt={product.name} fill unoptimized className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-500" />
                         <button 
                           onClick={() => toggleWishlist(product)}
                           className={`absolute top-4 right-4 bg-white/80 hover:bg-white p-2 rounded-full shadow-md backdrop-blur-sm transition-transform duration-300 hover:scale-110 ${isFav ? 'text-brand-maroon' : 'text-gray-400'}`}
@@ -354,9 +365,9 @@ function SweetsPageContent() {
                             <span className="text-[10px] text-brand-text/50">({product.reviews})</span>
                           </div>
                           
-                          <a href={`/product/${product.slug}`} className="hover:underline">
+                          <Link href={`/product/${product.slug}`} className="hover:underline">
                             <h3 className="font-playfair text-lg font-bold text-brand-brown mb-2 group-hover:text-brand-maroon transition-colors duration-300">{product.name}</h3>
-                          </a>
+                          </Link>
                           
                           <p className="text-xs text-brand-text/70 line-clamp-2 font-poppins font-light leading-relaxed mb-4">{product.description}</p>
                         </div>
@@ -367,14 +378,14 @@ function SweetsPageContent() {
                               <span className="text-[9px] uppercase font-bold tracking-wider text-brand-text/40">Starting from</span>
                               <h4 className="font-poppins font-black text-lg text-brand-maroon">₹{product.price}</h4>
                             </div>
-                            <span className="text-[10px] text-brand-text/40 font-poppins">per 500g</span>
+                            <span className="text-[10px] text-brand-text/40 font-poppins">per {product.weight}</span>
                           </div>
-                          <a
+                          <Link
                             href={`/product/${product.slug}`}
                             className="w-full flex items-center justify-center gap-2 bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown font-bold font-poppins text-xs py-3 px-4 rounded-2xl transition-all duration-300 shadow-md active:scale-95"
                           >
                             Order Now <ArrowRight className="w-3.5 h-3.5" />
-                          </a>
+                          </Link>
                         </div>
                       </div>
                     </div>

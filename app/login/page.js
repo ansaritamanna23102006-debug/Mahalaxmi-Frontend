@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Mail, 
@@ -138,9 +140,9 @@ export default function LoginPage() {
             <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-brand-gold/5 blur-3xl pointer-events-none"></div>
             
             <div className="relative z-10 space-y-4">
-              <a href="/" className="inline-block w-40 hover:scale-105 transition-transform duration-300">
-                <img src="/logo.svg" alt="Mahalaxmi Mithaiwala Logo" className="w-full object-contain" />
-              </a>
+              <Link href="/" className="inline-block w-40 hover:scale-105 transition-transform duration-300">
+                <Image src="/logo.png" alt="Mahalaxmi Mithaiwala Logo" width={160} height={40} priority className="w-full object-contain" />
+              </Link>
               <span className="inline-block text-[10px] font-bold tracking-widest text-brand-gold uppercase bg-brand-cream/10 px-3 py-1 rounded-md">
                 Established 1982
               </span>

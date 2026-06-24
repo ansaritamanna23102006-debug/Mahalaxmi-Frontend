@@ -28,8 +28,6 @@ export default function ProductDetailPage({ params }) {
   const resolvedParams = use(params);
   const productId = parseInt(resolvedParams.id) || 1;
 
-
-
   // Retrieve product from backend dynamically
   const [product, setProduct] = useState(null);
   const [activeImage, setActiveImage] = useState('');
@@ -38,8 +36,6 @@ export default function ProductDetailPage({ params }) {
   const [wishlist, setWishlist] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
-
-
 
   const loadWishlist = useCallback(async () => {
     await Promise.resolve();
@@ -60,6 +56,24 @@ export default function ProductDetailPage({ params }) {
     }
   }, []);
 
+  const getDisplayPrice = useCallback(() => {
+    if (!product) return 0;
+    if (product.variants && product.variants.length > 0) {
+      const variant = product.variants.find(v => v.weight === selectedWeight);
+      if (variant) return variant.price;
+      return product.variants[0].price;
+    }
+    return product.price * getWeightMultiplier(selectedWeight);
+  }, [product, selectedWeight]);
+
+  const getDisplayOriginalPrice = useCallback(() => {
+    if (!product) return null;
+    if (product.variants && product.variants.length > 0) {
+      return null;
+    }
+    return product.originalPrice ? product.originalPrice * getWeightMultiplier(selectedWeight) : null;
+  }, [product, selectedWeight]);
+
   useEffect(() => {
     const fetchProductDetails = async () => {
       await Promise.resolve();
@@ -69,6 +83,19 @@ export default function ProductDetailPage({ params }) {
         const data = await api.products.getBySlugOrId(idOrSlug);
         if (data) {
           const fetchedImages = data.images && data.images.length > 0 ? data.images : ['https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500'];
+          
+          const weightOpts = data.variants && data.variants.length > 0 
+            ? data.variants.map(v => v.weight) 
+            : (data.weightOptions || ['250g', '500g', '1kg']);
+            
+          let defaultWeight = "500g";
+          if (data.variants && data.variants.length > 0) {
+            const has500g = data.variants.find(v => v.weight === '500g' || v.weight === '500gm');
+            defaultWeight = has500g ? has500g.weight : data.variants[0].weight;
+          } else if (data.weightOptions && data.weightOptions.length > 0) {
+            defaultWeight = data.weightOptions.includes('500g') ? '500g' : data.weightOptions[0];
+          }
+
           setProduct({
             id: data._id,
             name: data.name,
@@ -79,9 +106,13 @@ export default function ProductDetailPage({ params }) {
             category: data.category,
             images: fetchedImages,
             description: data.description,
-            details: `SKU: ${data.sku} | Weight Options: ${data.weightOptions ? data.weightOptions.join(', ') : '500g'} | Stock Left: ${data.stock} units`
+            variants: data.variants || [],
+            weightOptions: weightOpts,
+            stock: data.stock,
+            details: `SKU: ${data.sku} | Weight Options: ${weightOpts.join(', ')} | Stock Left: ${data.stock} units`
           });
           setActiveImage(fetchedImages[0]);
+          setSelectedWeight(defaultWeight);
           
           // Fetch reviews
           const reviewsData = await api.products.getReviews(data._id);
@@ -108,7 +139,7 @@ export default function ProductDetailPage({ params }) {
     const item = {
       id: product.id,
       name: product.name,
-      price: product.price * getWeightMultiplier(selectedWeight),
+      price: getDisplayPrice(),
       image: product.images[0],
       category: product.category,
       weight: selectedWeight
@@ -262,11 +293,13 @@ export default function ProductDetailPage({ params }) {
 
               {/* Price Panel */}
               <div className="flex items-baseline gap-3">
-                <span className="font-poppins font-black text-3xl text-brand-maroon">₹{product.price * getWeightMultiplier(selectedWeight)}</span>
-                {product.originalPrice && (
-                  <span className="font-poppins text-lg text-brand-text/40 line-through">₹{product.originalPrice * getWeightMultiplier(selectedWeight)}</span>
+                <span className="font-poppins font-black text-3xl text-brand-maroon">₹{getDisplayPrice()}</span>
+                {getDisplayOriginalPrice() && (
+                  <span className="font-poppins text-lg text-brand-text/40 line-through">₹{getDisplayOriginalPrice()}</span>
                 )}
-                <span className="text-xs text-green-600 font-bold bg-green-50 px-2.5 py-1 rounded-md">In Stock & Ready</span>
+                <span className={`text-xs font-bold px-2.5 py-1 rounded-md ${product.stock > 0 ? 'text-green-600 bg-green-50' : 'text-brand-maroon bg-red-50'}`}>
+                  {product.stock > 0 ? `In Stock (${product.stock} units)` : 'Out of Stock'}
+                </span>
               </div>
 
               <div className="w-full h-[1px] bg-brand-gold/10"></div>
@@ -284,9 +317,9 @@ export default function ProductDetailPage({ params }) {
               
               {/* Weight Selector */}
               <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-wider text-brand-brown">Select Weight</label>
-                <div className="flex gap-3">
-                  {["250g", "500g", "1kg"].map((wt) => (
+                <label className="text-xs font-bold uppercase tracking-wider text-brand-brown">Select Option / Weight</label>
+                <div className="flex flex-wrap gap-3">
+                  {(product.weightOptions || ["250g", "500g", "1kg"]).map((wt) => (
                     <button
                       key={wt}
                       onClick={() => setSelectedWeight(wt)}

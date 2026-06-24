@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, 
@@ -24,8 +26,32 @@ export default function Navbar({ transparent = false }) {
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  const [cart, setCart] = useState([]);
-  const [wishlist, setWishlist] = useState([]);
+  const [cart, setCart] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const storedCart = localStorage.getItem('mahalaxmi-cart');
+        if (storedCart) {
+          const parsed = JSON.parse(storedCart);
+          if (Array.isArray(parsed)) return parsed;
+        }
+      } catch (_) {}
+    }
+    return [];
+  });
+
+  const [wishlist, setWishlist] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const storedWishlist = localStorage.getItem('mahalaxmi-wishlist');
+        if (storedWishlist) {
+          const parsed = JSON.parse(storedWishlist);
+          if (Array.isArray(parsed)) return parsed;
+        }
+      } catch (_) {}
+    }
+    return [];
+  });
+
   const [filteredSearch, setFilteredSearch] = useState([]);
 
   // Load cart and wishlist — localStorage-first, backend overlays if available
@@ -89,7 +115,10 @@ export default function Navbar({ transparent = false }) {
   };
 
   useEffect(() => {
-    loadCartAndWishlist();
+    // Defer the initial load to the next event tick to avoid synchronous state updates in the mount effect
+    const timer = setTimeout(() => {
+      loadCartAndWishlist();
+    }, 0);
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -109,6 +138,7 @@ export default function Navbar({ transparent = false }) {
     window.addEventListener('wishlist-updated', handleWishlistUpdate);
 
     return () => {
+      clearTimeout(timer);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('cart-updated', handleCartUpdate);
       window.removeEventListener('wishlist-updated', handleWishlistUpdate);
@@ -118,7 +148,6 @@ export default function Navbar({ transparent = false }) {
   // Debounced live backend search
   useEffect(() => {
     if (searchQuery.trim() === '') {
-      setFilteredSearch([]);
       return;
     }
     const searchTimer = setTimeout(async () => {
@@ -259,9 +288,9 @@ export default function Navbar({ transparent = false }) {
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
           
           {/* Brand Logo */}
-          <a href="/" className="flex items-center w-48 md:w-56 h-12 transition-transform duration-300 hover:scale-105">
-            <img src="/logo.svg" alt="Mahalaxmi Mithaiwala Logo" className="w-full h-full object-contain" />
-          </a>
+          <Link href="/" className="flex items-center w-48 md:w-56 h-12 transition-transform duration-300 hover:scale-105">
+            <Image src="/logo.png" alt="Mahalaxmi Mithaiwala Logo" width={224} height={48} priority className="w-full h-full object-contain" />
+          </Link>
 
           {/* Navigation Links */}
           <nav className="hidden lg:flex items-center space-x-8">
@@ -275,7 +304,7 @@ export default function Navbar({ transparent = false }) {
                 'Contact': '/contact'
               };
               return (
-                <a 
+                <Link 
                   key={link} 
                   href={hrefs[link]} 
                   className={`font-poppins font-medium text-sm tracking-wide transition-all duration-300 relative group ${
@@ -286,7 +315,7 @@ export default function Navbar({ transparent = false }) {
                 >
                   {link}
                   <span className="absolute left-0 bottom-[-4px] w-0 h-[2px] bg-brand-gold transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                </Link>
               );
             })}
           </nav>
@@ -343,7 +372,7 @@ export default function Navbar({ transparent = false }) {
             </button>
 
             {/* User Profile */}
-            <a 
+            <Link 
               href="/account"
               className={`p-2 rounded-full transition-all duration-300 ${
                 transparent 
@@ -353,7 +382,7 @@ export default function Navbar({ transparent = false }) {
               aria-label="Account"
             >
               <User className="w-5 h-5" />
-            </a>
+            </Link>
 
             {/* Mobile Menu */}
             <button 
@@ -391,14 +420,14 @@ export default function Navbar({ transparent = false }) {
                   'Contact': '/contact'
                 };
                 return (
-                  <a 
+                  <Link 
                     key={link} 
                     href={hrefs[link]} 
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="font-poppins font-medium text-lg text-brand-cream hover:text-brand-gold py-2 border-b border-brand-cream/5"
                   >
                     {link}
-                  </a>
+                  </Link>
                 );
               })}
             </div>
@@ -434,7 +463,13 @@ export default function Navbar({ transparent = false }) {
                     type="text" 
                     placeholder="Search for Sweets, Farsan, Hampers..." 
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setSearchQuery(val);
+                      if (val.trim() === '') {
+                        setFilteredSearch([]);
+                      }
+                    }}
                     className="w-full pl-12 pr-4 py-3 bg-brand-bg rounded-xl border border-brand-gold/30 text-brand-brown focus:outline-none focus:ring-2 focus:ring-brand-gold font-poppins"
                     autoFocus
                   />
@@ -447,19 +482,19 @@ export default function Navbar({ transparent = false }) {
                   ) : (
                     filteredSearch.map((item) => (
                       <div key={item.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-brand-bg transition-colors">
-                        <a href={`/product/${item.slug}`} className="flex items-center space-x-3 group/search-item">
-                          <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded-lg border border-brand-gold/20 group-hover/search-item:border-brand-gold transition-colors" />
+                        <Link href={`/product/${item.slug}`} className="flex items-center space-x-3 group/search-item">
+                          <Image src={item.image} alt={item.name} width={48} height={48} unoptimized className="w-12 h-12 object-cover rounded-lg border border-brand-gold/20 group-hover/search-item:border-brand-gold transition-colors" />
                           <div>
                             <h4 className="font-poppins font-medium text-brand-brown text-sm group-hover/search-item:text-brand-maroon transition-colors">{item.name}</h4>
                             <p className="text-xs text-brand-gold font-bold">₹{item.price} / 500g</p>
                           </div>
-                        </a>
-                        <a 
+                        </Link>
+                        <Link 
                           href={`/product/${item.slug}`}
                           className="bg-brand-gold text-brand-brown px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-brand-brown hover:text-brand-gold transition-all duration-300"
                         >
                           Order Now
-                        </a>
+                        </Link>
                       </div>
                     ))
                   )}
@@ -503,20 +538,20 @@ export default function Navbar({ transparent = false }) {
                 ) : (
                   wishlist.map((item) => (
                     <div key={item.id} className="flex items-center justify-between p-3 bg-white rounded-xl border border-brand-gold/10 shadow-sm">
-                      <a href={`/product/${item.slug}`} className="flex items-center space-x-3 group/wishlist-item">
-                        <img src={item.image} alt={item.name} className="w-14 h-14 object-cover rounded-lg border border-brand-gold/10 group-hover/wishlist-item:border-brand-gold transition-colors" />
+                      <Link href={`/product/${item.slug}`} className="flex items-center space-x-3 group/wishlist-item">
+                        <Image src={item.image} alt={item.name} width={56} height={56} unoptimized className="w-14 h-14 object-cover rounded-lg border border-brand-gold/10 group-hover/wishlist-item:border-brand-gold transition-colors" />
                         <div>
                           <h4 className="font-poppins font-medium text-brand-brown text-sm group-hover/wishlist-item:text-brand-maroon transition-colors">{item.name}</h4>
                           <p className="text-xs text-brand-gold font-bold">₹{item.price} / 500g</p>
                         </div>
-                      </a>
+                      </Link>
                       <div className="flex flex-col space-y-2">
-                        <a 
+                        <Link 
                           href={`/product/${item.slug}`}
                           className="bg-brand-gold text-brand-brown text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-brand-brown hover:text-brand-gold transition-colors text-center"
                         >
                           Order Now
-                        </a>
+                        </Link>
                         <button 
                           onClick={() => removeFromWishlist(item.id)}
                           className="text-xs text-brand-maroon hover:underline text-right"
@@ -568,7 +603,7 @@ export default function Navbar({ transparent = false }) {
                   cart.map((item) => (
                     <div key={item.id} className="flex items-center justify-between p-3 bg-white rounded-xl border border-brand-gold/10 shadow-sm">
                       <div className="flex items-center space-x-3">
-                        <img src={item.image} alt={item.name} className="w-14 h-14 object-cover rounded-lg border border-brand-gold/10" />
+                        <Image src={item.image} alt={item.name} width={56} height={56} unoptimized className="w-14 h-14 object-cover rounded-lg border border-brand-gold/10" />
                         <div>
                           <h4 className="font-poppins font-medium text-brand-brown text-sm">{item.name}</h4>
                           <p className="text-xs text-brand-gold font-bold">₹{item.price} / 500g</p>

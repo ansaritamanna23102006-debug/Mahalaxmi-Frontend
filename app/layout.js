@@ -56,7 +56,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        <link rel="icon" href="/logo.svg" />
+        <link rel="icon" href="/logo.png" />
       </head>
       <body className="antialiased min-h-screen bg-brand-bg text-brand-text">
         {children}

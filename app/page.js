@@ -54,6 +54,10 @@ export default function Home() {
         const fallbackData = await api.products.getAll({ limit: 8 });
         productsList = fallbackData?.products || [];
       }
+      // Limit featured bestsellers to at most 8 items on the homepage
+      if (productsList.length > 8) {
+        productsList = productsList.slice(0, 8);
+      }
       if (productsList.length > 0) {
         setProducts(productsList.map(p => ({
           id: p._id,
@@ -93,14 +97,21 @@ export default function Home() {
       }
 
       if (catRes && catRes.categories) {
-        setCategories(catRes.categories.map(cat => {
+        const mappedCats = catRes.categories.map(cat => {
           const itemCount = counts[cat.name] || 0;
           return {
             name: cat.name,
             count: `${itemCount} Item${itemCount !== 1 ? 's' : ''}`,
+            rawCount: itemCount,
             image: cat.image || 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=500'
           };
-        }));
+        });
+
+        // Sort by product count descending so popular categories are featured
+        mappedCats.sort((a, b) => b.rawCount - a.rawCount);
+
+        // Limit to top 6 categories for a clean single-row presentation
+        setCategories(mappedCats.slice(0, 6));
       }
     } catch (e) {
       console.warn('Failed to load categories:', e.message);

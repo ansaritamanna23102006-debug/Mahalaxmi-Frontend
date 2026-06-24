@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import { 
   MapPin, 
   Phone, 
@@ -31,8 +33,8 @@ export default function Footer() {
         
         {/* Column 1: Brand Info */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="w-48 h-12">
-            <img src="/logo.svg" alt="Mahalaxmi Mithaiwala Logo" className="w-full h-full object-contain" />
+          <div className="w-48 h-12 relative">
+            <Image src="/logo.png" alt="Mahalaxmi Mithaiwala Logo" fill className="object-contain" sizes="(max-width: 768px) 192px, 192px" />
           </div>
           <p className="text-sm font-poppins font-light leading-relaxed text-brand-cream/70">
             Serving Mumbai since 1982. Handcrafting traditional Indian sweets and crunchy farsan with unmatched devotion to premium quality, pure ingredients, and timeless heritage.
@@ -60,11 +62,11 @@ export default function Footer() {
         <div className="lg:col-span-2 space-y-6">
           <h3 className="font-playfair text-white text-lg font-bold">Quick Links</h3>
           <ul className="space-y-3 font-poppins text-sm font-light">
-            <li><a href="/" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Home</a></li>
-            <li><a href="/sweets" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Sweets</a></li>
-            <li><a href="/farsan" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Farsan</a></li>
-            <li><a href="/about" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> About Us</a></li>
-            <li><a href="/contact" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Contact</a></li>
+            <li><Link href="/" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Home</Link></li>
+            <li><Link href="/sweets" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Sweets</Link></li>
+            <li><Link href="/farsan" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Farsan</Link></li>
+            <li><Link href="/about" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> About Us</Link></li>
+            <li><Link href="/contact" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Contact</Link></li>
           </ul>
         </div>
 
@@ -72,10 +74,10 @@ export default function Footer() {
         <div className="lg:col-span-2 space-y-6">
           <h3 className="font-playfair text-white text-lg font-bold">Categories</h3>
           <ul className="space-y-3 font-poppins text-sm font-light">
-            <li><a href="/sweets" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Sweets</a></li>
-            <li><a href="/farsan" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Farsan</a></li>
-            <li><a href="/#categories" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Gift Boxes</a></li>
-            <li><a href="/festive-offers" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Festival Offers</a></li>
+            <li><Link href="/sweets" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Sweets</Link></li>
+            <li><Link href="/farsan" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Farsan</Link></li>
+            <li><Link href="/#categories" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Gift Boxes</Link></li>
+            <li><Link href="/festive-offers" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Festival Offers</Link></li>
           </ul>
         </div>
 
