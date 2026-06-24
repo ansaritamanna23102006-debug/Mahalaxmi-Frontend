@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard,
@@ -27,7 +28,8 @@ import {
   ShieldCheck,
   Mail,
   Bell,
-  Layers
+  Layers,
+  Image as ImageIcon
 } from 'lucide-react';
 import { api } from '@/utils/api';
 
@@ -83,6 +85,10 @@ export default function AdminPanel() {
   const [users, setUsers] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [collections, setCollections] = useState([]);
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [showGalleryForm, setShowGalleryForm] = useState(false);
+  const [galleryForm, setGalleryForm] = useState({ title: '', category: 'Shop Interior', imageFile: null });
+  const galleryImageInputRef = React.useRef(null);
   const [showCollectionForm, setShowCollectionForm] = useState(false);
   const [editingCollection, setEditingCollection] = useState(null);
   const [collectionForm, setCollectionForm] = useState({
@@ -223,7 +229,7 @@ export default function AdminPanel() {
   // Auth guard
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setSidebarOpen(window.innerWidth >= 1024);
+      Promise.resolve().then(() => setSidebarOpen(window.innerWidth >= 1024));
     }
     const user = JSON.parse(localStorage.getItem('mahalaxmi-user') || 'null');
     if (!user || user.role !== 'admin') {
@@ -245,6 +251,7 @@ export default function AdminPanel() {
     if (activeTab === 'users') loadUsers();
     if (activeTab === 'reviews') loadReviews();
     if (activeTab === 'inquiries') loadInquiries();
+    if (activeTab === 'gallery') loadGallery();
 
     // Auto-refresh orders and dashboard every 30 seconds
     let interval = null;
@@ -257,7 +264,7 @@ export default function AdminPanel() {
     return () => { if (interval) clearInterval(interval); };
   }, [activeTab, adminUser]);
 
-  const loadDashboard = async () => {
+  async function loadDashboard() {
     setLoading(true);
     try {
       const [ordersData, productsData, usersData, contactData] = await Promise.all([
@@ -334,7 +341,7 @@ export default function AdminPanel() {
     setLoading(false);
   };
 
-  const loadProducts = async () => {
+  async function loadProducts() {
     setLoading(true);
     try {
       const data = await adminFetch('/products?limit=200');
@@ -343,7 +350,7 @@ export default function AdminPanel() {
     setLoading(false);
   };
 
-  const loadOrders = async () => {
+  async function loadOrders() {
     setLoading(true);
     try {
       const data = await adminFetch('/orders?limit=100');
@@ -352,7 +359,7 @@ export default function AdminPanel() {
     setLoading(false);
   };
 
-  const loadUsers = async () => {
+  async function loadUsers() {
     setLoading(true);
     try {
       const data = await adminFetch('/auth/admin/users');
@@ -361,7 +368,7 @@ export default function AdminPanel() {
     setLoading(false);
   };
 
-  const loadReviews = async () => {
+  async function loadReviews() {
     setLoading(true);
     try {
       const data = await adminFetch('/reviews/admin');
@@ -370,7 +377,7 @@ export default function AdminPanel() {
     setLoading(false);
   };
 
-  const loadCategories = async () => {
+  async function loadCategories() {
     setLoading(true);
     try {
       const data = await adminFetch('/categories');
@@ -381,13 +388,24 @@ export default function AdminPanel() {
     setLoading(false);
   };
 
-  const loadInquiries = async () => {
+  async function loadInquiries() {
     setLoading(true);
     try {
       const data = await adminFetch('/contact');
       setInquiries(data?.inquiries || []);
     } catch (e) {
       console.warn('Inquiries load failed:', e.message);
+    }
+    setLoading(false);
+  };
+
+  async function loadGallery() {
+    setLoading(true);
+    try {
+      const data = await api.gallery.getAll();
+      setGalleryImages(data?.images || []);
+    } catch (e) {
+      console.warn('Gallery load failed:', e.message);
     }
     setLoading(false);
   };
@@ -436,6 +454,39 @@ export default function AdminPanel() {
     }
   };
 
+  const handleGallerySave = async (e) => {
+    e.preventDefault();
+    if (!galleryForm.imageFile) {
+      alert('Please select an image file');
+      return;
+    }
+    try {
+      const fd = new FormData();
+      fd.append('title', galleryForm.title);
+      fd.append('category', galleryForm.category);
+      fd.append('image', galleryForm.imageFile);
+
+      await api.gallery.add(fd);
+
+      setShowGalleryForm(false);
+      setGalleryForm({ title: '', category: 'Shop Interior', imageFile: null });
+      if (galleryImageInputRef.current) galleryImageInputRef.current.value = '';
+      loadGallery();
+    } catch (e) {
+      alert('Error saving gallery image: ' + e.message);
+    }
+  };
+
+  const handleDeleteGallery = async (id) => {
+    if (!window.confirm('Delete this gallery image?')) return;
+    try {
+      await api.gallery.delete(id);
+      loadGallery();
+    } catch (e) {
+      alert('Delete failed: ' + e.message);
+    }
+  };
+
   const handleDeleteCategory = async (id) => {
     if (!window.confirm('Delete this category? Products in this category will remain, but the category reference will be removed.')) return;
     try {
@@ -468,7 +519,7 @@ export default function AdminPanel() {
       fd.append('price', parseFloat(productForm.price));
       fd.append('discountPrice', parseFloat(productForm.discountPrice) || 0);
       fd.append('stock', parseInt(productForm.stock));
-      fd.append('sku', productForm.sku || `MHL-${Date.now()}`);
+      fd.append('sku', productForm.sku || `MHL-${new Date().getTime()}`);
       fd.append('description', productForm.description);
       fd.append('shortDescription', productForm.shortDescription);
       
@@ -585,6 +636,7 @@ export default function AdminPanel() {
     { id: 'users', label: 'Customers', icon: Users },
     { id: 'reviews', label: 'Reviews', icon: Star },
     { id: 'inquiries', label: 'Inquiries', icon: Mail },
+    { id: 'gallery', label: 'Gallery', icon: ImageIcon },
   ];
 
   const filteredProducts = products.filter(p => {
@@ -685,6 +737,7 @@ export default function AdminPanel() {
                 else if (activeTab === 'collections') { loadCollections(); loadProducts(); }
                 else if (activeTab === 'orders') loadOrders();
                 else if (activeTab === 'inquiries') loadInquiries();
+                else if (activeTab === 'gallery') loadGallery();
               }} 
               className="p-2 hover:bg-gray-100 rounded-xl transition-colors" 
               title="Refresh"
@@ -896,7 +949,7 @@ export default function AdminPanel() {
                         <tr key={p._id} className="hover:bg-gray-50 transition-colors">
                           <td className="px-5 py-3">
                             <div className="flex items-center gap-3">
-                              {p.images?.[0] && <img src={p.images[0]} className="w-10 h-10 rounded-lg object-cover border border-gray-100" alt={p.name} />}
+                              {p.images?.[0] && <Image unoptimized width={40} height={40} src={p.images[0]} className="w-10 h-10 rounded-lg object-cover border border-gray-100" alt={p.name} />}
                               <div>
                                 <p className="font-semibold text-gray-800 text-xs">{p.name}</p>
                                 <p className="text-[10px] text-gray-400 mt-0.5">{p.sku}</p>
@@ -1076,7 +1129,7 @@ export default function AdminPanel() {
                         <Star key={i} className={`w-3.5 h-3.5 ${i < review.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-200'}`} />
                       ))}
                     </div>
-                    <p className="text-sm text-gray-600 italic">"{review.reviewText}"</p>
+                    <p className="text-sm text-gray-600 italic">&quot;{review.reviewText}&quot;</p>
                     <p className="text-[10px] text-gray-400 mt-1">Product: {review.product?.name || 'N/A'} · {new Date(review.createdAt).toLocaleDateString('en-IN')}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
@@ -1128,7 +1181,7 @@ export default function AdminPanel() {
                         <tr key={c._id} className="hover:bg-gray-50 transition-colors">
                           <td className="px-5 py-3">
                             {c.image ? (
-                              <img src={c.image} className="w-12 h-12 rounded-lg object-cover border border-gray-100" alt={c.name} />
+                              <Image unoptimized width={48} height={48} src={c.image} className="w-12 h-12 rounded-lg object-cover border border-gray-100" alt={c.name} />
                             ) : (
                               <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-[10px] text-gray-400 font-bold">No Image</div>
                             )}
@@ -1182,7 +1235,7 @@ export default function AdminPanel() {
                         <tr key={c._id} className="hover:bg-gray-50 transition-colors">
                           <td className="px-5 py-3">
                             {c.image ? (
-                              <img src={c.image} className="w-12 h-12 rounded-lg object-cover border border-gray-100" alt={c.title} />
+                              <Image unoptimized width={48} height={48} src={c.image} className="w-12 h-12 rounded-lg object-cover border border-gray-100" alt={c.title} />
                             ) : (
                               <div className="w-12 h-12 rounded-lg bg-gray-100 flex items-center justify-center text-[10px] text-gray-400 font-bold">No Image</div>
                             )}
@@ -1363,7 +1416,7 @@ export default function AdminPanel() {
                         {/* Existing URL images */}
                         {productForm.imageUrls.map((url, i) => (
                           <div key={`url-${i}`} className="relative group aspect-square">
-                            <img src={url} alt={`img-${i}`} className="w-full h-full object-cover rounded-xl border border-gray-200" />
+                            <Image unoptimized fill src={url} alt={`img-${i}`} className="object-cover rounded-xl border border-gray-200" />
                             <button
                               type="button"
                               onClick={() => setProductForm(f => ({ ...f, imageUrls: f.imageUrls.filter((_, idx) => idx !== i) }))}
@@ -1376,7 +1429,7 @@ export default function AdminPanel() {
                         {/* Local file previews */}
                         {productForm.imageFiles.map((file, i) => (
                           <div key={`file-${i}`} className="relative group aspect-square">
-                            <img src={URL.createObjectURL(file)} alt={file.name} className="w-full h-full object-cover rounded-xl border border-gray-200" />
+                            <Image unoptimized fill src={URL.createObjectURL(file)} alt={file.name} className="object-cover rounded-xl border border-gray-200" />
                             <button
                               type="button"
                               onClick={() => setProductForm(f => ({ ...f, imageFiles: f.imageFiles.filter((_, idx) => idx !== i) }))}
@@ -1483,10 +1536,10 @@ export default function AdminPanel() {
                   {/* Image Preview */}
                   {(categoryForm.image || categoryForm.imageUrl) && (
                     <div className="relative group w-24 h-24 aspect-square mb-2">
-                      <img 
+                      <Image unoptimized fill
                         src={categoryForm.image ? URL.createObjectURL(categoryForm.image) : categoryForm.imageUrl} 
                         alt="Preview" 
-                        className="w-full h-full object-cover rounded-xl border border-gray-200" 
+                        className="object-cover rounded-xl border border-gray-200" 
                       />
                       <button
                         type="button"
@@ -1574,10 +1627,10 @@ export default function AdminPanel() {
                   {/* Image Preview */}
                   {(collectionForm.imageFile || collectionForm.image) && (
                     <div className="relative group w-24 h-24 aspect-square mb-2">
-                      <img 
+                      <Image unoptimized fill
                         src={collectionForm.imageFile ? URL.createObjectURL(collectionForm.imageFile) : collectionForm.image} 
                         alt="Preview" 
-                        className="w-full h-full object-cover rounded-xl border border-gray-200" 
+                        className="object-cover rounded-xl border border-gray-200" 
                       />
                       <button
                         type="button"

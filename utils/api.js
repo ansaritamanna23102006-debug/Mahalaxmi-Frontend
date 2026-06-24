@@ -287,5 +287,17 @@ export const api = {
     delete: (id) => apiFetch(`/collections/${id}`, {
       method: 'DELETE'
     })
+  },
+
+  // Gallery Management
+  gallery: {
+    getAll: () => apiFetch('/gallery'),
+    add: (formData) => apiFetch('/gallery', {
+      method: 'POST',
+      body: formData // contains image file, title, category
+    }),
+    delete: (id) => apiFetch(`/gallery/${id}`, {
+      method: 'DELETE'
+    })
   }
 };

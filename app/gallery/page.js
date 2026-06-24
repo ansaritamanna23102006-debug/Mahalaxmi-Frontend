@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { api } from '@/utils/api';
@@ -15,22 +17,17 @@ export default function GalleryPage() {
 
   const filters = ["All", "Shop Interior", "Traditional Preparation", "Gift Boxes", "Festival Displays"];
 
-  // Gallery category labels rotated across products
-  const galleryLabels = ["Shop Interior", "Traditional Preparation", "Gift Boxes", "Festival Displays", "Shop Interior", "Traditional Preparation", "Gift Boxes", "Festival Displays"];
-
   useEffect(() => {
     const fetchGallery = async () => {
       try {
         setLoading(true);
-        const data = await api.products.getAll({ limit: 12 });
-        if (data && data.products && data.products.length > 0) {
-          const items = data.products
-            .filter(p => p.images && p.images.length > 0)
-            .map((p, i) => ({
-              title: p.name,
-              category: galleryLabels[i % galleryLabels.length],
-              image: p.images[0]
-            }));
+        const data = await api.gallery.getAll();
+        if (data && data.images && data.images.length > 0) {
+          const items = data.images.map(img => ({
+            title: img.title || 'Untitled',
+            category: img.category || 'General',
+            image: img.imageUrl
+          }));
           setGalleryItems(items);
         } else {
           setGalleryItems([]);
@@ -45,6 +42,7 @@ export default function GalleryPage() {
     fetchGallery();
   }, []);
 
+
   const filtered = activeFilter === "All"
     ? galleryItems
     : galleryItems.filter(item => item.category === activeFilter);
@@ -57,7 +55,7 @@ export default function GalleryPage() {
       <section className="pt-32 pb-12 bg-brand-brown text-brand-cream relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10 space-y-2">
           <div className="flex items-center gap-2 text-xs font-poppins text-brand-gold uppercase tracking-widest">
-            <a href="/" className="hover:underline">Home</a>
+            <Link href="/" className="hover:underline">Home</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-brand-cream/80">Gallery</span>
           </div>
@@ -104,7 +102,7 @@ export default function GalleryPage() {
                 onClick={() => setLightboxImage(item)}
                 className="relative overflow-hidden rounded-3xl border border-brand-gold/20 shadow-md group break-inside-avoid cursor-pointer bg-brand-cream"
               >
-                <img src={item.image} alt={item.title} className="w-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-500" />
+                <Image unoptimized width={600} height={400} src={item.image} alt={item.title} className="w-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-500" />
 
                 {/* Overlay on hover */}
                 <div className="absolute inset-0 bg-brand-brown/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
@@ -149,7 +147,7 @@ export default function GalleryPage() {
               onClick={(e) => e.stopPropagation()}
               className="max-w-4xl max-h-[80vh] relative overflow-hidden rounded-2xl border border-white/20 shadow-2xl"
             >
-              <img src={lightboxImage.image} alt={lightboxImage.title} className="w-full h-full object-contain" />
+              <Image unoptimized fill src={lightboxImage.image} alt={lightboxImage.title} className="object-contain" />
               <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
                 <span className="text-brand-gold text-xs font-bold uppercase tracking-widest font-poppins">{lightboxImage.category}</span>
                 <h3 className="font-playfair text-xl font-bold mt-1">{lightboxImage.title}</h3>
