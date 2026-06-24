@@ -1,6 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect, use, useCallback } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { api } from '@/utils/api';
@@ -15,6 +17,12 @@ import {
   Minus,
   Plus
 } from 'lucide-react';
+
+const getWeightMultiplier = (weight) => {
+  if (weight === '250g') return 0.5;
+  if (weight === '1kg') return 2;
+  return 1;
+};
 
 export default function ProductDetailPage({ params }) {
   const resolvedParams = use(params);
@@ -34,40 +42,8 @@ export default function ProductDetailPage({ params }) {
 
 
 
-  const fetchProductDetails = async () => {
-    try {
-      setLoading(true);
-      const idOrSlug = resolvedParams.id;
-      const data = await api.products.getBySlugOrId(idOrSlug);
-      if (data) {
-        setProduct({
-          id: data._id,
-          name: data.name,
-          price: data.discountPrice && data.discountPrice > 0 ? data.discountPrice : data.price,
-          originalPrice: data.discountPrice && data.discountPrice > 0 ? data.price : null,
-          rating: data.ratings || 4.8,
-          reviews: data.reviewsCount || 42,
-          category: data.category,
-          images: data.images && data.images.length > 0 ? data.images : ['https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500'],
-          description: data.description,
-          details: `SKU: ${data.sku} | Weight Options: ${data.weightOptions ? data.weightOptions.join(', ') : '500g'} | Stock Left: ${data.stock} units`
-        });
-        
-        // Fetch reviews
-        const reviewsData = await api.products.getReviews(data._id);
-        if (reviewsData && reviewsData.reviews) {
-          setReviews(reviewsData.reviews);
-        }
-      }
-    } catch (e) {
-      console.warn('Backend detail retrieval failed:', e.message);
-      setProduct(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadWishlist = async () => {
+  const loadWishlist = useCallback(async () => {
+    await Promise.resolve();
     try {
       const token = localStorage.getItem('mahalaxmi-token');
       if (token) {
@@ -83,18 +59,48 @@ export default function ProductDetailPage({ params }) {
       const stored = localStorage.getItem('mahalaxmi-wishlist');
       if (stored) setWishlist(JSON.parse(stored));
     }
-  };
+  }, []);
 
   useEffect(() => {
+    const fetchProductDetails = async () => {
+      await Promise.resolve();
+      try {
+        setLoading(true);
+        const idOrSlug = resolvedParams.id;
+        const data = await api.products.getBySlugOrId(idOrSlug);
+        if (data) {
+          const fetchedImages = data.images && data.images.length > 0 ? data.images : ['https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500'];
+          setProduct({
+            id: data._id,
+            name: data.name,
+            price: data.discountPrice && data.discountPrice > 0 ? data.discountPrice : data.price,
+            originalPrice: data.discountPrice && data.discountPrice > 0 ? data.price : null,
+            rating: data.ratings || 4.8,
+            reviews: data.reviewsCount || 42,
+            category: data.category,
+            images: fetchedImages,
+            description: data.description,
+            details: `SKU: ${data.sku} | Weight Options: ${data.weightOptions ? data.weightOptions.join(', ') : '500g'} | Stock Left: ${data.stock} units`
+          });
+          setActiveImage(fetchedImages[0]);
+          
+          // Fetch reviews
+          const reviewsData = await api.products.getReviews(data._id);
+          if (reviewsData && reviewsData.reviews) {
+            setReviews(reviewsData.reviews);
+          }
+        }
+      } catch (e) {
+        console.warn('Backend detail retrieval failed:', e.message);
+        setProduct(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchProductDetails();
-    loadWishlist();
-  }, [resolvedParams.id]);
-
-  useEffect(() => {
-    if (product && product.images && product.images.length > 0) {
-      setActiveImage(product.images[0]);
-    }
-  }, [product]);
+    Promise.resolve().then(() => loadWishlist());
+  }, [resolvedParams.id, loadWishlist]);
 
   const addToCart = async (buyNow = false) => {
     if (!product) return;
@@ -103,7 +109,7 @@ export default function ProductDetailPage({ params }) {
     const item = {
       id: product.id,
       name: product.name,
-      price: product.price,
+      price: product.price * getWeightMultiplier(selectedWeight),
       image: product.images[0],
       category: product.category,
       weight: selectedWeight
@@ -212,9 +218,9 @@ export default function ProductDetailPage({ params }) {
       {/* Breadcrumb section */}
       <section className="pt-32 pb-6 max-w-7xl mx-auto px-4 md:px-8">
         <div className="flex items-center gap-2 text-xs font-poppins text-brand-gold uppercase tracking-widest">
-          <a href="/" className="hover:underline">Home</a>
+          <Link href="/" className="hover:underline">Home</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <a href="/sweets" className="hover:underline">Sweets</a>
+          <Link href="/sweets" className="hover:underline">Sweets</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <span className="text-brand-brown/60">{product.name}</span>
         </div>
@@ -233,10 +239,10 @@ export default function ProductDetailPage({ params }) {
               onMouseLeave={handleMouseLeave}
               className="relative w-full aspect-square rounded-2xl overflow-hidden border border-brand-gold/15 bg-brand-bg cursor-zoom-in"
             >
-              <img src={activeImage} alt={product.name} className="w-full h-full object-cover" />
+              <Image src={activeImage || 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500'} alt={product.name} fill className="object-cover" unoptimized />
               <div 
                 style={zoomStyle} 
-                className="absolute inset-0 pointer-events-none border-2 border-brand-gold bg-no-repeat"
+                className="absolute inset-0 pointer-events-none border-2 border-brand-gold bg-no-repeat z-10"
               ></div>
             </div>
 
@@ -246,9 +252,9 @@ export default function ProductDetailPage({ params }) {
                 <button
                   key={idx}
                   onClick={() => setActiveImage(img)}
-                  className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${activeImage === img ? 'border-brand-gold shadow-md' : 'border-transparent hover:border-brand-gold/30'}`}
+                  className={`relative w-20 h-20 rounded-xl overflow-hidden border-2 transition-all ${activeImage === img ? 'border-brand-gold shadow-md' : 'border-transparent hover:border-brand-gold/30'}`}
                 >
-                  <img src={img} alt={`Thumb ${idx}`} className="w-full h-full object-cover" />
+                  <Image src={img} alt={`Thumb ${idx}`} fill className="object-cover" unoptimized />
                 </button>
               ))}
             </div>
@@ -278,9 +284,9 @@ export default function ProductDetailPage({ params }) {
 
               {/* Price Panel */}
               <div className="flex items-baseline gap-3">
-                <span className="font-poppins font-black text-3xl text-brand-maroon">₹{product.price}</span>
+                <span className="font-poppins font-black text-3xl text-brand-maroon">₹{product.price * getWeightMultiplier(selectedWeight)}</span>
                 {product.originalPrice && (
-                  <span className="font-poppins text-lg text-brand-text/40 line-through">₹{product.originalPrice}</span>
+                  <span className="font-poppins text-lg text-brand-text/40 line-through">₹{product.originalPrice * getWeightMultiplier(selectedWeight)}</span>
                 )}
                 <span className="text-xs text-green-600 font-bold bg-green-50 px-2.5 py-1 rounded-md">In Stock & Ready</span>
               </div>
@@ -383,7 +389,7 @@ export default function ProductDetailPage({ params }) {
                 <div key={idx} className="space-y-2 pb-6 border-b border-brand-gold/10 last:border-b-0 last:pb-0">
                   <div className="flex items-center justify-between">
                     <span className="font-poppins font-semibold text-sm text-brand-brown">{rev.user ? (rev.user.fullName || rev.user.name) : 'Anonymous Customer'}</span>
-                    <span className="text-[10px] text-brand-text/40">{new Date(rev.createdAt || Date.now()).toLocaleDateString('en-IN')}</span>
+                    <span className="text-[10px] text-brand-text/40">{rev.createdAt ? new Date(rev.createdAt).toLocaleDateString('en-IN') : ''}</span>
                   </div>
                   <div className="flex text-brand-gold">
                     {[...Array(rev.rating || 5)].map((_, i) => (
