@@ -413,19 +413,19 @@ export default function Home() {
             className="lg:col-span-6 relative flex justify-center items-center"
           >
             {/* Circular glow background ornament */}
-            <div className="absolute w-[300px] sm:w-[450px] h-[300px] sm:h-[450px] rounded-full border border-brand-gold/30 bg-radial-gradient from-brand-gold/10 to-transparent pointer-events-none animate-[spin_60s_linear_infinite]">
+            <div className="absolute w-[260px] sm:w-[450px] h-[260px] sm:h-[450px] rounded-full border border-brand-gold/30 bg-radial-gradient from-brand-gold/10 to-transparent pointer-events-none animate-[spin_60s_linear_infinite]">
               <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-brand-gold rounded-full shadow-lg"></div>
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-4 h-4 bg-brand-maroon rounded-full shadow-lg"></div>
             </div>
 
             {/* Hero Main Sweet Image */}
-            <div className="relative w-[280px] sm:w-[420px] h-[280px] sm:h-[420px] rounded-full overflow-hidden border-8 border-brand-cream shadow-2xl glow-gold group">
+            <div className="relative w-[250px] sm:w-[420px] h-[250px] sm:h-[420px] rounded-full overflow-hidden border-8 border-brand-cream shadow-2xl glow-gold group">
               <Image 
                 src="/hero_sweets.png" 
                 alt="Premium Mithai Platter" 
                 fill
                 priority
-                sizes="(max-width: 640px) 280px, 420px"
+                sizes="(max-width: 640px) 250px, 420px"
                 className="object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" 
               />
             </div>

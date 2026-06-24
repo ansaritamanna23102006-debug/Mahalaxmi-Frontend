@@ -24,11 +24,15 @@
   --foreground: #1E1E1E;
 }
 
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   background-color: var(--color-brand-bg);
   color: var(--color-brand-text);
   font-family: var(--font-poppins);
-  overflow-x: hidden;
 }
 
 /* Premium Adaptive Scrollbar */
