@@ -14,16 +14,24 @@ export default function GalleryPage() {
   const [lightboxImage, setLightboxImage] = useState(null);
   const [galleryItems, setGalleryItems] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const filters = ["All", "Shop Interior", "Traditional Preparation", "Gift Boxes", "Festival Displays"];
+  const [filters, setFilters] = useState(["All"]);
 
   useEffect(() => {
     const fetchGallery = async () => {
       try {
         setLoading(true);
-        const data = await api.gallery.getAll();
-        if (data && data.images && data.images.length > 0) {
-          const items = data.images.map(img => ({
+        const [galleryData, catData] = await Promise.all([
+          api.gallery.getAll(),
+          api.gallery.getCategories().catch(() => ({ categories: [] }))
+        ]);
+
+        if (catData && catData.categories) {
+          const categoryNames = catData.categories.map(c => c.name);
+          setFilters(["All", ...categoryNames]);
+        }
+
+        if (galleryData && galleryData.images && galleryData.images.length > 0) {
+          const items = galleryData.images.map(img => ({
             title: img.title || 'Untitled',
             category: img.category || 'General',
             image: img.imageUrl
@@ -98,7 +106,7 @@ export default function GalleryPage() {
         ) : filtered.length === 0 ? (
           <div className="text-center py-24 space-y-4">
             <p className="font-playfair text-2xl font-bold text-brand-brown">No gallery items yet</p>
-            <p className="text-xs sm:text-sm text-brand-text/60 font-poppins">Gallery images will appear here once products are loaded from the catalog.</p>
+            <p className="text-xs sm:text-sm text-brand-text/60 font-poppins">Gallery images will appear here once they are uploaded from the admin panel.</p>
           </div>
         ) : (
           <motion.div 

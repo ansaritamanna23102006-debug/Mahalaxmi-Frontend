@@ -298,6 +298,15 @@ export const api = {
     }),
     delete: (id) => apiFetch(`/gallery/${id}`, {
       method: 'DELETE'
+    }),
+    getCategories: () => apiFetch('/gallery/categories'),
+    addCategory: (name) => apiFetch('/gallery/categories', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name })
+    }),
+    deleteCategory: (id) => apiFetch(`/gallery/categories/${id}`, {
+      method: 'DELETE'
     })
   }
 };

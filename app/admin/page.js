@@ -87,8 +87,10 @@ export default function AdminPanel() {
   const [collections, setCollections] = useState([]);
   const [galleryImages, setGalleryImages] = useState([]);
   const [showGalleryForm, setShowGalleryForm] = useState(false);
-  const [galleryForm, setGalleryForm] = useState({ title: '', category: 'Shop Interior', imageFile: null });
+  const [galleryForm, setGalleryForm] = useState({ title: '', category: '', imageFile: null });
   const galleryImageInputRef = React.useRef(null);
+  const [galleryCats, setGalleryCats] = useState([]);
+  const [newGalleryCat, setNewGalleryCat] = useState('');
   const [showCollectionForm, setShowCollectionForm] = useState(false);
   const [editingCollection, setEditingCollection] = useState(null);
   const [collectionForm, setCollectionForm] = useState({
@@ -404,10 +406,25 @@ export default function AdminPanel() {
     try {
       const data = await api.gallery.getAll();
       setGalleryImages(data?.images || []);
+      await loadGalleryCats();
     } catch (e) {
       console.warn('Gallery load failed:', e.message);
     }
     setLoading(false);
+  }
+
+  async function loadGalleryCats() {
+    try {
+      const data = await api.gallery.getCategories();
+      const cats = data?.categories || [];
+      setGalleryCats(cats);
+      if (cats.length > 0) {
+        setGalleryForm(f => f.category ? f : { ...f, category: cats[0].name });
+      }
+    } catch (e) {
+      console.warn('Failed to load gallery categories:', e.message);
+      setGalleryCats([]);
+    }
   };
 
   const handleResolveInquiry = async (id) => {
@@ -469,7 +486,7 @@ export default function AdminPanel() {
       await api.gallery.add(fd);
 
       setShowGalleryForm(false);
-      setGalleryForm({ title: '', category: 'Shop Interior', imageFile: null });
+      setGalleryForm({ title: '', category: galleryCats[0]?.name || '', imageFile: null });
       if (galleryImageInputRef.current) galleryImageInputRef.current.value = '';
       loadGallery();
     } catch (e) {
@@ -484,6 +501,28 @@ export default function AdminPanel() {
       loadGallery();
     } catch (e) {
       alert('Delete failed: ' + e.message);
+    }
+  };
+
+  const handleCreateGalleryCat = async (e) => {
+    e.preventDefault();
+    if (!newGalleryCat.trim()) return;
+    try {
+      await api.gallery.addCategory(newGalleryCat.trim());
+      setNewGalleryCat('');
+      await loadGalleryCats();
+    } catch (e) {
+      alert('Error creating gallery category: ' + e.message);
+    }
+  };
+
+  const handleDeleteGalleryCat = async (id) => {
+    if (!window.confirm('Delete this gallery category? Images in this category will remain, but the category selector will update.')) return;
+    try {
+      await api.gallery.deleteCategory(id);
+      await loadGalleryCats();
+    } catch (e) {
+      alert('Error deleting gallery category: ' + e.message);
     }
   };
 
@@ -1325,6 +1364,122 @@ export default function AdminPanel() {
               </div>
             </div>
           )}
+
+          {/* ─── GALLERY ─── */}
+          {activeTab === 'gallery' && (
+            <div className="space-y-6">
+              
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                
+                {/* Left Column: Category Management */}
+                <div className="lg:col-span-4 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
+                  <h4 className="font-bold text-gray-800 text-sm">Gallery Categories</h4>
+                  
+                  {/* Create Category Form */}
+                  <form onSubmit={handleCreateGalleryCat} className="flex gap-2">
+                    <input 
+                      required
+                      type="text"
+                      placeholder="New Category (e.g. Events)"
+                      value={newGalleryCat}
+                      onChange={e => setNewGalleryCat(e.target.value)}
+                      className="flex-grow px-3 py-2 border border-gray-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-brand-gold/30"
+                    />
+                    <button 
+                      type="submit"
+                      className="px-4 py-2 bg-brand-brown text-brand-gold hover:bg-brand-orange font-bold text-xs rounded-xl transition-colors border-none cursor-pointer"
+                    >
+                      Add
+                    </button>
+                  </form>
+
+                  {/* List of categories */}
+                  <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
+                    {galleryCats.map((cat) => (
+                      <div key={cat._id} className="flex items-center justify-between p-2 bg-gray-50 border border-gray-100 rounded-xl text-xs">
+                        <span className="font-medium text-gray-700">{cat.name}</span>
+                        <button 
+                          type="button"
+                          onClick={() => handleDeleteGalleryCat(cat._id)}
+                          className="p-1 text-red-500 hover:bg-red-50 rounded-lg transition-colors border-none cursor-pointer"
+                          title="Delete Category"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                    {!galleryCats.length && (
+                      <p className="text-center text-xs text-gray-400 py-4">No custom categories. Add one above.</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Right Column: Images Grid */}
+                <div className="lg:col-span-8 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-bold text-gray-800 text-sm">Gallery Images</h4>
+                    <button 
+                      onClick={() => {
+                        if (galleryCats.length === 0) {
+                          alert('Please create at least one category on the left first!');
+                          return;
+                        }
+                        setShowGalleryForm(true);
+                      }} 
+                      className="flex items-center gap-1.5 px-4 py-2 bg-brand-gold text-brand-brown hover:bg-brand-orange font-bold text-xs rounded-xl shadow-sm transition-colors border-none cursor-pointer"
+                    >
+                      <Plus className="w-4 h-4" /> Add Gallery Image
+                    </button>
+                  </div>
+
+                  <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                      {galleryImages.map((img) => (
+                        <div key={img._id} className="group relative bg-gray-50 border border-gray-100 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between hover:shadow-md transition-all duration-300">
+                          <div className="relative aspect-video w-full bg-gray-200 overflow-hidden">
+                            <img 
+                              src={img.imageUrl || 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=500'} 
+                              alt={img.title} 
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                              draggable="false"
+                            />
+                            <span className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[9px] font-bold bg-brand-brown text-brand-gold border border-brand-gold/20 uppercase tracking-wider">
+                              {img.category}
+                            </span>
+                          </div>
+                          <div className="p-3 flex items-center justify-between gap-2 shrink-0">
+                            <div className="truncate">
+                              <p className="font-bold text-xs text-gray-800 truncate" title={img.title || 'Untitled Image'}>
+                                {img.title || 'Untitled Image'}
+                              </p>
+                              <p className="text-[9px] text-gray-400 mt-0.5">
+                                Added: {new Date(img.createdAt).toLocaleDateString('en-IN')}
+                              </p>
+                            </div>
+                            <button 
+                              onClick={() => handleDeleteGallery(img._id)}
+                              className="p-1.5 text-red-500 hover:bg-red-50 hover:text-red-700 rounded-lg transition-all border-none cursor-pointer"
+                              title="Delete Image"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                      {!galleryImages.length && (
+                        <div className="col-span-full py-16 text-center text-sm text-gray-400">
+                          <ImageIcon className="w-12 h-12 text-gray-300 mx-auto mb-2" />
+                          <p>No gallery images found. Click Add Gallery Image to upload your first image.</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          )}
         </main>
       </div>
 
@@ -1708,6 +1863,90 @@ export default function AdminPanel() {
                   <button type="button" onClick={() => setShowCollectionForm(false)} className="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50 transition-colors">Cancel</button>
                   <button type="submit" className="flex-1 py-2.5 bg-brand-black text-white rounded-xl text-sm font-bold hover:bg-brand-gold hover:text-brand-brown transition-colors">
                     {editingCollection ? 'Save Changes' : 'Create Collection'}
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ─── GALLERY FORM MODAL ─── */}
+      <AnimatePresence>
+        {showGalleryForm && (
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            exit={{ opacity: 0 }} 
+            className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4"
+          >
+            <motion.div 
+              initial={{ scale: 0.95, y: 20 }} 
+              animate={{ scale: 1, y: 0 }} 
+              exit={{ scale: 0.95, y: 20 }} 
+              className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden"
+            >
+              <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+                <h2 className="font-bold text-lg text-gray-800">Add New Gallery Image</h2>
+                <button 
+                  onClick={() => setShowGalleryForm(false)} 
+                  className="p-2 hover:bg-gray-100 rounded-xl"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <form onSubmit={handleGallerySave} className="p-6 space-y-4">
+                <div>
+                  <label className="text-xs font-bold text-gray-600 uppercase tracking-wider block mb-1">Image Title *</label>
+                  <input 
+                    required 
+                    value={galleryForm.title} 
+                    onChange={e => setGalleryForm(f => ({ ...f, title: e.target.value }))} 
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold/30" 
+                    placeholder="e.g. Traditional Sweets Counter" 
+                  />
+                </div>
+                
+                <div>
+                  <label className="text-xs font-bold text-gray-600 uppercase tracking-wider block mb-1">Category *</label>
+                  <select 
+                    required 
+                    value={galleryForm.category} 
+                    onChange={e => setGalleryForm(f => ({ ...f, category: e.target.value }))} 
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-gold/30"
+                  >
+                    <option value="">Select Category</option>
+                    {galleryCats.map(cat => (
+                      <option key={cat._id} value={cat.name}>{cat.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-gray-600 uppercase tracking-wider block mb-1">Upload Image *</label>
+                  <input 
+                    type="file" 
+                    required 
+                    ref={galleryImageInputRef}
+                    accept="image/*"
+                    onChange={e => setGalleryForm(f => ({ ...f, imageFile: e.target.files[0] }))} 
+                    className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-gold file:text-brand-brown hover:file:bg-brand-orange cursor-pointer"
+                  />
+                </div>
+
+                <div className="pt-4 flex justify-end gap-3 border-t border-gray-100">
+                  <button 
+                    type="button" 
+                    onClick={() => setShowGalleryForm(false)} 
+                    className="px-4 py-2.5 border border-gray-200 text-gray-600 rounded-xl text-xs font-bold hover:bg-gray-50 cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit" 
+                    className="px-5 py-2.5 bg-brand-gold hover:bg-brand-orange text-brand-brown rounded-xl text-xs font-bold transition-colors border-none cursor-pointer"
+                  >
+                    Upload Image
                   </button>
                 </div>
               </form>

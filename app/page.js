@@ -157,14 +157,13 @@ export default function Home() {
 
   const fetchGalleryItems = async () => {
     try {
-      const data = await api.products.getAll({ limit: 6 });
-      if (data && data.products && data.products.length > 0) {
-        const galleryLabels = ['Shop Interior', 'Traditional Preparation', 'Gift Boxes', 'Festival Displays'];
-        setGalleryItems(data.products.slice(0, 6).map((p, i) => ({
-          title: p.name,
-          category: galleryLabels[i % galleryLabels.length],
-          image: p.images ? p.images[0] : ''
-        })).filter(g => g.image));
+      const data = await api.gallery.getAll();
+      if (data && data.images && data.images.length > 0) {
+        setGalleryItems(data.images.slice(0, 6).map(img => ({
+          title: img.title || 'Untitled',
+          category: img.category || 'General',
+          image: img.imageUrl
+        })));
       } else {
         setGalleryItems([]);
       }

@@ -36,6 +36,11 @@ body {
   font-family: var(--font-poppins);
 }
 
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
 /* Premium Adaptive Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
