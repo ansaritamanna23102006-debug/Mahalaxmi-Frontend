@@ -310,7 +310,7 @@ export default function Navbar({ transparent = false }) {
                   href={hrefs[link]} 
                   className={`font-poppins font-semibold text-xs uppercase tracking-wider transition-all duration-300 relative group py-2 ${
                     transparent 
-                      ? (isScrolled ? 'text-brand-cream hover:text-brand-gold' : 'text-brand-brown hover:text-brand-maroon')
+                      ? (isScrolled ? 'text-brand-cream hover:text-brand-gold' : 'text-brand-cream/80 hover:text-brand-gold')
                       : 'text-brand-cream hover:text-brand-gold'
                   }`}
                 >
@@ -329,7 +329,7 @@ export default function Navbar({ transparent = false }) {
               onClick={() => setIsSearchOpen(true)}
               className={`p-2 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${
                 transparent 
-                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-brown hover:bg-brand-brown/5')
+                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-cream/80 hover:bg-white/10')
                   : 'text-brand-cream hover:bg-white/10'
               }`}
               aria-label="Search"
@@ -342,7 +342,7 @@ export default function Navbar({ transparent = false }) {
               onClick={() => setIsWishlistOpen(true)}
               className={`hidden sm:inline-flex p-2 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95 ${
                 transparent 
-                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-brown hover:bg-brand-brown/5')
+                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-cream/80 hover:bg-white/10')
                   : 'text-brand-cream hover:bg-white/10'
               }`}
               aria-label="Wishlist"
@@ -360,7 +360,7 @@ export default function Navbar({ transparent = false }) {
               onClick={() => setIsCartOpen(true)}
               className={`p-2 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95 ${
                 transparent 
-                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-brown hover:bg-brand-brown/5')
+                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-cream/80 hover:bg-white/10')
                   : 'text-brand-cream hover:bg-white/10'
               }`}
               aria-label="Cart"
@@ -378,7 +378,7 @@ export default function Navbar({ transparent = false }) {
               href="/account"
               className={`hidden sm:inline-flex p-2 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${
                 transparent 
-                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-brown hover:bg-brand-brown/5')
+                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-cream/80 hover:bg-white/10')
                   : 'text-brand-cream hover:bg-white/10'
               }`}
               aria-label="Account"
@@ -391,7 +391,7 @@ export default function Navbar({ transparent = false }) {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className={`p-2 rounded-full lg:hidden transition-all duration-300 hover:scale-110 active:scale-95 ${
                 transparent 
-                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-brown hover:bg-brand-brown/5')
+                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-cream/80 hover:bg-white/10')
                   : 'text-brand-cream hover:bg-white/10'
               }`}
               aria-label="Menu"
