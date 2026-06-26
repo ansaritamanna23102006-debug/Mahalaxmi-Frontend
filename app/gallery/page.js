@@ -48,32 +48,38 @@ export default function GalleryPage() {
     : galleryItems.filter(item => item.category === activeFilter);
 
   return (
-    <div className="bg-brand-bg text-brand-text min-h-screen">
+    <div className="bg-brand-bg text-brand-text min-h-screen mandala-pattern">
       <Navbar />
 
       {/* Hero Header */}
       <section className="pt-32 pb-12 bg-brand-brown text-brand-cream relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(217,164,65,0.12),transparent)] pointer-events-none"></div>
+        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-brand-gold via-brand-orange to-brand-gold-highlight"></div>
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10 space-y-2">
           <div className="flex items-center gap-2 text-xs font-poppins text-brand-gold uppercase tracking-widest">
-            <Link href="/" className="hover:underline">Home</Link>
-            <ChevronRight className="w-3.5 h-3.5" />
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            <ChevronRight className="w-3.5 h-3.5 text-brand-cream/40" />
             <span className="text-brand-cream/80">Gallery</span>
           </div>
-          <h1 className="font-playfair text-3xl md:text-5xl font-black">Visual Heritage Gallery</h1>
-          <p className="text-sm font-poppins font-light text-brand-cream/70 max-w-xl">
+          <h1 className="font-playfair text-3xl md:text-5xl font-extrabold tracking-wide">Heritage Gallery</h1>
+          <p className="text-xs sm:text-sm font-poppins font-light text-brand-cream/70 max-w-xl">
             Take a visual tour of our preparation kitchen, boutique sweet counter, and festive packaging displays.
           </p>
         </div>
       </section>
 
       {/* Tag Filters */}
-      <section className="py-8 bg-brand-cream border-b border-brand-gold/15">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-start sm:justify-center overflow-x-auto gap-4 scrollbar-none">
+      <section className="py-8 bg-brand-cream border-b border-brand-orange/15 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-start sm:justify-center overflow-x-auto gap-3.5 scrollbar-none">
           {filters.map((f) => (
             <button
               key={f}
               onClick={() => setActiveFilter(f)}
-              className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider font-poppins shrink-0 transition-colors border ${activeFilter === f ? 'bg-brand-maroon text-brand-cream border-brand-maroon shadow-md' : 'bg-white text-brand-brown border-brand-gold/20 hover:bg-brand-bg'}`}
+              className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider font-poppins shrink-0 transition-all duration-300 border ${
+                activeFilter === f 
+                  ? 'bg-brand-brown text-brand-gold border-brand-brown shadow-sm scale-95' 
+                  : 'bg-white text-brand-brown border-brand-orange/20 hover:bg-brand-bg hover:border-brand-orange/50'
+              }`}
             >
               {f}
             </button>
@@ -86,39 +92,49 @@ export default function GalleryPage() {
         {loading ? (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
             {[...Array(6)].map((_, idx) => (
-              <div key={idx} className="rounded-3xl bg-brand-cream border border-brand-gold/15 shadow-sm break-inside-avoid animate-pulse h-64" />
+              <div key={idx} className="rounded-3xl bg-brand-ivory border border-brand-orange/15 shadow-inner break-inside-avoid animate-pulse h-64" />
             ))}
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-24 space-y-4">
             <p className="font-playfair text-2xl font-bold text-brand-brown">No gallery items yet</p>
-            <p className="text-sm text-brand-text/60 font-poppins">Gallery images will appear here once products are loaded from the catalog.</p>
+            <p className="text-xs sm:text-sm text-brand-text/60 font-poppins">Gallery images will appear here once products are loaded from the catalog.</p>
           </div>
         ) : (
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-            {filtered.map((item, idx) => (
-              <div
-                key={idx}
-                onClick={() => setLightboxImage(item)}
-                className="relative overflow-hidden rounded-3xl border border-brand-gold/20 shadow-md group break-inside-avoid cursor-pointer bg-brand-cream"
-              >
-                <Image unoptimized width={600} height={400} src={item.image} alt={item.title} className="w-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-500" />
+          <motion.div 
+            layout
+            className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6"
+          >
+            <AnimatePresence>
+              {filtered.map((item, idx) => (
+                <motion.div
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3 }}
+                  key={`${item.image}-${idx}`}
+                  onClick={() => setLightboxImage(item)}
+                  className="relative overflow-hidden rounded-[32px] border border-brand-orange/20 shadow-sm hover:shadow-xl group break-inside-avoid cursor-pointer bg-brand-ivory transition-all duration-500"
+                >
+                  <Image unoptimized width={600} height={400} src={item.image} alt={item.title} className="w-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" />
 
-                {/* Overlay on hover */}
-                <div className="absolute inset-0 bg-brand-brown/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
-                  <div className="text-right">
-                    <span className="inline-block p-2 bg-brand-gold/10 border border-brand-gold/30 rounded-xl text-brand-gold">
-                      <ZoomIn className="w-5 h-5" />
-                    </span>
+                  {/* Overlay on hover */}
+                  <div className="absolute inset-0 bg-brand-brown/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">
+                    <div className="text-right">
+                      <span className="inline-block p-2.5 bg-brand-gold/10 border border-brand-gold/30 rounded-xl text-brand-gold">
+                        <ZoomIn className="w-5 h-5" />
+                      </span>
+                    </div>
+                    <div>
+                      <span className="text-brand-gold text-[10px] font-bold uppercase tracking-widest font-poppins">{item.category}</span>
+                      <h3 className="font-playfair text-white text-lg font-bold mt-1 tracking-wide">{item.title}</h3>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-brand-gold text-xs font-bold uppercase tracking-widest font-poppins">{item.category}</span>
-                    <h3 className="font-playfair text-white text-lg font-bold mt-1">{item.title}</h3>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         )}
       </section>
 
@@ -130,7 +146,7 @@ export default function GalleryPage() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setLightboxImage(null)}
-            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 cursor-zoom-out"
+            className="fixed inset-0 bg-black/95 z-[9999] flex items-center justify-center p-4 cursor-zoom-out backdrop-blur-md"
           >
             <button
               onClick={() => setLightboxImage(null)}
@@ -145,12 +161,12 @@ export default function GalleryPage() {
               animate={{ scale: 1 }}
               exit={{ scale: 0.9 }}
               onClick={(e) => e.stopPropagation()}
-              className="max-w-4xl max-h-[80vh] relative overflow-hidden rounded-2xl border border-white/20 shadow-2xl"
+              className="max-w-4xl max-h-[80vh] relative overflow-hidden rounded-[28px] border border-white/10 shadow-2xl bg-black"
             >
-              <Image unoptimized fill src={lightboxImage.image} alt={lightboxImage.title} className="object-contain" />
-              <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent text-white">
-                <span className="text-brand-gold text-xs font-bold uppercase tracking-widest font-poppins">{lightboxImage.category}</span>
-                <h3 className="font-playfair text-xl font-bold mt-1">{lightboxImage.title}</h3>
+              <img src={lightboxImage.image} alt={lightboxImage.title} className="max-w-full max-h-[75vh] object-contain" />
+              <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/70 to-transparent text-white">
+                <span className="text-brand-gold text-[10px] font-bold uppercase tracking-widest font-poppins">{lightboxImage.category}</span>
+                <h3 className="font-playfair text-xl font-bold mt-1 leading-tight text-white">{lightboxImage.title}</h3>
               </div>
             </motion.div>
           </motion.div>

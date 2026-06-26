@@ -127,31 +127,32 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="bg-brand-bg text-brand-text min-h-screen flex flex-col justify-center py-12">
+    <div className="bg-brand-bg text-brand-text min-h-screen flex flex-col justify-center py-12 mandala-pattern">
 
       {/* Main Portal Section */}
       <section className="px-4 md:px-8 max-w-6xl mx-auto w-full flex items-center justify-center">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-0 overflow-hidden rounded-[36px] border border-brand-gold/15 bg-white shadow-2xl min-h-[600px]">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-0 overflow-hidden rounded-[36px] border border-brand-orange/15 bg-white shadow-2xl min-h-[600px] relative">
           
           {/* Left Panel: Decorative Legacy Branding */}
           <div className="lg:col-span-5 bg-brand-brown text-brand-cream p-10 flex flex-col justify-between relative overflow-hidden">
             {/* Background pattern styling */}
-            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#F4D20A_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
-            <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-brand-gold/5 blur-3xl pointer-events-none"></div>
+            <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#FFD54A_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
+            <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-brand-gold/10 blur-3xl pointer-events-none"></div>
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-brand-gold via-brand-orange to-brand-gold-highlight"></div>
             
             <div className="relative z-10 space-y-4">
               <Link href="/" className="inline-block w-40 hover:scale-105 transition-transform duration-300">
                 <Image src="/logo.png" alt="Mahalaxmi Mithaiwala Logo" width={160} height={40} priority className="w-full object-contain" />
               </Link>
-              <span className="inline-block text-[10px] font-bold tracking-widest text-brand-gold uppercase bg-brand-cream/10 px-3 py-1 rounded-md">
+              <div className="inline-block text-[9px] font-bold tracking-widest text-brand-gold uppercase bg-brand-cream/10 border border-brand-gold/20 px-3 py-1 rounded-md">
                 Established 1982
-              </span>
+              </div>
             </div>
 
             <div className="relative z-10 py-12 lg:py-0 space-y-6">
-              <h2 className="font-playfair text-3xl md:text-4xl font-black leading-tight text-white">
+              <h2 className="font-playfair text-3xl md:text-4xl font-extrabold leading-tight text-white tracking-wide">
                 A Legacy Built on <br />
-                <span className="text-brand-gold">Taste & Tradition</span>
+                <span className="text-brand-gold-highlight">Taste & Tradition</span>
               </h2>
               <p className="font-poppins text-xs md:text-sm font-light text-brand-cream/70 leading-relaxed max-w-sm">
                 Log in to order premium handmade sweets, spicy farsan collections, and custom festive hampers crafted with love for over 4 decades.
@@ -171,12 +172,12 @@ export default function LoginPage() {
 
             <div className="relative z-10 pt-4 border-t border-brand-cream/5 flex justify-between items-center text-[10px] font-poppins text-brand-cream/50">
               <span>Mahalaxmi Mithaiwala © 2026</span>
-              <a href="/contact" className="hover:underline hover:text-brand-gold">Need Help?</a>
+              <Link href="/contact" className="hover:underline hover:text-brand-gold">Need Help?</Link>
             </div>
           </div>
 
           {/* Right Panel: Interactive Authentication Forms */}
-          <div className="lg:col-span-7 bg-brand-cream/10 p-8 sm:p-12 md:p-16 flex flex-col justify-center bg-white">
+          <div className="lg:col-span-7 bg-brand-cream/10 p-8 sm:p-12 md:p-16 flex flex-col justify-center bg-white relative">
             
             <AnimatePresence mode="wait">
               {/* LOGIN MODE */}
@@ -190,7 +191,7 @@ export default function LoginPage() {
                   className="space-y-6"
                 >
                   <div className="space-y-1">
-                    <h3 className="font-playfair text-2xl md:text-3xl font-black text-brand-brown">Welcome Back</h3>
+                    <h3 className="font-playfair text-2xl md:text-3xl font-extrabold text-brand-brown">Welcome Back</h3>
                     <p className="text-xs text-brand-text/50 font-poppins">Enter your details below to access your account dashboard.</p>
                   </div>
 
@@ -218,7 +219,7 @@ export default function LoginPage() {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="name@email.com"
-                          className="w-full pl-12 pr-4 py-3 bg-brand-bg rounded-xl border border-brand-gold/25 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
+                          className="w-full pl-12 pr-4 py-3 bg-brand-bg rounded-xl border border-brand-orange/20 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
                         />
                       </div>
                     </div>
@@ -230,7 +231,7 @@ export default function LoginPage() {
                         <button
                           type="button"
                           onClick={() => setMode('forgot')}
-                          className="text-[10px] font-bold text-brand-maroon hover:underline font-poppins"
+                          className="text-[10px] font-bold text-brand-maroon hover:underline font-poppins cursor-pointer"
                         >
                           Forgot Password?
                         </button>
@@ -243,7 +244,7 @@ export default function LoginPage() {
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                           placeholder="••••••••"
-                          className="w-full pl-12 pr-12 py-3 bg-brand-bg rounded-xl border border-brand-gold/25 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
+                          className="w-full pl-12 pr-12 py-3 bg-brand-bg rounded-xl border border-brand-orange/20 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
                         />
                         <button
                           type="button"
@@ -262,7 +263,7 @@ export default function LoginPage() {
                         id="remember"
                         checked={rememberMe}
                         onChange={(e) => setRememberMe(e.target.checked)}
-                        className="accent-brand-maroon w-4.5 h-4.5 rounded cursor-pointer"
+                        className="accent-brand-brown w-4.5 h-4.5 rounded cursor-pointer"
                       />
                       <label htmlFor="remember" className="text-xs text-brand-brown/80 font-poppins cursor-pointer select-none font-medium">
                         Remember this session
@@ -273,25 +274,24 @@ export default function LoginPage() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown py-3 rounded-xl font-bold font-poppins transition-all duration-300 flex items-center justify-center gap-2 text-xs shadow-md mt-6 disabled:opacity-50"
+                      className="w-full bg-brand-gold hover:bg-brand-orange text-brand-brown py-3 rounded-xl font-bold font-poppins transition-all duration-300 flex items-center justify-center gap-2 text-xs shadow-md mt-6 disabled:opacity-50 shine-button hover:-translate-y-0.5"
                     >
                       {isSubmitting ? 'Authenticating...' : 'Sign In To Dashboard'} <ArrowRight className="w-4 h-4" />
                     </button>
                   </form>
 
-                  {/* Social / Registration Redirect */}
-                  <div className="space-y-4 pt-4 border-t border-brand-gold/15">
+                  {/* Switch to Register */}
+                  <div className="space-y-4 pt-4 border-t border-brand-orange/10">
                     <div className="flex items-center justify-center gap-2">
                       <span className="text-xs text-brand-text/50 font-poppins">New to Mahalaxmi Mithaiwala?</span>
                       <button
+                        type="button"
                         onClick={() => { setMode('register'); setErrorMsg(''); setSuccessMsg(''); }}
-                        className="text-xs font-bold text-brand-maroon hover:underline font-poppins"
+                        className="text-xs font-bold text-brand-maroon hover:underline font-poppins cursor-pointer"
                       >
                         Create Account
                       </button>
                     </div>
-
-
                   </div>
                 </motion.div>
               )}
@@ -307,7 +307,7 @@ export default function LoginPage() {
                   className="space-y-6"
                 >
                   <div className="space-y-1">
-                    <h3 className="font-playfair text-2xl md:text-3xl font-black text-brand-brown">Create Account</h3>
+                    <h3 className="font-playfair text-2xl md:text-3xl font-extrabold text-brand-brown">Create Account</h3>
                     <p className="text-xs text-brand-text/50 font-poppins">Join us to save addresses, track orders, and get custom discount codes.</p>
                   </div>
 
@@ -335,7 +335,7 @@ export default function LoginPage() {
                           value={regName}
                           onChange={(e) => setRegName(e.target.value)}
                           placeholder="Enter your full name"
-                          className="w-full pl-12 pr-4 py-2.5 bg-brand-bg rounded-xl border border-brand-gold/25 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
+                          className="w-full pl-12 pr-4 py-2.5 bg-brand-bg rounded-xl border border-brand-orange/20 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
                         />
                       </div>
                     </div>
@@ -352,7 +352,7 @@ export default function LoginPage() {
                             value={regEmail}
                             onChange={(e) => setRegEmail(e.target.value)}
                             placeholder="name@email.com"
-                            className="w-full pl-12 pr-4 py-2.5 bg-brand-bg rounded-xl border border-brand-gold/25 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
+                            className="w-full pl-12 pr-4 py-2.5 bg-brand-bg rounded-xl border border-brand-orange/20 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
                           />
                         </div>
                       </div>
@@ -366,7 +366,7 @@ export default function LoginPage() {
                             value={regPhone}
                             onChange={(e) => setRegPhone(e.target.value)}
                             placeholder="98765 43210"
-                            className="w-full pl-12 pr-4 py-2.5 bg-brand-bg rounded-xl border border-brand-gold/25 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
+                            className="w-full pl-12 pr-4 py-2.5 bg-brand-bg rounded-xl border border-brand-orange/20 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
                           />
                         </div>
                       </div>
@@ -384,7 +384,7 @@ export default function LoginPage() {
                             value={regPassword}
                             onChange={(e) => setRegPassword(e.target.value)}
                             placeholder="••••••••"
-                            className="w-full pl-12 pr-4 py-2.5 bg-brand-bg rounded-xl border border-brand-gold/25 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
+                            className="w-full pl-12 pr-4 py-2.5 bg-brand-bg rounded-xl border border-brand-orange/20 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
                           />
                         </div>
                       </div>
@@ -398,7 +398,7 @@ export default function LoginPage() {
                             value={regConfirmPassword}
                             onChange={(e) => setRegConfirmPassword(e.target.value)}
                             placeholder="••••••••"
-                            className="w-full pl-12 pr-4 py-2.5 bg-brand-bg rounded-xl border border-brand-gold/25 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
+                            className="w-full pl-12 pr-4 py-2.5 bg-brand-bg rounded-xl border border-brand-orange/20 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
                           />
                         </div>
                       </div>
@@ -409,7 +409,7 @@ export default function LoginPage() {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="text-[10px] font-bold text-brand-maroon hover:underline flex items-center gap-1 font-poppins"
+                        className="text-[10px] font-bold text-brand-maroon hover:underline flex items-center gap-1 font-poppins cursor-pointer"
                       >
                         {showPassword ? 'Hide Passwords' : 'Show Passwords'}
                       </button>
@@ -423,7 +423,7 @@ export default function LoginPage() {
                         required
                         checked={acceptTerms}
                         onChange={(e) => setAcceptTerms(e.target.checked)}
-                        className="accent-brand-maroon w-4.5 h-4.5 rounded cursor-pointer mt-0.5"
+                        className="accent-brand-brown w-4.5 h-4.5 rounded cursor-pointer mt-0.5"
                       />
                       <label htmlFor="terms" className="text-xs text-brand-brown/80 font-poppins cursor-pointer select-none font-medium leading-tight">
                         I agree to the Terms of Service & Privacy Policy of Mahalaxmi Mithaiwala since 1982.
@@ -434,18 +434,19 @@ export default function LoginPage() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown py-3 rounded-xl font-bold font-poppins transition-all duration-300 flex items-center justify-center gap-2 text-xs shadow-md mt-4 disabled:opacity-50"
+                      className="w-full bg-brand-gold hover:bg-brand-orange text-brand-brown py-3 rounded-xl font-bold font-poppins transition-all duration-300 flex items-center justify-center gap-2 text-xs shadow-md mt-4 disabled:opacity-50 shine-button hover:-translate-y-0.5"
                     >
                       {isSubmitting ? 'Creating Profile...' : 'Complete Register & Sign In'} <ArrowRight className="w-4 h-4" />
                     </button>
                   </form>
 
                   {/* Switch to login */}
-                  <div className="flex items-center justify-center gap-2 pt-4 border-t border-brand-gold/15">
+                  <div className="flex items-center justify-center gap-2 pt-4 border-t border-brand-orange/10">
                     <span className="text-xs text-brand-text/50 font-poppins">Already registered?</span>
                     <button
+                      type="button"
                       onClick={() => { setMode('login'); setErrorMsg(''); setSuccessMsg(''); }}
-                      className="text-xs font-bold text-brand-maroon hover:underline font-poppins"
+                      className="text-xs font-bold text-brand-maroon hover:underline font-poppins cursor-pointer"
                     >
                       Login Here
                     </button>
@@ -464,14 +465,15 @@ export default function LoginPage() {
                   className="space-y-6"
                 >
                   <button
+                    type="button"
                     onClick={() => { setMode('login'); setErrorMsg(''); setSuccessMsg(''); }}
-                    className="text-xs font-bold text-brand-brown/60 hover:text-brand-brown flex items-center gap-1.5 font-poppins hover:-translate-x-1 transition-transform"
+                    className="text-xs font-bold text-brand-brown/60 hover:text-brand-brown flex items-center gap-1.5 font-poppins hover:-translate-x-1 transition-transform cursor-pointer"
                   >
                     <ArrowLeft className="w-4 h-4" /> Back to Sign In
                   </button>
 
                   <div className="space-y-1">
-                    <h3 className="font-playfair text-2xl md:text-3xl font-black text-brand-brown">Reset Password</h3>
+                    <h3 className="font-playfair text-2xl md:text-3xl font-extrabold text-brand-brown">Reset Password</h3>
                     <p className="text-xs text-brand-text/50 font-poppins">Enter your registered email below to receive a secure password recovery code.</p>
                   </div>
 
@@ -498,7 +500,7 @@ export default function LoginPage() {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="name@email.com"
-                          className="w-full pl-12 pr-4 py-3 bg-brand-bg rounded-xl border border-brand-gold/25 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
+                          className="w-full pl-12 pr-4 py-3 bg-brand-bg rounded-xl border border-brand-orange/20 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-brand-gold text-brand-brown font-poppins"
                         />
                       </div>
                     </div>
@@ -506,7 +508,7 @@ export default function LoginPage() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown py-3 rounded-xl font-bold font-poppins transition-all duration-300 flex items-center justify-center gap-2 text-xs shadow-md mt-6 disabled:opacity-50"
+                      className="w-full bg-brand-gold hover:bg-brand-orange text-brand-brown py-3 rounded-xl font-bold font-poppins transition-all duration-300 flex items-center justify-center gap-2 text-xs shadow-md mt-6 disabled:opacity-50 shine-button hover:-translate-y-0.5"
                     >
                       {isSubmitting ? 'Sending instructions...' : 'Request Verification Link'} <ArrowRight className="w-4 h-4" />
                     </button>
