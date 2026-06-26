@@ -39,6 +39,7 @@ body {
 img {
   user-select: none;
   -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 /* Premium Adaptive Scrollbar */
