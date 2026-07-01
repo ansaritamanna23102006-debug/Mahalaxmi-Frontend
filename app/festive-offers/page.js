@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { api } from '@/utils/api';
@@ -154,7 +155,7 @@ export default function FestiveOffersPage() {
       <section className="pt-32 pb-12 bg-brand-brown text-brand-cream relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10 space-y-2">
           <div className="flex items-center gap-2 text-xs font-poppins text-brand-gold uppercase tracking-widest">
-            <a href="/" className="hover:underline">Home</a>
+            <Link href="/" className="hover:underline">Home</Link>
             <ChevronRight className="w-3.5 h-3.5" />
             <span className="text-brand-cream/80">Festive Deals</span>
           </div>

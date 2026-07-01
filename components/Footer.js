@@ -28,13 +28,17 @@ const YoutubeIcon = (props) => (
 
 export default function Footer() {
   return (
-    <footer id="contact" className="bg-brand-brown text-brand-cream/80 pt-20 pb-8 border-t-2 border-brand-gold/30">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-brand-gold/10">
+    <footer id="contact" className="bg-brand-brown text-brand-cream/80 pt-24 pb-8 border-t border-brand-gold/30 relative overflow-hidden mandala-pattern">
+      
+      {/* Top ornamental glowing line */}
+      <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-brand-gold to-transparent opacity-60"></div>
+      
+      <div className="max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 pb-16 border-b border-brand-gold/15">
         
         {/* Column 1: Brand Info */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="w-48 h-12 relative">
-            <Image src="/logo.png" alt="Mahalaxmi Mithaiwala Logo" fill className="object-contain" sizes="(max-width: 768px) 192px, 192px" />
+          <div className="w-52 h-14 relative hover:scale-[1.02] transition-transform duration-300">
+            <Image src="/logo.png" alt="Mahalaxmi Mithaiwala Logo" fill className="object-contain filter drop-shadow-[0_2px_8px_rgba(255,213,74,0.15)]" sizes="(max-width: 768px) 208px, 208px" />
           </div>
           <p className="text-sm font-poppins font-light leading-relaxed text-brand-cream/70">
             Serving Mumbai since 1982. Handcrafting traditional Indian sweets and crunchy farsan with unmatched devotion to premium quality, pure ingredients, and timeless heritage.
@@ -49,7 +53,7 @@ export default function Footer() {
               <a 
                 key={social.name} 
                 href={social.href} 
-                className="p-2.5 bg-brand-cream/5 hover:bg-brand-gold hover:text-brand-brown rounded-full border border-brand-gold/15 transition-all duration-300 text-brand-cream hover:scale-110 active:scale-95 transform"
+                className="p-2.5 bg-white/5 hover:bg-brand-gold hover:text-brand-brown rounded-full border border-brand-gold/15 transition-all duration-300 text-brand-cream hover:scale-110 active:scale-95 transform shadow-md"
                 aria-label={social.name}
               >
                 <social.icon className="w-4 h-4" />
@@ -60,34 +64,43 @@ export default function Footer() {
 
         {/* Column 2: Quick Links */}
         <div className="lg:col-span-2 space-y-6">
-          <h3 className="font-playfair text-white text-lg font-bold">Quick Links</h3>
-          <ul className="space-y-3 font-poppins text-sm font-light">
-            <li><Link href="/" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Home</Link></li>
-            <li><Link href="/sweets" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Sweets</Link></li>
-            <li><Link href="/farsan" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Farsan</Link></li>
-            <li><Link href="/about" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> About Us</Link></li>
-            <li><Link href="/contact" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Contact</Link></li>
+          <h3 className="font-playfair text-brand-gold text-lg font-bold tracking-wider relative inline-block">
+            Quick Links
+            <span className="absolute bottom-[-6px] left-0 w-8 h-[2px] bg-brand-gold"></span>
+          </h3>
+          <ul className="space-y-3 font-poppins text-sm font-light pt-2">
+            <li><Link href="/" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> Home</Link></li>
+            <li><Link href="/sweets" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> Sweets</Link></li>
+            <li><Link href="/farsan" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> Farsan</Link></li>
+            <li><Link href="/about" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> About Us</Link></li>
+            <li><Link href="/contact" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> Contact</Link></li>
           </ul>
         </div>
 
         {/* Column 3: Categories */}
         <div className="lg:col-span-2 space-y-6">
-          <h3 className="font-playfair text-white text-lg font-bold">Categories</h3>
-          <ul className="space-y-3 font-poppins text-sm font-light">
-            <li><Link href="/sweets" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Sweets</Link></li>
-            <li><Link href="/farsan" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Farsan</Link></li>
-            <li><Link href="/#categories" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Gift Boxes</Link></li>
-            <li><Link href="/festive-offers" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1"><ChevronRight className="w-3 h-3 text-brand-gold/60" /> Festival Offers</Link></li>
+          <h3 className="font-playfair text-brand-gold text-lg font-bold tracking-wider relative inline-block">
+            Categories
+            <span className="absolute bottom-[-6px] left-0 w-8 h-[2px] bg-brand-gold"></span>
+          </h3>
+          <ul className="space-y-3 font-poppins text-sm font-light pt-2">
+            <li><Link href="/sweets" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> Sweets</Link></li>
+            <li><Link href="/farsan" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> Farsan</Link></li>
+            <li><Link href="/#categories" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> Gift Boxes</Link></li>
+            <li><Link href="/festive-offers" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> Festival Offers</Link></li>
           </ul>
         </div>
 
         {/* Column 4: Contact & Maps */}
         <div className="lg:col-span-4 space-y-6">
-          <h3 className="font-playfair text-white text-lg font-bold">Contact Us</h3>
-          <ul className="space-y-4 font-poppins text-sm font-light text-brand-cream/80">
+          <h3 className="font-playfair text-brand-gold text-lg font-bold tracking-wider relative inline-block">
+            Contact Us
+            <span className="absolute bottom-[-6px] left-0 w-8 h-[2px] bg-brand-gold"></span>
+          </h3>
+          <ul className="space-y-4 font-poppins text-sm font-light text-brand-cream/80 pt-2">
             <li className="flex items-start gap-3">
               <MapPin className="w-5 h-5 text-brand-gold shrink-0 mt-0.5" />
-              <span>
+              <span className="leading-relaxed">
                 Suraj Prashad Chawl No. 204 A,<br />
                 Opp. L Ward Office,<br />
                 CST Road, Kurla (W),<br />
@@ -95,33 +108,35 @@ export default function Footer() {
               </span>
             </li>
             <li className="flex items-center gap-3">
-              <Phone className="w-4 h-4 text-brand-gold" />
+              <Phone className="w-4 h-4 text-brand-gold shrink-0" />
               <a href="tel:+912212345678" className="hover:text-brand-gold transition-colors">+91 22 1234 5678</a>
             </li>
             <li className="flex items-center gap-3">
-              <Mail className="w-4 h-4 text-brand-gold" />
+              <Mail className="w-4 h-4 text-brand-gold shrink-0" />
               <a href="mailto:info@mahalaxmimithaiwala.com" className="hover:text-brand-gold transition-colors">info@mahalaxmimithaiwala.com</a>
             </li>
           </ul>
           
           {/* Google Maps Button */}
-          <a 
-            href="https://maps.google.com/?q=Kurla+West+Mumbai+Opp+L+Ward+Office" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-brand-gold hover:bg-brand-cream text-brand-brown text-xs font-bold font-poppins px-5 py-3 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.03] active:scale-[0.97] transform"
-          >
-            <MapPin className="w-4 h-4 shrink-0" /> Locate on Google Maps
-          </a>
+          <div className="pt-2">
+            <a 
+              href="https://maps.google.com/?q=Kurla+West+Mumbai+Opp+L+Ward+Office" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-brand-gold hover:bg-white text-brand-brown text-xs font-bold font-poppins px-5.5 py-3 rounded-xl transition-all duration-300 shadow-md hover:scale-[1.03] active:scale-[0.97] transform shine-button"
+            >
+              <MapPin className="w-4 h-4 shrink-0" /> Locate on Google Maps
+            </a>
+          </div>
         </div>
 
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-brand-cream/40 font-poppins">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-brand-cream/40 font-poppins gap-4">
         <p>© {new Date().getFullYear()} Mahalaxmi Mithaiwala. All rights reserved.</p>
-        <div className="flex space-x-6 mt-4 sm:mt-0">
-          <a href="#" className="hover:underline">Privacy Policy</a>
-          <a href="#" className="hover:underline">Terms & Conditions</a>
+        <div className="flex space-x-6">
+          <a href="#" className="hover:text-brand-gold transition-colors">Privacy Policy</a>
+          <a href="#" className="hover:text-brand-gold transition-colors">Terms & Conditions</a>
         </div>
       </div>
     </footer>
