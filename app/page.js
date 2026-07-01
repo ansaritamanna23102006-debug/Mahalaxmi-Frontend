@@ -287,17 +287,38 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
             "name": "Mahalaxmi Mithaiwala",
-            "image": "http://localhost:3000/hero_sweets.png",
-            "@id": "http://localhost:3000",
-            "url": "http://localhost:3000",
-            "telephone": "+91-9999999999",
+            "image": `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/hero_sweets.png`,
+            "logo": `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/logo.png`,
+            "@id": process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+            "url": process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+            "telephone": "+91 22 1234 5678",
+            "email": "info@mahalaxmimithaiwala.com",
+            "hasMap": "https://maps.google.com/?q=Kurla+West+Mumbai+Opp+L+Ward+Office",
+            "priceRange": "$$",
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": "Kurla",
+              "streetAddress": "Suraj Prashad Chawl No. 204 A, Opp. L Ward Office, CST Road, Kurla (W)",
               "addressLocality": "Mumbai",
+              "addressRegion": "Maharashtra",
               "postalCode": "400070",
               "addressCountry": "IN"
-            }
+            },
+            "openingHoursSpecification": [
+              {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": [
+                  "Monday",
+                  "Tuesday",
+                  "Wednesday",
+                  "Thursday",
+                  "Friday",
+                  "Saturday",
+                  "Sunday"
+                ],
+                "opens": "09:00",
+                "closes": "22:00"
+              }
+            ]
           })
         }}
       />
