@@ -266,8 +266,8 @@ export default function ProductDetailPage({ params }) {
                 src={activeImage || 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500'} 
                 alt={product.name} 
                 fill 
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105" 
-                unoptimized 
               />
               <div className="absolute top-4 right-4 bg-brand-brown/70 backdrop-blur-md border border-brand-gold/30 rounded-xl p-2 text-brand-gold pointer-events-none">
                 <Sparkles className="w-4 h-4 animate-pulse" />
@@ -282,7 +282,7 @@ export default function ProductDetailPage({ params }) {
                   onClick={() => setActiveImage(img)}
                   className={`relative w-20 h-20 rounded-xl overflow-hidden border-2 shrink-0 transition-all duration-300 ${activeImage === img ? 'border-brand-orange shadow-md scale-95' : 'border-brand-orange/10 hover:border-brand-gold/60 hover:scale-95'}`}
                 >
-                  <Image src={img} alt={`Thumb ${idx}`} fill className="object-cover" unoptimized />
+                  <Image src={img} alt={`Thumb ${idx}`} fill sizes="80px" className="object-cover" />
                 </button>
               ))}
             </div>

@@ -336,7 +336,13 @@ function SweetsPageContent() {
                     >
                       {/* Top image overlay */}
                       <div className="relative h-36 sm:h-52 overflow-hidden bg-brand-ivory border-b border-brand-gold/10">
-                        <Image src={product.image} alt={product.name} fill unoptimized className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-500" />
+                        <Image 
+                          src={product.image} 
+                          alt={product.name} 
+                          fill 
+                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                          className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-500" 
+                        />
                         <button 
                           onClick={() => toggleWishlist(product)}
                           className={`absolute top-2.5 right-2.5 bg-white/80 hover:bg-white w-12 h-12 flex items-center justify-center rounded-full shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-brand-gold/10 z-20 ${isFav ? 'text-brand-maroon' : 'text-gray-400'}`}

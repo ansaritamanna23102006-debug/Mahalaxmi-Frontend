@@ -125,7 +125,14 @@ export default function GalleryPage() {
                   onClick={() => setLightboxImage(item)}
                   className="relative overflow-hidden rounded-[32px] border border-brand-orange/20 shadow-sm hover:shadow-xl group break-inside-avoid cursor-pointer bg-brand-ivory transition-all duration-500"
                 >
-                  <Image unoptimized width={600} height={400} src={item.image} alt={item.title} className="w-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" />
+                  <Image 
+                    width={600} 
+                    height={400} 
+                    src={item.image} 
+                    alt={item.title} 
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="w-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" 
+                  />
 
                   {/* Overlay on hover */}
                   <div className="absolute inset-0 bg-brand-brown/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-between p-6">

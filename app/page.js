@@ -848,12 +848,15 @@ export default function Home() {
                 <div className="absolute top-4 left-4 z-20 bg-brand-gold text-brand-brown font-playfair font-black text-xs sm:text-lg px-5 py-2 rounded-2xl shadow-xl border border-white/30">
                   Since 1982
                 </div>
-                <img 
-                  src="/traditional_maker.png" 
-                  alt="Traditional Indian Sweet Maker" 
-                  className="w-full h-full object-cover transform scale-100 group-hover:scale-103 transition-transform duration-700" 
-                  loading="lazy"
-                />
+                <div className="relative w-full h-full">
+                  <Image 
+                    src="/traditional_maker.png" 
+                    alt="Traditional Indian Sweet Maker" 
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="w-full h-full object-cover transform scale-100 group-hover:scale-103 transition-transform duration-700" 
+                  />
+                </div>
               </div>
             </motion.div>
 

@@ -276,7 +276,13 @@ export default function FarsanPage() {
                       className="bg-white rounded-[32px] overflow-hidden border border-brand-gold/15 shadow-md hover:shadow-2xl hover:border-brand-gold hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(255,213,74,0.12)] transition-all duration-500 group flex flex-col justify-between"
                     >
                       <div className="relative h-36 sm:h-52 overflow-hidden bg-brand-ivory border-b border-brand-gold/10">
-                        <Image src={product.image} alt={product.name} fill unoptimized className="object-cover transform scale-100 group-hover:scale-105 transition-transform duration-500" />
+                        <Image 
+                          src={product.image} 
+                          alt={product.name} 
+                          fill 
+                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                          className="object-cover transform scale-100 group-hover:scale-105 transition-transform duration-500" 
+                        />
                         <button 
                           onClick={() => toggleWishlist(product)}
                           className="absolute top-2.5 right-2.5 bg-white/80 hover:bg-white text-brand-maroon w-12 h-12 flex items-center justify-center rounded-full shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-brand-gold/10 z-20"
