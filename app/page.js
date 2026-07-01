@@ -543,7 +543,7 @@ export default function Home() {
                         
                         <div className="flex flex-col items-center relative z-10">
                           <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-brand-bg shadow-inner mb-4 group-hover:scale-105 transition-transform duration-500">
-                            <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
+                            <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" loading="lazy" />
                           </div>
                           <h3 className="font-playfair text-md font-bold text-brand-brown group-hover:text-brand-maroon transition-colors duration-300 line-clamp-2 px-1">{cat.name}</h3>
                         </div>
@@ -609,6 +609,7 @@ export default function Home() {
                       src={product.image} 
                       alt={product.name} 
                       className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" 
+                      loading="lazy"
                     />
                     
                     {/* Floating Wishlist Button */}
@@ -851,6 +852,7 @@ export default function Home() {
                   src="/traditional_maker.png" 
                   alt="Traditional Indian Sweet Maker" 
                   className="w-full h-full object-cover transform scale-100 group-hover:scale-103 transition-transform duration-700" 
+                  loading="lazy"
                 />
               </div>
             </motion.div>
@@ -981,7 +983,7 @@ export default function Home() {
                 transition={{ duration: 0.5 }}
                 className="relative overflow-hidden rounded-[32px] border border-brand-gold/20 shadow-md group break-inside-avoid"
               >
-                <img src={item.image} alt={item.title} className="w-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" />
+                <img src={item.image} alt={item.title} className="w-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                 <div className="absolute inset-0 bg-brand-brown/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 select-none pointer-events-none">
                   <span className="text-brand-gold text-xs font-bold uppercase tracking-widest font-poppins">{item.category}</span>
                   <h3 className="font-playfair text-white text-lg font-bold mt-1.5">{item.title}</h3>

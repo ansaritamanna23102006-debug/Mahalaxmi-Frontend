@@ -219,7 +219,7 @@ export default function FestiveOffersPage() {
               >
                 {/* Image Stage */}
                 <div className="relative h-60 overflow-hidden">
-                  <img src={item.image} alt={item.name} className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-500" />
+                  <img src={item.image} alt={item.name} className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                   <span className="absolute top-4 left-4 bg-brand-maroon text-brand-cream text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full border border-brand-gold/20 shadow-md">
                     {item.discount}
                   </span>

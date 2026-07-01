@@ -1,4 +1,18 @@
+import { Playfair_Display, Poppins } from "next/font/google";
 import "./globals.css";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+});
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  variable: "--font-poppins",
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
 
 export const viewport = {
   width: "device-width",
@@ -54,7 +68,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
+    <html lang="en" className={`${playfair.variable} ${poppins.variable} scroll-smooth`}>
       <head>
         <link rel="icon" href="/logo.png" />
       </head>
