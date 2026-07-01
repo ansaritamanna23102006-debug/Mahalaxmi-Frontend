@@ -645,11 +645,7 @@ export default function Home() {
                 return (
                   <SwiperSlide key={cat.name} className="h-auto flex flex-col">
                     <Link href={link} className="flex flex-col flex-grow h-full w-full group">
-                      <motion.div 
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: idx * 0.05 }}
+                      <div 
                         className="cursor-pointer flex flex-col items-center bg-white p-5 rounded-[32px] border border-brand-gold/15 shadow-md hover:shadow-xl hover:border-brand-gold hover:-translate-y-2 transition-all duration-300 text-center w-full flex-grow justify-between relative overflow-hidden"
                       >
                         {/* Shimmer overlay effect */}
@@ -662,7 +658,7 @@ export default function Home() {
                           <h3 className="font-playfair text-md font-bold text-brand-brown group-hover:text-brand-maroon transition-colors duration-300 line-clamp-2 px-1">{cat.name}</h3>
                         </div>
                         <span className="text-xs text-brand-maroon font-bold mt-4 block shrink-0 bg-brand-maroon/5 px-3 py-1 rounded-full relative z-10">{cat.count}</span>
-                      </motion.div>
+                      </div>
                     </Link>
                   </SwiperSlide>
                 );
@@ -709,12 +705,8 @@ export default function Home() {
               const inWishlist = wishlist.some(item => item.id === product.id);
               
               return (
-                <motion.div 
+                <div 
                   key={product.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.05 }}
                   className="bg-white rounded-[32px] overflow-hidden border border-brand-gold/15 shadow-md hover:shadow-2xl hover:border-brand-gold hover:-translate-y-2 hover:shadow-[0_12px_32px_rgba(255,213,74,0.15)] transition-all duration-500 group flex flex-col h-full relative"
                 >
                   {/* Product Image Panel */}
@@ -746,7 +738,7 @@ export default function Home() {
                     <div>
                       {/* Rating Panel */}
                       <div className="flex items-center gap-1.5 mb-1.5 sm:mb-2.5">
-                        <div className="flex items-center text-brand-gold" aria-label={`Rating: ${product.rating || 4.8} out of 5 stars`}>
+                        <div className="flex items-center text-brand-gold" role="img" aria-label={`Rating: ${product.rating || 4.8} out of 5 stars`}>
                           {[...Array(5)].map((_, i) => (
                             <Star key={i} className="w-3.5 h-3.5 fill-current" />
                           ))}
@@ -781,7 +773,7 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -1050,7 +1042,7 @@ export default function Home() {
                 <div className="bg-white p-8 rounded-[32px] border border-brand-gold/15 shadow-md flex flex-col justify-between h-full hover:shadow-xl hover:border-brand-gold transition-all duration-300">
                   <div>
                     {/* Star Rating */}
-                    <div className="flex text-brand-gold gap-1 mb-5" aria-label={`Rating: ${test.rating} out of 5 stars`}>
+                    <div className="flex text-brand-gold gap-1 mb-5" role="img" aria-label={`Rating: ${test.rating} out of 5 stars`}>
                       {[...Array(test.rating)].map((_, i) => (
                         <Star key={i} className="w-4 h-4 fill-current" />
                       ))}
@@ -1092,12 +1084,8 @@ export default function Home() {
           {/* Pinterest-style masonry grid */}
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
             {galleryItems.map((item, idx) => (
-              <motion.div 
+              <div 
                 key={idx}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
                 className="relative overflow-hidden rounded-[32px] border border-brand-gold/20 shadow-md group break-inside-avoid"
               >
                 <img src={item.image} alt={item.title} className="w-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" loading="lazy" />
@@ -1105,7 +1093,7 @@ export default function Home() {
                   <span className="text-brand-gold text-xs font-bold uppercase tracking-widest font-poppins">{item.category}</span>
                   <h3 className="font-playfair text-white text-lg font-bold mt-1.5">{item.title}</h3>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
 
