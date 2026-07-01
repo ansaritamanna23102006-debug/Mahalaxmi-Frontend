@@ -327,7 +327,7 @@ export default function Navbar({ transparent = false }) {
             {/* Search Icon */}
             <button 
               onClick={() => setIsSearchOpen(true)}
-              className={`p-2 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${
+              className={`p-3.5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${
                 transparent 
                   ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-cream/80 hover:bg-white/10')
                   : 'text-brand-cream hover:bg-white/10'
@@ -340,7 +340,7 @@ export default function Navbar({ transparent = false }) {
             {/* Wishlist Icon */}
             <button 
               onClick={() => setIsWishlistOpen(true)}
-              className={`hidden sm:inline-flex p-2 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95 ${
+              className={`hidden sm:inline-flex p-3.5 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95 ${
                 transparent 
                   ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-cream/80 hover:bg-white/10')
                   : 'text-brand-cream hover:bg-white/10'
@@ -358,7 +358,7 @@ export default function Navbar({ transparent = false }) {
             {/* Cart Icon with bounce badge */}
             <button 
               onClick={() => setIsCartOpen(true)}
-              className={`p-2 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95 ${
+              className={`p-3.5 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95 ${
                 transparent 
                   ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-cream/80 hover:bg-white/10')
                   : 'text-brand-cream hover:bg-white/10'
@@ -376,7 +376,7 @@ export default function Navbar({ transparent = false }) {
             {/* User Profile */}
             <Link 
               href="/account"
-              className={`hidden sm:inline-flex p-2 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${
+              className={`hidden sm:inline-flex p-3.5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${
                 transparent 
                   ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-cream/80 hover:bg-white/10')
                   : 'text-brand-cream hover:bg-white/10'
@@ -389,7 +389,7 @@ export default function Navbar({ transparent = false }) {
             {/* Mobile Menu Toggle */}
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`p-2 rounded-full lg:hidden transition-all duration-300 hover:scale-110 active:scale-95 ${
+              className={`p-3.5 rounded-full lg:hidden transition-all duration-300 hover:scale-110 active:scale-95 ${
                 transparent 
                   ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-cream/80 hover:bg-white/10')
                   : 'text-brand-cream hover:bg-white/10'
@@ -427,7 +427,7 @@ export default function Navbar({ transparent = false }) {
                     key={link} 
                     href={hrefs[link]} 
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="font-poppins font-semibold text-md text-brand-cream hover:text-brand-gold py-2 border-b border-brand-cream/5 flex items-center justify-between group"
+                    className="font-poppins font-semibold text-md text-brand-cream hover:text-brand-gold py-3.5 border-b border-brand-cream/5 flex items-center justify-between group"
                   >
                     <span>{link}</span>
                     <ChevronRight className="w-4 h-4 text-brand-gold/50 group-hover:text-brand-gold group-hover:translate-x-1 transition-all" />
@@ -438,7 +438,7 @@ export default function Navbar({ transparent = false }) {
               {/* Wishlist Link in Mobile Menu */}
               <button 
                 onClick={() => { setIsMobileMenuOpen(false); setIsWishlistOpen(true); }}
-                className="flex items-center justify-between font-poppins font-semibold text-md text-brand-cream hover:text-brand-gold py-2 border-b border-brand-cream/5 text-left w-full cursor-pointer group"
+                className="flex items-center justify-between font-poppins font-semibold text-md text-brand-cream hover:text-brand-gold py-3.5 border-b border-brand-cream/5 text-left w-full cursor-pointer group"
               >
                 <span>My Wishlist</span>
                 <div className="flex items-center gap-2">
@@ -455,7 +455,7 @@ export default function Navbar({ transparent = false }) {
               <Link 
                 href="/account"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="font-poppins font-semibold text-md text-brand-cream hover:text-brand-gold py-2 flex items-center justify-between group"
+                className="font-poppins font-semibold text-md text-brand-cream hover:text-brand-gold py-3.5 flex items-center justify-between group"
               >
                 <span>My Account</span>
                 <ChevronRight className="w-4 h-4 text-brand-gold/50 group-hover:text-brand-gold group-hover:translate-x-1 transition-all" />
@@ -485,7 +485,7 @@ export default function Navbar({ transparent = false }) {
                 <h3 className="font-playfair text-xl font-bold text-brand-gold flex items-center gap-2">
                   <Search className="w-5 h-5 text-brand-gold" /> Search Our Traditional Collection
                 </h3>
-                <button onClick={() => setIsSearchOpen(false)} className="p-2 text-brand-cream/60 hover:text-brand-gold hover:bg-white/5 rounded-xl transition-all">
+                <button onClick={() => setIsSearchOpen(false)} className="p-3.5 text-brand-cream/60 hover:text-brand-gold hover:bg-white/5 rounded-xl transition-all" aria-label="Close search">
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -563,7 +563,7 @@ export default function Navbar({ transparent = false }) {
                 <h3 className="font-playfair text-xl font-bold flex items-center gap-2 text-brand-gold">
                   <Heart className="w-5 h-5 fill-brand-gold stroke-brand-gold animate-[pulse_2s_infinite]" /> My Wishlist
                 </h3>
-                <button onClick={() => setIsWishlistOpen(false)} className="p-2 text-brand-cream/80 hover:text-brand-gold hover:bg-white/5 rounded-xl transition-all">
+                <button onClick={() => setIsWishlistOpen(false)} className="p-3 text-brand-cream/80 hover:text-brand-gold hover:bg-white/5 rounded-xl transition-all" aria-label="Close wishlist">
                   <X className="w-6 h-6" />
                 </button>
               </div>
@@ -628,7 +628,7 @@ export default function Navbar({ transparent = false }) {
                 <h3 className="font-playfair text-xl font-bold flex items-center gap-2 text-brand-gold">
                   <ShoppingBag className="w-5 h-5 text-brand-gold" /> Your Order ({cartItemCount})
                 </h3>
-                <button onClick={() => setIsCartOpen(false)} className="p-2 text-brand-cream/80 hover:text-brand-gold hover:bg-white/5 rounded-xl transition-all">
+                <button onClick={() => setIsCartOpen(false)} className="p-3 text-brand-cream/80 hover:text-brand-gold hover:bg-white/5 rounded-xl transition-all" aria-label="Close cart">
                   <X className="w-6 h-6" />
                 </button>
               </div>

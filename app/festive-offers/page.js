@@ -230,7 +230,8 @@ export default function FestiveOffersPage() {
                   )}
                   <button 
                     onClick={() => toggleWishlist(item)}
-                    className="absolute bottom-4 right-4 bg-white/80 hover:bg-white text-brand-maroon p-2 rounded-full shadow-md backdrop-blur-sm transition-transform duration-300 hover:scale-110"
+                    className="absolute bottom-4 right-4 bg-white/80 hover:bg-white text-brand-maroon w-12 h-12 flex items-center justify-center rounded-full shadow-md backdrop-blur-sm transition-transform duration-300 hover:scale-110 active:scale-95"
+                    aria-label="Wishlist"
                   >
                     <Heart className={`w-4 h-4 ${isFav ? 'fill-brand-maroon' : 'none'}`} />
                   </button>
@@ -255,7 +256,7 @@ export default function FestiveOffersPage() {
                     </div>
                     <a
                       href={`/product/${item.slug}`}
-                      className="w-full flex items-center justify-center gap-2 bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown font-bold font-poppins text-xs py-3 px-4 rounded-2xl transition-all duration-300 shadow-md active:scale-95"
+                      className="w-full flex items-center justify-center gap-2 bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown font-bold font-poppins text-xs py-3.5 px-4 rounded-2xl transition-all duration-300 shadow-md active:scale-95 min-h-[48px]"
                     >
                       Order Now <ArrowRight className="w-3.5 h-3.5" />
                     </a>

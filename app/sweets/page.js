@@ -339,7 +339,8 @@ function SweetsPageContent() {
                         <Image src={product.image} alt={product.name} fill unoptimized className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-500" />
                         <button 
                           onClick={() => toggleWishlist(product)}
-                          className={`absolute top-2.5 right-2.5 bg-white/80 hover:bg-white p-2 rounded-full shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-brand-gold/10 z-20 ${isFav ? 'text-brand-maroon' : 'text-gray-400'}`}
+                          className={`absolute top-2.5 right-2.5 bg-white/80 hover:bg-white w-12 h-12 flex items-center justify-center rounded-full shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-brand-gold/10 z-20 ${isFav ? 'text-brand-maroon' : 'text-gray-400'}`}
+                          aria-label="Wishlist"
                         >
                           <Heart className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-all ${isFav ? 'fill-brand-maroon text-brand-maroon' : ''}`} />
                         </button>
@@ -377,7 +378,7 @@ function SweetsPageContent() {
                           </div>
                           <button
                             onClick={() => addToCart(product)}
-                            className="w-full flex items-center justify-center gap-1.5 sm:gap-2 bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown font-bold font-poppins text-xs py-3 px-4 rounded-2xl transition-all duration-300 shadow-md active:scale-95 shine-button uppercase tracking-wider"
+                            className="w-full flex items-center justify-center gap-1.5 sm:gap-2 bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown font-bold font-poppins text-xs py-3.5 px-4 rounded-2xl transition-all duration-300 shadow-md active:scale-95 shine-button uppercase tracking-wider min-h-[48px]"
                           >
                             Order Now <ArrowRight className="w-3.5 h-3.5" />
                           </button>

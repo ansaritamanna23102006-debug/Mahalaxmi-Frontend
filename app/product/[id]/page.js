@@ -352,7 +352,7 @@ export default function ProductDetailPage({ params }) {
                     <button
                       key={wt}
                       onClick={() => setSelectedWeight(wt)}
-                      className={`px-5 py-2.5 rounded-xl border text-xs font-bold font-poppins transition-all duration-300 ${selectedWeight === wt ? 'bg-brand-gold text-brand-brown border-brand-orange shadow-sm scale-95' : 'border-brand-orange/20 text-brand-brown hover:bg-brand-bg hover:border-brand-orange/50'}`}
+                      className={`px-5 py-3.5 rounded-xl border text-xs font-bold font-poppins transition-all duration-300 min-h-[48px] ${selectedWeight === wt ? 'bg-brand-gold text-brand-brown border-brand-orange shadow-sm scale-95' : 'border-brand-orange/20 text-brand-brown hover:bg-brand-bg hover:border-brand-orange/50'}`}
                     >
                       {wt}
                     </button>
@@ -365,7 +365,7 @@ export default function ProductDetailPage({ params }) {
                 <div className="flex items-center border border-brand-orange/30 rounded-xl overflow-hidden bg-brand-bg h-12">
                   <button 
                     onClick={() => setQuantity(q => Math.max(1, q - 1))} 
-                    className="px-3 hover:bg-brand-orange/10 h-full transition-colors"
+                    className="w-12 h-full flex items-center justify-center hover:bg-brand-orange/10 transition-colors"
                     aria-label="Decrease quantity"
                   >
                     <Minus className="w-4 h-4 text-brand-brown" />
@@ -373,7 +373,7 @@ export default function ProductDetailPage({ params }) {
                   <span className="px-4 font-bold font-poppins text-brand-brown text-sm">{quantity}</span>
                   <button 
                     onClick={() => setQuantity(q => q + 1)} 
-                    className="px-3 hover:bg-brand-orange/10 h-full transition-colors"
+                    className="w-12 h-full flex items-center justify-center hover:bg-brand-orange/10 transition-colors"
                     aria-label="Increase quantity"
                   >
                     <Plus className="w-4 h-4 text-brand-brown" />
@@ -396,7 +396,7 @@ export default function ProductDetailPage({ params }) {
 
                 <button 
                   onClick={toggleWishlist}
-                  className={`p-3 rounded-xl border transition-all duration-300 hover:scale-105 ${isFav ? 'bg-brand-maroon/5 border-brand-maroon text-brand-maroon' : 'border-brand-orange/20 text-brand-brown hover:bg-brand-bg'}`}
+                  className={`p-3.5 rounded-xl border transition-all duration-300 hover:scale-105 min-h-[48px] min-w-[48px] flex items-center justify-center ${isFav ? 'bg-brand-maroon/5 border-brand-maroon text-brand-maroon' : 'border-brand-orange/20 text-brand-brown hover:bg-brand-bg'}`}
                   aria-label="Wishlist"
                 >
                   <Heart className={`w-5 h-5 ${isFav ? 'fill-brand-maroon text-brand-maroon' : ''}`} />

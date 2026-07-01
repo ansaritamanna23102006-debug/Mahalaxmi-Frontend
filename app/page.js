@@ -559,10 +559,10 @@ export default function Home() {
             <div className="flex justify-between items-center mt-6">
               <div className="categories-pagination flex justify-center gap-2 w-auto"></div>
               <div className="flex space-x-2">
-                <button className="categories-prev p-2.5 bg-white border border-brand-gold/30 text-brand-brown rounded-full hover:bg-brand-gold hover:border-brand-gold transition-all duration-300 hover:scale-105 active:scale-95 shadow-sm">
+                <button className="categories-prev w-12 h-12 flex items-center justify-center bg-white border border-brand-gold/30 text-brand-brown rounded-full hover:bg-brand-gold hover:border-brand-gold transition-all duration-300 hover:scale-105 active:scale-95 shadow-sm" aria-label="Previous Category">
                   <ChevronRight className="w-4 h-4 rotate-180" />
                 </button>
-                <button className="categories-next p-2.5 bg-white border border-brand-gold/30 text-brand-brown rounded-full hover:bg-brand-gold hover:border-brand-gold transition-all duration-300 hover:scale-105 active:scale-95 shadow-sm">
+                <button className="categories-next w-12 h-12 flex items-center justify-center bg-white border border-brand-gold/30 text-brand-brown rounded-full hover:bg-brand-gold hover:border-brand-gold transition-all duration-300 hover:scale-105 active:scale-95 shadow-sm" aria-label="Next Category">
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
@@ -614,7 +614,7 @@ export default function Home() {
                     {/* Floating Wishlist Button */}
                     <button 
                       onClick={() => toggleWishlist(product)}
-                      className="absolute top-3 right-3 bg-white/80 hover:bg-white text-brand-maroon p-2 rounded-full shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 z-20 border border-brand-gold/10"
+                      className="absolute top-3 right-3 bg-white/80 hover:bg-white text-brand-maroon w-12 h-12 flex items-center justify-center rounded-full shadow-md backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 z-20 border border-brand-gold/10"
                       aria-label="Wishlist"
                     >
                       <Heart className={`w-4 h-4 ${inWishlist ? 'fill-brand-maroon' : 'none'}`} />
@@ -659,7 +659,7 @@ export default function Home() {
                         </div>
                         <Link
                           href={`/product/${product.slug}`}
-                          className="w-full flex items-center justify-center gap-1.5 sm:gap-2 bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown font-bold font-poppins text-xs py-3 px-4 rounded-2xl transition-all duration-300 shadow-md active:scale-95 shine-button uppercase tracking-wider"
+                          className="w-full flex items-center justify-center gap-1.5 sm:gap-2 bg-brand-maroon hover:bg-brand-gold text-brand-cream hover:text-brand-brown font-bold font-poppins text-xs py-3.5 px-4 rounded-2xl transition-all duration-300 shadow-md active:scale-95 shine-button uppercase tracking-wider min-h-[48px]"
                         >
                           Order Now <ArrowRight className="w-3.5 h-3.5" />
                         </Link>

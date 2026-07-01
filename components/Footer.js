@@ -53,7 +53,7 @@ export default function Footer() {
               <a 
                 key={social.name} 
                 href={social.href} 
-                className="p-2.5 bg-white/5 hover:bg-brand-gold hover:text-brand-brown rounded-full border border-brand-gold/15 transition-all duration-300 text-brand-cream hover:scale-110 active:scale-95 transform shadow-md"
+                className="w-12 h-12 flex items-center justify-center bg-brand-cream/5 hover:bg-brand-gold hover:text-brand-brown rounded-full border border-brand-gold/15 transition-all duration-300 text-brand-cream hover:scale-110 active:scale-95 transform"
                 aria-label={social.name}
               >
                 <social.icon className="w-4 h-4" />
@@ -68,7 +68,7 @@ export default function Footer() {
             Quick Links
             <span className="absolute bottom-[-6px] left-0 w-8 h-[2px] bg-brand-gold"></span>
           </h3>
-          <ul className="space-y-3 font-poppins text-sm font-light pt-2">
+          <ul className="space-y-4 font-poppins text-sm font-light pt-2">
             <li><Link href="/" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> Home</Link></li>
             <li><Link href="/sweets" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> Sweets</Link></li>
             <li><Link href="/farsan" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> Farsan</Link></li>
@@ -83,7 +83,7 @@ export default function Footer() {
             Categories
             <span className="absolute bottom-[-6px] left-0 w-8 h-[2px] bg-brand-gold"></span>
           </h3>
-          <ul className="space-y-3 font-poppins text-sm font-light pt-2">
+          <ul className="space-y-4 font-poppins text-sm font-light pt-2">
             <li><Link href="/sweets" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> Sweets</Link></li>
             <li><Link href="/farsan" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> Farsan</Link></li>
             <li><Link href="/#categories" className="hover:text-brand-gold transition-colors duration-300 flex items-center gap-1.5 group"><ChevronRight className="w-3.5 h-3.5 text-brand-gold/40 group-hover:text-brand-gold group-hover:translate-x-0.5 transition-all" /> Gift Boxes</Link></li>
