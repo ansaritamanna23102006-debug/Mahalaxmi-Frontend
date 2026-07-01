@@ -436,6 +436,7 @@ export default function Home() {
         }}
       />
       <Navbar transparent={true} />
+      <main id="main-content" className="flex flex-col min-h-screen flex-grow">
       
       {/* ----------------- HERO SECTION ----------------- */}
       <section id="home" className="relative min-h-screen pt-32 pb-20 flex items-center overflow-hidden bg-brand-brown mandala-pattern">
@@ -652,8 +653,14 @@ export default function Home() {
                         <div className="absolute inset-0 w-full h-full bg-gradient-to-tr from-brand-gold/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                         
                         <div className="flex flex-col items-center relative z-10">
-                          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-brand-bg shadow-inner mb-4 group-hover:scale-105 transition-transform duration-500">
-                            <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" loading="lazy" />
+                          <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-brand-bg shadow-inner mb-4 group-hover:scale-105 transition-transform duration-500 relative">
+                            <Image 
+                              src={cat.image} 
+                              alt={cat.name} 
+                              fill 
+                              sizes="(max-width: 640px) 96px, 112px"
+                              className="w-full h-full object-cover" 
+                            />
                           </div>
                           <h3 className="font-playfair text-md font-bold text-brand-brown group-hover:text-brand-maroon transition-colors duration-300 line-clamp-2 px-1">{cat.name}</h3>
                         </div>
@@ -711,11 +718,12 @@ export default function Home() {
                 >
                   {/* Product Image Panel */}
                   <div className="relative h-36 sm:h-56 overflow-hidden bg-brand-ivory border-b border-brand-gold/10">
-                    <img 
+                    <Image 
                       src={product.image} 
                       alt={product.name} 
+                      fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                       className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" 
-                      loading="lazy"
                     />
                     
                     {/* Floating Wishlist Button */}
@@ -759,10 +767,10 @@ export default function Home() {
                       <div className="pt-3 sm:pt-4 border-t border-brand-gold/10">
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-3.5">
                           <div>
-                            <p className="text-[8px] sm:text-[9px] text-brand-text/40 uppercase tracking-widest font-bold">Starting from</p>
+                            <p className="text-[8px] sm:text-[9px] text-brand-text/70 uppercase tracking-widest font-bold">Starting from</p>
                             <span className="font-poppins font-black text-base sm:text-xl text-brand-maroon">₹{product.price}</span>
                           </div>
-                          <span className="text-[10px] text-brand-text/40 font-poppins">per {product.weight}</span>
+                          <span className="text-[10px] text-brand-text/70 font-poppins">per {product.weight}</span>
                         </div>
                         <Link
                           href={`/product/${product.slug}`}
@@ -993,15 +1001,15 @@ export default function Home() {
               {/* Heritage Stats Row */}
               <div className="grid grid-cols-3 gap-6 pt-6 border-t border-brand-gold/25">
                 <div>
-                  <h4 className="font-playfair text-2xl sm:text-3xl font-black text-brand-maroon">1982</h4>
+                  <h3 className="font-playfair text-2xl sm:text-3xl font-black text-brand-maroon">1982</h3>
                   <p className="text-xs text-brand-text/60 font-poppins font-medium mt-1 uppercase tracking-wider">Established</p>
                 </div>
                 <div>
-                  <h4 className="font-playfair text-2xl sm:text-3xl font-black text-brand-maroon">40+</h4>
+                  <h3 className="font-playfair text-2xl sm:text-3xl font-black text-brand-maroon">40+</h3>
                   <p className="text-xs text-brand-text/60 font-poppins font-medium mt-1 uppercase tracking-wider">Years Experience</p>
                 </div>
                 <div>
-                  <h4 className="font-playfair text-2xl sm:text-3xl font-black text-brand-maroon">1000+</h4>
+                  <h3 className="font-playfair text-2xl sm:text-3xl font-black text-brand-maroon">1000+</h3>
                   <p className="text-xs text-brand-text/60 font-poppins font-medium mt-1 uppercase tracking-wider">Daily Customers</p>
                 </div>
               </div>
@@ -1057,7 +1065,7 @@ export default function Home() {
                     </div>
                     <div>
                       <h4 className="font-poppins font-semibold text-brand-brown text-sm">{test.name}</h4>
-                      <p className="text-[11px] text-brand-text/50 font-medium">{test.location}</p>
+                      <p className="text-[11px] text-brand-text/75 font-medium">{test.location}</p>
                     </div>
                   </div>
                 </div>
@@ -1113,7 +1121,7 @@ export default function Home() {
             <h2 className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight">
               Get Festive Offers <br />& New Arrivals
             </h2>
-            <p className="text-sm sm:text-base text-brand-cream/80 font-poppins font-light leading-relaxed">
+            <p className="text-sm sm:text-base text-brand-cream font-poppins font-light leading-relaxed">
               Subscribe to our newsletter to receive exclusive seasonal discount coupons and alerts on special festive sweets boxes.
             </p>
 
@@ -1215,6 +1223,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      </main>
 
       {/* ----------------- FOOTER ----------------- */}
       <Footer />
