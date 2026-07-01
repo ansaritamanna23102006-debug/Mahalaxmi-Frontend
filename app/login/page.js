@@ -141,8 +141,8 @@ export default function LoginPage() {
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-brand-gold via-brand-orange to-brand-gold-highlight"></div>
             
             <div className="relative z-10 space-y-4">
-              <Link href="/" className="inline-block w-40 hover:scale-105 transition-transform duration-300">
-                <Image src="/logo.png" alt="Mahalaxmi Mithaiwala Logo" width={160} height={40} priority className="w-full object-contain" />
+              <Link href="/" className="inline-block w-40 hover:scale-105 transition-transform duration-300" aria-label="Mahalaxmi Mithaiwala Home">
+                <Image src="/logo.svg" alt="Mahalaxmi Mithaiwala Logo" width={160} height={40} priority className="w-full object-contain" />
               </Link>
               <div className="inline-block text-[9px] font-bold tracking-widest text-brand-gold uppercase bg-brand-cream/10 border border-brand-gold/20 px-3 py-1 rounded-md">
                 Established 1982

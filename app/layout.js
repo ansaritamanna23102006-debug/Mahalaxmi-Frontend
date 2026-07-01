@@ -35,7 +35,7 @@ export const metadata = {
     siteName: 'Mahalaxmi Mithaiwala',
     images: [
       {
-        url: '/hero_sweets.png',
+        url: '/hero_sweets.jpg',
         width: 1200,
         height: 630,
         alt: 'Mahalaxmi Mithaiwala Premium Sweets',
@@ -48,7 +48,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: "Mahalaxmi Mithaiwala | Premium Sweets & Farsan",
     description: "Serving Mumbai with premium sweets, farsan, gift boxes, and festive collections for over four decades.",
-    images: ['/hero_sweets.png'],
+    images: ['/hero_sweets.jpg'],
   },
   alternates: {
     canonical: '/',
@@ -70,7 +70,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${playfair.variable} ${poppins.variable} scroll-smooth`}>
       <head>
-        <link rel="icon" href="/logo.png" />
+        <link rel="icon" href="/logo.svg" />
       </head>
       <body className="antialiased min-h-screen bg-brand-bg text-brand-text">
         {children}

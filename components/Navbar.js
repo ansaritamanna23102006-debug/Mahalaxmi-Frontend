@@ -289,8 +289,8 @@ export default function Navbar({ transparent = false }) {
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
           
           {/* Brand Logo - Enlarged and animated */}
-          <Link href="/" className="flex items-center w-40 sm:w-52 md:w-56 h-12 transition-transform duration-300 hover:scale-105 active:scale-95">
-            <Image src="/logo.png" alt="Mahalaxmi Mithaiwala Logo" width={224} height={48} priority className="w-full h-full object-contain filter drop-shadow-[0_2px_8px_rgba(255,213,74,0.15)]" />
+          <Link href="/" className="flex items-center w-40 sm:w-52 md:w-56 h-12 transition-transform duration-300 hover:scale-105 active:scale-95" aria-label="Mahalaxmi Mithaiwala Home">
+            <Image src="/logo.svg" alt="Mahalaxmi Mithaiwala Logo" width={224} height={48} priority className="w-full h-full object-contain filter drop-shadow-[0_2px_8px_rgba(255,213,74,0.15)]" />
           </Link>
 
           {/* Navigation Links - Centered, customized with gold underlines and glows */}
@@ -504,6 +504,7 @@ export default function Navbar({ transparent = false }) {
                       }
                     }}
                     className="w-full pl-12 pr-4 py-4 bg-brand-brown/30 rounded-2xl border-2 border-brand-gold/30 text-white placeholder-brand-cream/40 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all font-poppins text-lg"
+                    aria-label="Search catalog"
                     autoFocus
                   />
                 </div>

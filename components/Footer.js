@@ -37,8 +37,8 @@ export default function Footer() {
         
         {/* Column 1: Brand Info */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="w-52 h-14 relative hover:scale-[1.02] transition-transform duration-300">
-            <Image src="/logo.png" alt="Mahalaxmi Mithaiwala Logo" fill className="object-contain filter drop-shadow-[0_2px_8px_rgba(255,213,74,0.15)]" sizes="(max-width: 768px) 208px, 208px" />
+          <div className="w-48 h-12 relative">
+            <Image src="/logo.svg" alt="Mahalaxmi Mithaiwala Logo" fill className="object-contain filter drop-shadow-[0_2px_8px_rgba(255,213,74,0.15)]" sizes="(max-width: 768px) 208px, 208px" />
           </div>
           <p className="text-sm font-poppins font-light leading-relaxed text-brand-cream/70">
             Serving Mumbai since 1982. Handcrafting traditional Indian sweets and crunchy farsan with unmatched devotion to premium quality, pure ingredients, and timeless heritage.

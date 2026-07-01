@@ -286,8 +286,8 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
             "name": "Mahalaxmi Mithaiwala",
-            "image": `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/hero_sweets.png`,
-            "logo": `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/logo.png`,
+            "image": `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/hero_sweets.jpg`,
+            "logo": `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/logo.svg`,
             "@id": process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
             "url": process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
             "telephone": "+91 22 1234 5678",
@@ -471,7 +471,7 @@ export default function Home() {
               className="relative w-[260px] sm:w-[430px] h-[260px] sm:h-[430px] rounded-full overflow-hidden border-8 border-brand-brown shadow-2xl glow-gold group"
             >
               <Image 
-                src="/hero_sweets.png" 
+                src="/hero_sweets.jpg" 
                 alt="Premium Mithai Platter" 
                 fill
                 priority
@@ -632,7 +632,7 @@ export default function Home() {
                     <div>
                       {/* Rating Panel */}
                       <div className="flex items-center gap-1.5 mb-1.5 sm:mb-2.5">
-                        <div className="flex items-center text-brand-gold">
+                        <div className="flex items-center text-brand-gold" aria-label={`Rating: ${product.rating || 4.8} out of 5 stars`}>
                           {[...Array(5)].map((_, i) => (
                             <Star key={i} className="w-3.5 h-3.5 fill-current" />
                           ))}
@@ -936,7 +936,7 @@ export default function Home() {
                 <div className="bg-white p-8 rounded-[32px] border border-brand-gold/15 shadow-md flex flex-col justify-between h-full hover:shadow-xl hover:border-brand-gold transition-all duration-300">
                   <div>
                     {/* Star Rating */}
-                    <div className="flex text-brand-gold gap-1 mb-5">
+                    <div className="flex text-brand-gold gap-1 mb-5" aria-label={`Rating: ${test.rating} out of 5 stars`}>
                       {[...Array(test.rating)].map((_, i) => (
                         <Star key={i} className="w-4 h-4 fill-current" />
                       ))}
@@ -1035,6 +1035,7 @@ export default function Home() {
                   value={newsletterEmail}
                   onChange={(e) => setNewsletterEmail(e.target.value)}
                   className="flex-grow px-5 py-4 bg-white/10 hover:bg-white/15 focus:bg-white border-2 border-brand-gold/30 focus:border-brand-gold focus:text-brand-brown focus:ring-1 focus:ring-brand-gold text-white rounded-2xl focus:outline-none font-poppins font-medium placeholder-brand-cream/40 transition-all text-sm"
+                  aria-label="Email address for newsletter"
                   required
                 />
                 <button 
