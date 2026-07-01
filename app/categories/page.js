@@ -136,7 +136,7 @@ export default function CategoriesPage() {
                   className="bg-white rounded-[36px] overflow-hidden border border-brand-orange/15 shadow-[0_10px_30px_-5px_rgba(230,179,37,0.04)] hover:shadow-[0_15px_40px_-5px_rgba(230,179,37,0.12)] hover:border-brand-gold transition-all duration-500 group flex flex-col justify-between"
                 >
                   <div className="relative h-60 overflow-hidden bg-brand-ivory">
-                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" />
+                    <img src={encodeURI(cat.image)} alt={cat.name} className="w-full h-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-brand-brown/90 via-brand-brown/20 to-transparent"></div>
                     <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                       <div>

@@ -128,7 +128,7 @@ export default function GalleryPage() {
                   <Image 
                     width={600} 
                     height={400} 
-                    src={item.image} 
+                    src={encodeURI(item.image)} 
                     alt={item.title} 
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     className="w-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" 
@@ -178,7 +178,7 @@ export default function GalleryPage() {
               onClick={(e) => e.stopPropagation()}
               className="max-w-4xl max-h-[80vh] relative overflow-hidden rounded-[28px] border border-white/10 shadow-2xl bg-black"
             >
-              <img src={lightboxImage.image} alt={lightboxImage.title} className="max-w-full max-h-[75vh] object-contain" />
+              <img src={encodeURI(lightboxImage.image)} alt={lightboxImage.title} className="max-w-full max-h-[75vh] object-contain" />
               <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/70 to-transparent text-white">
                 <span className="text-brand-gold text-[10px] font-bold uppercase tracking-widest font-poppins">{lightboxImage.category}</span>
                 <h3 className="font-playfair text-xl font-bold mt-1 leading-tight text-white">{lightboxImage.title}</h3>

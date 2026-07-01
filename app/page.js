@@ -655,7 +655,7 @@ export default function Home() {
                         <div className="flex flex-col items-center relative z-10">
                           <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-brand-bg shadow-inner mb-4 group-hover:scale-105 transition-transform duration-500 relative">
                             <Image 
-                              src={cat.image} 
+                              src={encodeURI(cat.image)} 
                               alt={cat.name} 
                               fill 
                               sizes="(max-width: 640px) 96px, 112px"
@@ -719,7 +719,7 @@ export default function Home() {
                   {/* Product Image Panel */}
                   <div className="relative h-36 sm:h-56 overflow-hidden bg-brand-ivory border-b border-brand-gold/10">
                     <Image 
-                      src={product.image} 
+                      src={encodeURI(product.image)} 
                       alt={product.name} 
                       fill
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -899,7 +899,7 @@ export default function Home() {
                     className="bg-white rounded-3xl overflow-hidden border border-brand-gold/15 shadow-lg flex flex-col h-full hover:shadow-xl hover:border-brand-gold transition-all duration-300"
                   >
                     <div className="relative h-64 overflow-hidden">
-                      <img src={fest.image} alt={fest.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                      <img src={encodeURI(fest.image)} alt={fest.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                       <div className="absolute inset-0 bg-gradient-to-t from-brand-brown/80 via-transparent to-transparent"></div>
                       <div className="absolute bottom-6 left-6">
                         <span className="text-brand-gold text-xs uppercase font-bold tracking-widest">{fest.tagline}</span>
@@ -1096,7 +1096,7 @@ export default function Home() {
                 key={idx}
                 className="relative overflow-hidden rounded-[32px] border border-brand-gold/20 shadow-md group break-inside-avoid"
               >
-                <img src={item.image} alt={item.title} className="w-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                <img src={encodeURI(item.image)} alt={item.title} className="w-full object-cover transform scale-100 group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                 <div className="absolute inset-0 bg-brand-brown/85 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 select-none pointer-events-none">
                   <span className="text-brand-gold text-xs font-bold uppercase tracking-widest font-poppins">{item.category}</span>
                   <h3 className="font-playfair text-white text-lg font-bold mt-1.5">{item.title}</h3>
@@ -1183,7 +1183,7 @@ export default function Home() {
                     {selectedCollection.products && selectedCollection.products.map(p => (
                       <div key={p._id} className="flex items-center justify-between p-3.5 bg-white rounded-2xl border border-brand-gold/10 shadow-sm hover:border-brand-gold hover:shadow-md transition-all duration-300">
                         <div className="flex items-center space-x-3.5">
-                          <img src={p.images ? p.images[0] : 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500'} alt={p.name} className="w-14 h-14 object-cover rounded-xl border border-brand-gold/10 bg-brand-bg" />
+                          <img src={encodeURI(p.images ? p.images[0] : 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500')} alt={p.name} className="w-14 h-14 object-cover rounded-xl border border-brand-gold/10 bg-brand-bg" />
                           <div>
                             <h4 className="font-poppins font-semibold text-brand-brown text-xs sm:text-sm leading-tight">{p.name}</h4>
                             <p className="text-[10px] text-brand-maroon font-bold mt-1">Starting from ₹{p.discountPrice || p.price}</p>

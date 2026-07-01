@@ -521,7 +521,7 @@ export default function Navbar({ transparent = false }) {
                       <div key={item.id} className="flex items-center justify-between p-3.5 rounded-2xl hover:bg-white/5 border border-transparent hover:border-brand-gold/20 transition-all group">
                         <Link href={`/product/${item.slug}`} onClick={() => setIsSearchOpen(false)} className="flex items-center space-x-4">
                           <div className="relative w-14 h-14 rounded-xl overflow-hidden border border-brand-gold/20 bg-brand-brown/50">
-                            <Image src={item.image} alt={item.name} fill className="object-cover" unoptimized />
+                            <Image src={encodeURI(item.image)} alt={item.name} fill className="object-cover" unoptimized />
                           </div>
                           <div>
                             <h4 className="font-poppins font-semibold text-white text-sm group-hover:text-brand-gold transition-colors">{item.name}</h4>
@@ -579,7 +579,7 @@ export default function Navbar({ transparent = false }) {
                     <div key={item.id} className="flex items-center justify-between p-3.5 bg-brand-brown/40 rounded-2xl border border-brand-gold/15 shadow-sm hover:border-brand-gold/40 transition-colors">
                       <Link href={`/product/${item.slug}`} onClick={() => setIsWishlistOpen(false)} className="flex items-center space-x-3.5 group/wishlist-item">
                         <div className="relative w-14 h-14 rounded-xl overflow-hidden border border-brand-gold/15 bg-brand-brown">
-                          <Image src={item.image} alt={item.name} width={56} height={56} unoptimized className="w-full h-full object-cover group-hover/wishlist-item:scale-105 transition-transform" />
+                          <Image src={encodeURI(item.image)} alt={item.name} width={56} height={56} unoptimized className="w-full h-full object-cover group-hover/wishlist-item:scale-105 transition-transform" />
                         </div>
                         <div>
                           <h4 className="font-poppins font-semibold text-white text-sm group-hover:text-brand-gold transition-colors">{item.name}</h4>
@@ -645,7 +645,7 @@ export default function Navbar({ transparent = false }) {
                     <div key={item.id} className="flex items-center justify-between p-3.5 bg-brand-brown/40 rounded-2xl border border-brand-gold/15 shadow-sm hover:border-brand-gold/40 transition-colors">
                       <div className="flex items-center space-x-3.5">
                         <div className="relative w-14 h-14 rounded-xl overflow-hidden border border-brand-gold/15 bg-brand-brown">
-                          <Image src={item.image} alt={item.name} width={56} height={56} unoptimized className="w-full h-full object-cover" />
+                          <Image src={encodeURI(item.image)} alt={item.name} width={56} height={56} unoptimized className="w-full h-full object-cover" />
                         </div>
                         <div>
                           <h4 className="font-poppins font-semibold text-white text-sm">{item.name}</h4>

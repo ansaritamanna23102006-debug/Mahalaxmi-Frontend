@@ -221,7 +221,7 @@ export default function CartPage() {
                         {/* Product image & title */}
                         <div className="flex items-center space-x-4">
                           <div className="relative w-16 h-16 object-cover rounded-xl overflow-hidden border border-brand-orange/20 bg-brand-ivory shrink-0">
-                            <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                            <img src={encodeURI(item.image)} alt={item.name} className="w-full h-full object-cover" />
                           </div>
                           <div>
                             <h4 className="font-poppins font-bold text-brand-brown text-sm sm:text-base">{item.name}</h4>

@@ -277,7 +277,7 @@ export default function FarsanPage() {
                     >
                       <div className="relative h-36 sm:h-52 overflow-hidden bg-brand-ivory border-b border-brand-gold/10">
                         <Image 
-                          src={product.image} 
+                          src={encodeURI(product.image)} 
                           alt={product.name} 
                           fill 
                           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"

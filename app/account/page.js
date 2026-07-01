@@ -476,7 +476,7 @@ export default function AccountPage() {
                       <div key={item.id} className="flex justify-between items-center p-4 rounded-2xl border border-brand-orange/15 bg-white shadow-[0_5px_15px_rgba(230,179,37,0.02)] flex-wrap gap-4 font-poppins hover:border-brand-gold transition-colors">
                         <div className="flex items-center gap-4">
                           <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-brand-orange/20 bg-brand-ivory shrink-0">
-                            <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                            <img src={encodeURI(item.image)} alt={item.name} className="w-full h-full object-cover" />
                           </div>
                           <div>
                             <h4 className="font-bold text-brand-brown text-sm">{item.name}</h4>
