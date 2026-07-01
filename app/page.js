@@ -42,7 +42,7 @@ const fallbackProducts = [
     rating: 4.9,
     reviews: 120,
     category: "Traditional Sweets",
-    image: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500",
+    image: "/images/Kaju Katli.jfif",
     description: "Rich cashew fudge sweet seasoned with real silver leaf.",
     weight: "500g"
   },
@@ -54,7 +54,7 @@ const fallbackProducts = [
     rating: 4.8,
     reviews: 95,
     category: "Traditional Sweets",
-    image: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=500",
+    image: "/images/Besan ladoo.jfif",
     description: "Fragrant roasted chickpea flour spheres cooked in pure ghee.",
     weight: "500g"
   },
@@ -66,7 +66,7 @@ const fallbackProducts = [
     rating: 4.9,
     reviews: 150,
     category: "Traditional Sweets",
-    image: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=500",
+    image: "/images/Motichoor Laddoo.jfif",
     description: "Tiny gram flour pearls fried, soaked in saffron syrup, and pressed into ladoos.",
     weight: "500g"
   },
@@ -78,7 +78,7 @@ const fallbackProducts = [
     rating: 4.7,
     reviews: 80,
     category: "Dry Fruit Bites",
-    image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=500",
+    image: "/images/Kesar Malai Sandwich.jfif",
     description: "Sugar-free sweet rolls packed with premium figs, almonds, and pistachios.",
     weight: "500g"
   },
@@ -90,7 +90,7 @@ const fallbackProducts = [
     rating: 4.8,
     reviews: 65,
     category: "Dry Fruit Bites",
-    image: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=500",
+    image: "/images/white mc.jfif",
     description: "Elegant layered sweet with a rich pistachio center wrapped in cashew fudge.",
     weight: "500g"
   },
@@ -102,7 +102,7 @@ const fallbackProducts = [
     rating: 4.8,
     reviews: 110,
     category: "Traditional Sweets",
-    image: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500",
+    image: "/images/Kesar Peda.jfif",
     description: "Soft milk solids cooked with fragrant saffron, cardamom, and almond garnish.",
     weight: "500g"
   },
@@ -114,7 +114,7 @@ const fallbackProducts = [
     rating: 4.9,
     reviews: 210,
     category: "Farsan & Namkeen",
-    image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=500",
+    image: "/images/Mixed variety bhajiya.jfif",
     description: "A crunchy savory blend of sev, gathiya, lentils, and nuts seasoned with spices.",
     weight: "500g"
   },
@@ -126,17 +126,17 @@ const fallbackProducts = [
     rating: 4.8,
     reviews: 140,
     category: "Farsan & Namkeen",
-    image: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=500",
+    image: "/images/sev.jfif",
     description: "Spicy and crisp gram flour sticks seasoned with ratlami cloves and pepper.",
     weight: "500g"
   }
 ];
 
 const fallbackCategories = [
-  { name: "Traditional Sweets", count: "45 Items", image: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=400", link: "/sweets?category=Traditional" },
-  { name: "Dry Fruit Bites", count: "30 Items", image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=400", link: "/sweets?category=DryFruit" },
-  { name: "Premium Gifting", count: "15 Items", image: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400", link: "/categories" },
-  { name: "Daily Savories", count: "25 Items", image: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=400", link: "/farsan" }
+  { name: "Traditional Sweets", count: "45 Items", image: "/images/Kaju Katli.jfif", link: "/sweets?category=Traditional" },
+  { name: "Dry Fruit Bites", count: "30 Items", image: "/images/Choorma.jfif", link: "/sweets?category=DryFruit" },
+  { name: "Premium Gifting", count: "15 Items", image: "/images/imarti.jfif", link: "/categories" },
+  { name: "Daily Savories", count: "25 Items", image: "/images/sev.jfif", link: "/farsan" }
 ];
 
 const fallbackTestimonials = [
@@ -146,12 +146,12 @@ const fallbackTestimonials = [
 ];
 
 const fallbackGallery = [
-  { title: "Boutique Sweet Counter", category: "Store", image: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500" },
-  { title: "Sweet Preparation Ghee", category: "Kitchen", image: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=500" },
-  { title: "Gold Festive Sweet Boxes", category: "Packaging", image: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=500" },
-  { title: "Fresh Handcrafted Ladoos", category: "Kitchen", image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=500" },
-  { title: "Premium Gifting Collection", category: "Store", image: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=500" },
-  { title: "Savory Snack Assortment", category: "Kitchen", image: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500" }
+  { title: "Boutique Sweet Counter", category: "Store", image: "/images/imarti.jfif" },
+  { title: "Sweet Preparation Ghee", category: "Kitchen", image: "/images/daal halwa.jfif" },
+  { title: "Gold Festive Sweet Boxes", category: "Packaging", image: "/images/Khakhra Pack.jfif" },
+  { title: "Fresh Handcrafted Ladoos", category: "Kitchen", image: "/images/Motichoor Laddoo.jfif" },
+  { title: "Premium Gifting Collection", category: "Store", image: "/images/Choorma.jfif" },
+  { title: "Savory Snack Assortment", category: "Kitchen", image: "/images/Mixed variety bhajiya.jfif" }
 ];
 
 export default function Home() {
