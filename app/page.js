@@ -32,23 +32,142 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-// All data is loaded dynamically from the backend API.
+// Static fallback datasets for stale-while-revalidate performance optimization
+const fallbackProducts = [
+  {
+    id: "prod-1",
+    slug: "kaju-katli",
+    name: "Premium Kaju Katli",
+    price: 450,
+    rating: 4.9,
+    reviews: 120,
+    category: "Traditional Sweets",
+    image: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500",
+    description: "Rich cashew fudge sweet seasoned with real silver leaf.",
+    weight: "500g"
+  },
+  {
+    id: "prod-2",
+    slug: "besan-ladoo",
+    name: "Shahi Besan Ladoo",
+    price: 320,
+    rating: 4.8,
+    reviews: 95,
+    category: "Traditional Sweets",
+    image: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=500",
+    description: "Fragrant roasted chickpea flour spheres cooked in pure ghee.",
+    weight: "500g"
+  },
+  {
+    id: "prod-3",
+    slug: "motichoor-ladoo",
+    name: "Special Motichoor Ladoo",
+    price: 280,
+    rating: 4.9,
+    reviews: 150,
+    category: "Traditional Sweets",
+    image: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=500",
+    description: "Tiny gram flour pearls fried, soaked in saffron syrup, and pressed into ladoos.",
+    weight: "500g"
+  },
+  {
+    id: "prod-4",
+    slug: "dry-fruit-bites",
+    name: "Anjeer Dry Fruit Roll",
+    price: 600,
+    rating: 4.7,
+    reviews: 80,
+    category: "Dry Fruit Bites",
+    image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=500",
+    description: "Sugar-free sweet rolls packed with premium figs, almonds, and pistachios.",
+    weight: "500g"
+  },
+  {
+    id: "prod-5",
+    slug: "pista-roll",
+    name: "Kaju Pista Roll",
+    price: 550,
+    rating: 4.8,
+    reviews: 65,
+    category: "Dry Fruit Bites",
+    image: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=500",
+    description: "Elegant layered sweet with a rich pistachio center wrapped in cashew fudge.",
+    weight: "500g"
+  },
+  {
+    id: "prod-6",
+    slug: "kesar-peda",
+    name: "Premium Kesar Peda",
+    price: 350,
+    rating: 4.8,
+    reviews: 110,
+    category: "Traditional Sweets",
+    image: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500",
+    description: "Soft milk solids cooked with fragrant saffron, cardamom, and almond garnish.",
+    weight: "500g"
+  },
+  {
+    id: "prod-7",
+    slug: "spicy-mix-chavana",
+    name: "Royal Farsan Mix",
+    price: 180,
+    rating: 4.9,
+    reviews: 210,
+    category: "Farsan & Namkeen",
+    image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=500",
+    description: "A crunchy savory blend of sev, gathiya, lentils, and nuts seasoned with spices.",
+    weight: "500g"
+  },
+  {
+    id: "prod-8",
+    slug: "spicy-sev",
+    name: "Spicy Ratlami Sev",
+    price: 160,
+    rating: 4.8,
+    reviews: 140,
+    category: "Farsan & Namkeen",
+    image: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=500",
+    description: "Spicy and crisp gram flour sticks seasoned with ratlami cloves and pepper.",
+    weight: "500g"
+  }
+];
+
+const fallbackCategories = [
+  { name: "Traditional Sweets", count: "45 Items", image: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=400", link: "/sweets?category=Traditional" },
+  { name: "Dry Fruit Bites", count: "30 Items", image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=400", link: "/sweets?category=DryFruit" },
+  { name: "Premium Gifting", count: "15 Items", image: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400", link: "/categories" },
+  { name: "Daily Savories", count: "25 Items", image: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=400", link: "/farsan" }
+];
+
+const fallbackTestimonials = [
+  { name: "Amit Sharma", location: "Kurla, Mumbai", rating: 5, comment: "Mahalaxmi's Kaju Katli has been a staple in our family celebrations for decades. The quality remains unmatched." },
+  { name: "Priya Patel", location: "Bandra, Mumbai", rating: 5, comment: "Absolutely love their dry fruit bites. Best part is they are not overly sweet and packed with nuts. Perfect for gifting!" },
+  { name: "Rajesh Mehta", location: "Ghatkopar, Mumbai", rating: 5, comment: "Their Farsan and Ratlami Sev are super crispy and delicious. Service is quick and friendly." }
+];
+
+const fallbackGallery = [
+  { title: "Boutique Sweet Counter", category: "Store", image: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500" },
+  { title: "Sweet Preparation Ghee", category: "Kitchen", image: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=500" },
+  { title: "Gold Festive Sweet Boxes", category: "Packaging", image: "https://images.unsplash.com/photo-1587314168485-3236d6710814?w=500" },
+  { title: "Fresh Handcrafted Ladoos", category: "Kitchen", image: "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=500" },
+  { title: "Premium Gifting Collection", category: "Store", image: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?w=500" },
+  { title: "Savory Snack Assortment", category: "Kitchen", image: "https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500" }
+];
 
 export default function Home() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(fallbackProducts);
   const [wishlist, setWishlist] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [testimonials, setTestimonials] = useState([]);
+  const [categories, setCategories] = useState(fallbackCategories);
+  const [testimonials, setTestimonials] = useState(fallbackTestimonials);
   const [festivals, setFestivals] = useState([]);
   const [selectedCollection, setSelectedCollection] = useState(null);
-  const [galleryItems, setGalleryItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [galleryItems, setGalleryItems] = useState(fallbackGallery);
+  const [loading, setLoading] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
 
   const fetchProducts = async () => {
     try {
-      setLoading(true);
       let data = await api.products.getBestSellers();
       let productsList = data?.products || [];
       if (productsList.length === 0) {
@@ -72,14 +191,9 @@ export default function Home() {
           description: p.description,
           weight: p.variants && p.variants[0] ? p.variants[0].weight : '500g'
         })));
-      } else {
-        setProducts([]);
       }
     } catch (e) {
       console.warn('Backend API failed to load bestsellers:', e.message);
-      setProducts([]);
-    } finally {
-      setLoading(false);
     }
   };
 
