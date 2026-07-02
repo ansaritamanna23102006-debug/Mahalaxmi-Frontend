@@ -42,7 +42,7 @@ const fallbackProducts = [
     rating: 4.9,
     reviews: 120,
     category: "Traditional Sweets",
-    image: "/images/Kaju Katli.jfif",
+    image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013580/mahalaxmi/Kaju_Katli.jpg",
     description: "Rich cashew fudge sweet seasoned with real silver leaf.",
     weight: "500g"
   },
@@ -54,7 +54,7 @@ const fallbackProducts = [
     rating: 4.8,
     reviews: 95,
     category: "Traditional Sweets",
-    image: "/images/Besan ladoo.jfif",
+    image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013549/mahalaxmi/Besan_ladoo.jpg",
     description: "Fragrant roasted chickpea flour spheres cooked in pure ghee.",
     weight: "500g"
   },
@@ -66,7 +66,7 @@ const fallbackProducts = [
     rating: 4.9,
     reviews: 150,
     category: "Traditional Sweets",
-    image: "/images/Motichoor Laddoo.jfif",
+    image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013603/mahalaxmi/Motichoor_Laddoo.jpg",
     description: "Tiny gram flour pearls fried, soaked in saffron syrup, and pressed into ladoos.",
     weight: "500g"
   },
@@ -78,7 +78,7 @@ const fallbackProducts = [
     rating: 4.7,
     reviews: 80,
     category: "Dry Fruit Bites",
-    image: "/images/Kesar Malai Sandwich.jfif",
+    image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013583/mahalaxmi/Kesar_Malai_Sandwich.jpg",
     description: "Sugar-free sweet rolls packed with premium figs, almonds, and pistachios.",
     weight: "500g"
   },
@@ -90,7 +90,7 @@ const fallbackProducts = [
     rating: 4.8,
     reviews: 65,
     category: "Dry Fruit Bites",
-    image: "/images/white mc.jfif",
+    image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013620/mahalaxmi/white_mc.jpg",
     description: "Elegant layered sweet with a rich pistachio center wrapped in cashew fudge.",
     weight: "500g"
   },
@@ -102,7 +102,7 @@ const fallbackProducts = [
     rating: 4.8,
     reviews: 110,
     category: "Traditional Sweets",
-    image: "/images/Kesar Peda.jfif",
+    image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013584/mahalaxmi/Kesar_Peda.jpg",
     description: "Soft milk solids cooked with fragrant saffron, cardamom, and almond garnish.",
     weight: "500g"
   },
@@ -114,7 +114,7 @@ const fallbackProducts = [
     rating: 4.9,
     reviews: 210,
     category: "Farsan & Namkeen",
-    image: "/images/Mixed variety bhajiya.jfif",
+    image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013601/mahalaxmi/Mixed_variety_bhajiya.jpg",
     description: "A crunchy savory blend of sev, gathiya, lentils, and nuts seasoned with spices.",
     weight: "500g"
   },
@@ -126,17 +126,17 @@ const fallbackProducts = [
     rating: 4.8,
     reviews: 140,
     category: "Farsan & Namkeen",
-    image: "/images/sev.jfif",
+    image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013612/mahalaxmi/sev.jpg",
     description: "Spicy and crisp gram flour sticks seasoned with ratlami cloves and pepper.",
     weight: "500g"
   }
 ];
 
 const fallbackCategories = [
-  { name: "Traditional Sweets", count: "45 Items", image: "/images/Kaju Katli.jfif", link: "/sweets?category=Traditional" },
-  { name: "Dry Fruit Bites", count: "30 Items", image: "/images/Choorma.jfif", link: "/sweets?category=DryFruit" },
-  { name: "Premium Gifting", count: "15 Items", image: "/images/imarti.jfif", link: "/categories" },
-  { name: "Daily Savories", count: "25 Items", image: "/images/sev.jfif", link: "/farsan" }
+  { name: "Traditional Sweets", count: "45 Items", image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013580/mahalaxmi/Kaju_Katli.jpg", link: "/sweets?category=Traditional" },
+  { name: "Dry Fruit Bites", count: "30 Items", image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013554/mahalaxmi/Choorma.jpg", link: "/sweets?category=DryFruit" },
+  { name: "Premium Gifting", count: "15 Items", image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013576/mahalaxmi/imarti.jpg", link: "/categories" },
+  { name: "Daily Savories", count: "25 Items", image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013612/mahalaxmi/sev.jpg", link: "/farsan" }
 ];
 
 const fallbackTestimonials = [
@@ -146,12 +146,12 @@ const fallbackTestimonials = [
 ];
 
 const fallbackGallery = [
-  { title: "Boutique Sweet Counter", category: "Store", image: "/images/imarti.jfif" },
-  { title: "Sweet Preparation Ghee", category: "Kitchen", image: "/images/daal halwa.jfif" },
-  { title: "Gold Festive Sweet Boxes", category: "Packaging", image: "/images/Khakhra Pack.jfif" },
-  { title: "Fresh Handcrafted Ladoos", category: "Kitchen", image: "/images/Motichoor Laddoo.jfif" },
-  { title: "Premium Gifting Collection", category: "Store", image: "/images/Choorma.jfif" },
-  { title: "Savory Snack Assortment", category: "Kitchen", image: "/images/Mixed variety bhajiya.jfif" }
+  { title: "Boutique Sweet Counter", category: "Store", image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013576/mahalaxmi/imarti.jpg" },
+  { title: "Sweet Preparation Ghee", category: "Kitchen", image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013558/mahalaxmi/daal_halwa.jpg" },
+  { title: "Gold Festive Sweet Boxes", category: "Packaging", image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013588/mahalaxmi/Khakhra_Pack.jpg" },
+  { title: "Fresh Handcrafted Ladoos", category: "Kitchen", image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013603/mahalaxmi/Motichoor_Laddoo.jpg" },
+  { title: "Premium Gifting Collection", category: "Store", image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013554/mahalaxmi/Choorma.jpg" },
+  { title: "Savory Snack Assortment", category: "Kitchen", image: "https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013601/mahalaxmi/Mixed_variety_bhajiya.jpg" }
 ];
 
 export default function Home() {
@@ -400,7 +400,7 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
             "name": "Mahalaxmi Mithaiwala",
-            "image": `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/hero_sweets.jpg`,
+            "image": `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013625/mahalaxmi/hero_sweets.jpg`,
             "logo": `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/logo.svg`,
             "@id": process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
             "url": process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
@@ -586,7 +586,7 @@ export default function Home() {
               className="relative w-[260px] sm:w-[430px] h-[260px] sm:h-[430px] rounded-full overflow-hidden border-8 border-brand-brown shadow-2xl glow-gold group"
             >
               <Image 
-                src="/hero_sweets.jpg" 
+                src="https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013625/mahalaxmi/hero_sweets.jpg" 
                 alt="Premium Mithai Platter" 
                 fill
                 priority
@@ -964,7 +964,7 @@ export default function Home() {
                 </div>
                 <div className="relative w-full h-full">
                   <Image 
-                    src="/traditional_maker.jpg" 
+                    src="https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013624/mahalaxmi/traditional_maker.jpg" 
                     alt="Traditional Indian Sweet Maker" 
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"

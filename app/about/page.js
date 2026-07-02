@@ -80,7 +80,7 @@ export default function AboutPage() {
             className="lg:col-span-6"
           >
             <div className="relative rounded-3xl overflow-hidden border-8 border-white shadow-[0_20px_50px_rgba(11,11,11,0.1)]">
-              <img src="/traditional_maker.jpg" alt="Heritage Sweet Crafting" className="w-full object-cover" />
+              <img src="https://res.cloudinary.com/dq5cgh8zr/image/upload/v1783013624/mahalaxmi/traditional_maker.jpg" alt="Heritage Sweet Crafting" className="w-full object-cover" />
               <div className="absolute inset-0 border border-brand-orange/20 rounded-[20px] pointer-events-none"></div>
             </div>
           </motion.div>
