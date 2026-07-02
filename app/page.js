@@ -964,7 +964,7 @@ export default function Home() {
                 </div>
                 <div className="relative w-full h-full">
                   <Image 
-                    src="/traditional_maker.png" 
+                    src="/traditional_maker.jpg" 
                     alt="Traditional Indian Sweet Maker" 
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
