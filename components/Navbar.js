@@ -354,11 +354,7 @@ export default function Navbar({ transparent = false }) {
                 <Link 
                   key={link} 
                   href={hrefs[link]} 
-                  className={`font-poppins font-semibold text-xs uppercase tracking-wider transition-all duration-300 relative group py-2 ${
-                    transparent 
-                      ? (isScrolled ? 'text-brand-cream hover:text-brand-gold' : 'text-brand-brown hover:text-brand-maroon')
-                      : 'text-brand-cream hover:text-brand-gold'
-                  }`}
+                  className="font-poppins font-semibold text-xs uppercase tracking-wider transition-all duration-300 relative group py-2 text-brand-cream hover:text-brand-gold"
                 >
                   {link}
                   <span className="absolute left-1/2 bottom-0 -translate-x-1/2 w-0 h-[2px] bg-brand-gold transition-all duration-300 group-hover:w-full shadow-[0_0_8px_#FFD54A]"></span>
@@ -373,11 +369,7 @@ export default function Navbar({ transparent = false }) {
             {/* Search Icon */}
             <button 
               onClick={() => setIsSearchOpen(true)}
-              className={`p-3.5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${
-                transparent 
-                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-brown hover:bg-brand-brown/10')
-                  : 'text-brand-cream hover:bg-white/10'
-              }`}
+              className="p-3.5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 text-brand-cream hover:bg-white/10"
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
@@ -386,11 +378,7 @@ export default function Navbar({ transparent = false }) {
             {/* Wishlist Icon */}
             <button 
               onClick={() => setIsWishlistOpen(true)}
-              className={`hidden sm:inline-flex p-3.5 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95 ${
-                transparent 
-                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-brown hover:bg-brand-brown/10')
-                  : 'text-brand-cream hover:bg-white/10'
-              }`}
+              className="hidden sm:inline-flex p-3.5 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95 text-brand-cream hover:bg-white/10"
               aria-label="Wishlist"
             >
               <Heart className="w-5 h-5" />
@@ -404,11 +392,7 @@ export default function Navbar({ transparent = false }) {
             {/* Cart Icon with bounce badge */}
             <button 
               onClick={() => setIsCartOpen(true)}
-              className={`p-3.5 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95 ${
-                transparent 
-                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-brown hover:bg-brand-brown/10')
-                  : 'text-brand-cream hover:bg-white/10'
-              }`}
+              className="p-3.5 rounded-full relative transition-all duration-300 hover:scale-110 active:scale-95 text-brand-cream hover:bg-white/10"
               aria-label="Cart"
             >
               <ShoppingBag className="w-5 h-5" />
@@ -422,11 +406,7 @@ export default function Navbar({ transparent = false }) {
             {/* User Profile */}
             <Link 
               href="/account"
-              className={`hidden sm:inline-flex p-3.5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 ${
-                transparent 
-                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-brown hover:bg-brand-brown/10')
-                  : 'text-brand-cream hover:bg-white/10'
-              }`}
+              className="hidden sm:inline-flex p-3.5 rounded-full transition-all duration-300 hover:scale-110 active:scale-95 text-brand-cream hover:bg-white/10"
               aria-label="Account"
             >
               <User className="w-5 h-5" />
@@ -435,11 +415,7 @@ export default function Navbar({ transparent = false }) {
             {/* Mobile Menu Toggle */}
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`p-3.5 rounded-full lg:hidden transition-all duration-300 hover:scale-110 active:scale-95 ${
-                transparent 
-                  ? (isScrolled ? 'text-brand-cream hover:bg-white/10' : 'text-brand-brown hover:bg-brand-brown/10')
-                  : 'text-brand-cream hover:bg-white/10'
-              }`}
+              className="p-3.5 rounded-full lg:hidden transition-all duration-300 hover:scale-110 active:scale-95 text-brand-cream hover:bg-white/10"
               aria-label="Menu"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
