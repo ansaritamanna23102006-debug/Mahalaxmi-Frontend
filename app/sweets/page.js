@@ -30,12 +30,8 @@ function SweetsPageContent() {
   const [sortBy, setSortBy] = useState('popular');
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [toast, setToast] = useState(null);
-
-  const showToast = (message, type = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
-  };
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 6;
 
   // Fetch sweets from backend
   const fetchSweets = async () => {
@@ -81,7 +77,16 @@ function SweetsPageContent() {
       if (token) {
         const wishlistData = await api.wishlist.get();
         if (wishlistData && wishlistData.products) {
-          setWishlist(wishlistData.products.map(p => ({ id: p._id })));
+          const populated = wishlistData.products.map(p => ({
+            id: p._id,
+            slug: p.slug || p._id,
+            name: p.name,
+            price: p.discountPrice && p.discountPrice > 0 ? p.discountPrice : p.price,
+            category: p.category,
+            image: p.images ? p.images[0] : 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500'
+          }));
+          setWishlist(populated);
+          localStorage.setItem('mahalaxmi-wishlist', JSON.stringify(populated));
           return;
         }
       }
@@ -113,14 +118,21 @@ function SweetsPageContent() {
   }, []);
 
   useEffect(() => {
-    const catParam = searchParams.get('category');
-    if (catParam) {
+    const categoryParam = searchParams.get('category');
+    if (categoryParam) {
+      setCategory(categoryParam);
+      // scroll to grid
       const timer = setTimeout(() => {
-        setCategory(catParam);
+        const grid = document.getElementById('sweets-catalog');
+        if (grid) grid.scrollIntoView({ behavior: 'smooth' });
       }, 0);
       return () => clearTimeout(timer);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, category, minRating, sortBy]);
 
   const addToCart = async (product) => {
     // Optimistic update: save to localStorage immediately so cart shows at once
@@ -132,7 +144,7 @@ function SweetsPageContent() {
       : [...cart, { ...product, weight, quantity: 1 }];
     localStorage.setItem('mahalaxmi-cart', JSON.stringify(newCart));
     window.dispatchEvent(new Event('cart-updated'));
-    showToast(`${product.name} added to cart!`);
+    window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: `${product.name} added to cart! 🛒`, type: 'success' } }));
 
     // Background sync to backend (silent, non-blocking)
     try {
@@ -149,13 +161,17 @@ function SweetsPageContent() {
       if (token) {
         if (isFav) {
           await api.wishlist.remove(product.id);
-          showToast(`${product.name} removed from wishlist`, 'info');
         } else {
           await api.wishlist.add(product.id);
-          showToast(`${product.name} added to wishlist! ❤️`);
         }
         loadWishlist();
         window.dispatchEvent(new Event('wishlist-updated'));
+        window.dispatchEvent(new CustomEvent('show-toast', { 
+          detail: { 
+            message: isFav ? `${product.name} removed from wishlist` : `${product.name} added to wishlist! ❤️`, 
+            type: isFav ? 'info' : 'success' 
+          } 
+        }));
         return;
       }
 
@@ -163,25 +179,48 @@ function SweetsPageContent() {
       let updated;
       if (isFav) {
         updated = wishlist.filter(i => i.id !== product.id);
-        showToast(`${product.name} removed from wishlist`, 'info');
       } else {
-        updated = [...wishlist, { id: product.id }];
-        showToast(`${product.name} added to wishlist! ❤️`);
+        updated = [...wishlist, { 
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          category: product.category,
+          slug: product.slug || product.id
+        }];
       }
       setWishlist(updated);
       localStorage.setItem('mahalaxmi-wishlist', JSON.stringify(updated));
       window.dispatchEvent(new Event('wishlist-updated'));
+      window.dispatchEvent(new CustomEvent('show-toast', { 
+        detail: { 
+          message: isFav ? `${product.name} removed from wishlist` : `${product.name} added to wishlist! ❤️`, 
+          type: isFav ? 'info' : 'success' 
+        } 
+      }));
     } catch (e) {
       let updated;
       if (isFav) {
         updated = wishlist.filter(i => i.id !== product.id);
       } else {
-        updated = [...wishlist, { id: product.id }];
-        showToast(`${product.name} added to wishlist! ❤️`);
+        updated = [...wishlist, { 
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          category: product.category,
+          slug: product.slug || product.id
+        }];
       }
       setWishlist(updated);
       localStorage.setItem('mahalaxmi-wishlist', JSON.stringify(updated));
       window.dispatchEvent(new Event('wishlist-updated'));
+      window.dispatchEvent(new CustomEvent('show-toast', { 
+        detail: { 
+          message: isFav ? `${product.name} removed from wishlist` : `${product.name} added to wishlist! ❤️`, 
+          type: isFav ? 'info' : 'success' 
+        } 
+      }));
     }
   };
 
@@ -201,18 +240,11 @@ function SweetsPageContent() {
     return b.reviews - a.reviews; // popularity fallback
   });
 
+  const totalPages = Math.ceil(sorted.length / ITEMS_PER_PAGE);
+  const paginatedProducts = sorted.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
+
   return (
     <div className="bg-brand-bg text-brand-text min-h-screen">
-      {/* Toast Notification */}
-      {toast && (
-        <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-xl text-sm font-poppins font-semibold transition-all duration-500 ${
-          toast.type === 'info' ? 'bg-brand-brown text-brand-cream' : 'bg-green-600 text-white'
-        }`}>
-          <CheckCircle className="w-5 h-5 shrink-0" />
-          {toast.message}
-          <button onClick={() => setToast(null)} className="ml-2 opacity-70 hover:opacity-100"><X className="w-4 h-4" /></button>
-        </div>
-      )}
       <Navbar />
 
       {/* Header Banner */}
@@ -303,7 +335,9 @@ function SweetsPageContent() {
             
             {/* Sorting controls */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 bg-brand-cream rounded-2xl border border-brand-gold/15 gap-4">
-              <span className="text-xs font-poppins text-brand-brown/70 font-semibold">{sorted.length} Premium items found</span>
+              <span className="text-xs font-poppins text-brand-brown/70 font-semibold">
+                {sorted.length > 0 ? `Showing ${(currentPage - 1) * ITEMS_PER_PAGE + 1} - ${Math.min(currentPage * ITEMS_PER_PAGE, sorted.length)} of ${sorted.length} Premium items` : '0 Premium items found'}
+              </span>
               
               <div className="flex items-center gap-2">
                 <ArrowUpDown className="w-4 h-4 text-brand-gold" />
@@ -321,13 +355,13 @@ function SweetsPageContent() {
             </div>
 
             {/* Product Cards */}
-            {sorted.length === 0 ? (
+            {paginatedProducts.length === 0 ? (
               <div className="p-20 text-center bg-brand-cream border border-brand-gold/15 rounded-3xl">
                 <p className="text-brand-brown/60 font-poppins text-sm">No sweets match your filters. Try adjusting filters.</p>
               </div>
             ) : (
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                {sorted.map((product) => {
+                {paginatedProducts.map((product) => {
                   const isFav = wishlist.some(i => i.id === product.id);
                   return (
                     <div 
@@ -396,13 +430,50 @@ function SweetsPageContent() {
               </div>
             )}
 
-            {/* Pagination Mock */}
-            <div className="flex justify-center items-center gap-2 pt-6">
-              <button className="px-4 py-2 bg-brand-cream rounded-xl text-xs font-semibold text-brand-brown border border-brand-gold/20 hover:bg-brand-gold hover:text-brand-brown transition-colors">Prev</button>
-              <button className="w-9 h-9 bg-brand-maroon text-brand-cream rounded-xl text-xs font-bold">1</button>
-              <button className="w-9 h-9 bg-white text-brand-brown border border-brand-gold/15 rounded-xl text-xs font-bold hover:bg-brand-bg transition-colors">2</button>
-              <button className="px-4 py-2 bg-brand-cream rounded-xl text-xs font-semibold text-brand-brown border border-brand-gold/20 hover:bg-brand-gold hover:text-brand-brown transition-colors">Next</button>
-            </div>
+            {/* Pagination UI */}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-2 pt-8 font-poppins">
+                <button 
+                  onClick={() => {
+                    setCurrentPage(prev => Math.max(prev - 1, 1));
+                    document.getElementById('sweets-catalog')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 bg-brand-cream disabled:opacity-50 rounded-xl text-xs font-semibold text-brand-brown border border-brand-gold/20 hover:bg-brand-gold hover:text-brand-brown transition-colors cursor-pointer disabled:cursor-not-allowed"
+                >
+                  Prev
+                </button>
+                {[...Array(totalPages)].map((_, idx) => {
+                  const pageNum = idx + 1;
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => {
+                        setCurrentPage(pageNum);
+                        document.getElementById('sweets-catalog')?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className={`w-9 h-9 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                        currentPage === pageNum 
+                          ? 'bg-brand-maroon text-brand-cream border border-brand-maroon shadow-md scale-105' 
+                          : 'bg-white text-brand-brown border border-brand-gold/15 hover:bg-brand-bg'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+                <button 
+                  onClick={() => {
+                    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+                    document.getElementById('sweets-catalog')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 bg-brand-cream disabled:opacity-50 rounded-xl text-xs font-semibold text-brand-brown border border-brand-gold/20 hover:bg-brand-gold hover:text-brand-brown transition-colors cursor-pointer disabled:cursor-not-allowed"
+                >
+                  Next
+                </button>
+              </div>
+            )}
 
           </main>
 

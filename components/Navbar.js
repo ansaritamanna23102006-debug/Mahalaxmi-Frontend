@@ -26,6 +26,7 @@ export default function Navbar({ transparent = false }) {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [toast, setToast] = useState(null);
   
   const [cart, setCart] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -91,7 +92,35 @@ export default function Navbar({ transparent = false }) {
     // ── WISHLIST: localStorage-first then backend overlay ──
     try {
       const storedWishlist = localStorage.getItem('mahalaxmi-wishlist');
-      if (storedWishlist) setWishlist(JSON.parse(storedWishlist));
+      if (storedWishlist) {
+        const parsed = JSON.parse(storedWishlist);
+        if (Array.isArray(parsed)) {
+          const needsPopulate = parsed.some(item => !item.name || !item.image);
+          if (needsPopulate) {
+            Promise.all(parsed.map(async (item) => {
+              if (item.name && item.image) return item;
+              try {
+                const prod = await api.products.getBySlugOrId(item.id);
+                return {
+                  id: prod._id,
+                  slug: prod.slug || prod._id,
+                  name: prod.name,
+                  price: prod.discountPrice && prod.discountPrice > 0 ? prod.discountPrice : prod.price,
+                  category: prod.category,
+                  image: prod.images ? prod.images[0] : 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500'
+                };
+              } catch (_) {
+                return item;
+              }
+            })).then(populated => {
+              setWishlist(populated);
+              localStorage.setItem('mahalaxmi-wishlist', JSON.stringify(populated));
+            });
+          } else {
+            setWishlist(parsed);
+          }
+        }
+      }
     } catch (_) {}
 
     try {
@@ -99,14 +128,16 @@ export default function Navbar({ transparent = false }) {
       if (token) {
         const wishlistData = await api.wishlist.get();
         if (wishlistData && wishlistData.products) {
-          setWishlist(wishlistData.products.map(p => ({
+          const populated = wishlistData.products.map(p => ({
             id: p._id,
             slug: p.slug || p._id,
             name: p.name,
-            price: p.discountPrice || p.price,
+            price: p.discountPrice && p.discountPrice > 0 ? p.discountPrice : p.price,
             category: p.category,
             image: p.images ? p.images[0] : 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500'
-          })));
+          }));
+          setWishlist(populated);
+          localStorage.setItem('mahalaxmi-wishlist', JSON.stringify(populated));
           return;
         }
       }
@@ -134,17 +165,32 @@ export default function Navbar({ transparent = false }) {
       loadCartAndWishlist();
     };
 
+    const handleShowToast = (e) => {
+      if (e.detail && e.detail.message) {
+        setToast({ message: e.detail.message, type: e.detail.type || 'success' });
+      }
+    };
+
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('cart-updated', handleCartUpdate);
     window.addEventListener('wishlist-updated', handleWishlistUpdate);
+    window.addEventListener('show-toast', handleShowToast);
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('cart-updated', handleCartUpdate);
       window.removeEventListener('wishlist-updated', handleWishlistUpdate);
+      window.removeEventListener('show-toast', handleShowToast);
     };
   }, []);
+
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => setToast(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [toast]);
 
   // Debounced live backend search
   useEffect(() => {
@@ -349,7 +395,7 @@ export default function Navbar({ transparent = false }) {
             >
               <Heart className="w-5 h-5" />
               {wishlist.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-brand-maroon text-brand-cream text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold border border-brand-gold animate-[pulse_1.5s_infinite]">
+                <span className="absolute top-2 right-2 bg-brand-maroon text-brand-cream text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold border border-brand-gold animate-[pulse_1.5s_infinite]">
                   {wishlist.length}
                 </span>
               )}
@@ -367,7 +413,7 @@ export default function Navbar({ transparent = false }) {
             >
               <ShoppingBag className="w-5 h-5" />
               {cartItemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-brand-gold text-brand-brown text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-black border border-brand-brown animate-[bounce_2s_infinite]">
+                <span className="absolute top-2 right-2 bg-brand-gold text-brand-brown text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-black border border-brand-brown animate-[bounce_2s_infinite]">
                   {cartItemCount}
                 </span>
               )}
@@ -694,6 +740,30 @@ export default function Navbar({ transparent = false }) {
                 </div>
               )}
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Central Glassmorphic Toast Notification */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div 
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 px-6 py-4 rounded-2xl bg-brand-brown/95 backdrop-blur-md border border-brand-gold/30 shadow-2xl text-sm font-poppins text-brand-cream"
+          >
+            <div className="w-5 h-5 rounded-full bg-brand-gold/15 flex items-center justify-center text-brand-gold">
+              <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+            </div>
+            <span className="font-medium tracking-wide">{toast.message}</span>
+            <button 
+              onClick={() => setToast(null)} 
+              className="ml-3 p-1 rounded-lg text-brand-cream/60 hover:text-white hover:bg-white/5 transition-all"
+              aria-label="Dismiss"
+            >
+              <X className="w-4 h-4" />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

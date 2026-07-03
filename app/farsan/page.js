@@ -24,6 +24,8 @@ export default function FarsanPage() {
   const [sortBy, setSortBy] = useState('popular');
   const [wishlist, setWishlist] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 6;
 
   // Fetch farsans from backend
   const fetchFarsans = async () => {
@@ -62,7 +64,16 @@ export default function FarsanPage() {
       if (token) {
         const wishlistData = await api.wishlist.get();
         if (wishlistData && wishlistData.products) {
-          setWishlist(wishlistData.products.map(p => ({ id: p._id })));
+          const populated = wishlistData.products.map(p => ({
+            id: p._id,
+            slug: p.slug || p._id,
+            name: p.name,
+            price: p.discountPrice && p.discountPrice > 0 ? p.discountPrice : p.price,
+            category: p.category,
+            image: p.images ? p.images[0] : 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500'
+          }));
+          setWishlist(populated);
+          localStorage.setItem('mahalaxmi-wishlist', JSON.stringify(populated));
           return;
         }
       }
@@ -88,6 +99,10 @@ export default function FarsanPage() {
     return () => window.removeEventListener('wishlist-updated', handleWishlistUpdate);
   }, []);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, category, minRating, sortBy]);
+
   const addToCart = async (product) => {
     // Optimistic update: localStorage first
     const weight = product.weight || '500g';
@@ -98,6 +113,7 @@ export default function FarsanPage() {
       : [...cart, { ...product, weight, quantity: 1 }];
     localStorage.setItem('mahalaxmi-cart', JSON.stringify(newCart));
     window.dispatchEvent(new Event('cart-updated'));
+    window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: `${product.name} added to cart! 🛒`, type: 'success' } }));
     try {
       await api.cart.add(product.id, 1, weight);
     } catch (e) {
@@ -117,6 +133,12 @@ export default function FarsanPage() {
         }
         loadWishlist();
         window.dispatchEvent(new Event('wishlist-updated'));
+        window.dispatchEvent(new CustomEvent('show-toast', { 
+          detail: { 
+            message: isFav ? `${product.name} removed from wishlist` : `${product.name} added to wishlist! ❤️`, 
+            type: isFav ? 'info' : 'success' 
+          } 
+        }));
         return;
       }
 
@@ -125,21 +147,47 @@ export default function FarsanPage() {
       if (isFav) {
         updated = wishlist.filter(i => i.id !== product.id);
       } else {
-        updated = [...wishlist, { id: product.id }];
+        updated = [...wishlist, { 
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          category: product.category,
+          slug: product.slug || product.id
+        }];
       }
       setWishlist(updated);
       localStorage.setItem('mahalaxmi-wishlist', JSON.stringify(updated));
       window.dispatchEvent(new Event('wishlist-updated'));
+      window.dispatchEvent(new CustomEvent('show-toast', { 
+        detail: { 
+          message: isFav ? `${product.name} removed from wishlist` : `${product.name} added to wishlist! ❤️`, 
+          type: isFav ? 'info' : 'success' 
+        } 
+      }));
     } catch (e) {
       let updated;
       if (isFav) {
         updated = wishlist.filter(i => i.id !== product.id);
       } else {
-        updated = [...wishlist, { id: product.id }];
+        updated = [...wishlist, { 
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          category: product.category,
+          slug: product.slug || product.id
+        }];
       }
       setWishlist(updated);
       localStorage.setItem('mahalaxmi-wishlist', JSON.stringify(updated));
       window.dispatchEvent(new Event('wishlist-updated'));
+      window.dispatchEvent(new CustomEvent('show-toast', { 
+        detail: { 
+          message: isFav ? `${product.name} removed from wishlist` : `${product.name} added to wishlist! ❤️`, 
+          type: isFav ? 'info' : 'success' 
+        } 
+      }));
     }
   };
 
@@ -156,6 +204,9 @@ export default function FarsanPage() {
     if (sortBy === 'rating') return b.rating - a.rating;
     return b.reviews - a.reviews;
   });
+
+  const totalPages = Math.ceil(sorted.length / ITEMS_PER_PAGE);
+  const paginatedProducts = sorted.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
   return (
     <div className="bg-brand-bg text-brand-text min-h-screen">
@@ -241,10 +292,12 @@ export default function FarsanPage() {
           </aside>
 
           {/* Product Grid and Sorting */}
-          <main className="lg:col-span-9 space-y-6">
+          <main id="farsan-catalog" className="lg:col-span-9 space-y-6">
             
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-4 bg-brand-cream rounded-2xl border border-brand-gold/15 gap-4">
-              <span className="text-xs font-poppins text-brand-brown/70 font-semibold">{sorted.length} Crunchy snacks found</span>
+              <span className="text-xs font-poppins text-brand-brown/70 font-semibold">
+                {sorted.length > 0 ? `Showing ${(currentPage - 1) * ITEMS_PER_PAGE + 1} - ${Math.min(currentPage * ITEMS_PER_PAGE, sorted.length)} of ${sorted.length} Crunchy snacks` : '0 Crunchy snacks found'}
+              </span>
               
               <div className="flex items-center gap-2">
                 <ArrowUpDown className="w-4 h-4 text-brand-gold" />
@@ -262,13 +315,13 @@ export default function FarsanPage() {
             </div>
 
             {/* Product Cards */}
-            {sorted.length === 0 ? (
+            {paginatedProducts.length === 0 ? (
               <div className="p-20 text-center bg-brand-cream border border-brand-gold/15 rounded-3xl">
                 <p className="text-brand-brown/60 font-poppins text-sm">No snacks found. Try resetting filters.</p>
               </div>
             ) : (
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                {sorted.map((product) => {
+                {paginatedProducts.map((product) => {
                   const isFav = wishlist.some(i => i.id === product.id);
                   return (
                     <div 
@@ -335,12 +388,50 @@ export default function FarsanPage() {
               </div>
             )}
 
-            {/* Pagination Mock */}
-            <div className="flex justify-center items-center gap-2 pt-6">
-              <button className="px-4 py-2 bg-brand-cream rounded-xl text-xs font-semibold text-brand-brown border border-brand-gold/20 hover:bg-brand-gold hover:text-brand-brown transition-colors">Prev</button>
-              <button className="w-9 h-9 bg-brand-maroon text-brand-cream rounded-xl text-xs font-bold">1</button>
-              <button className="px-4 py-2 bg-brand-cream rounded-xl text-xs font-semibold text-brand-brown border border-brand-gold/20 hover:bg-brand-gold hover:text-brand-brown transition-colors">Next</button>
-            </div>
+            {/* Pagination UI */}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-2 pt-8 font-poppins">
+                <button 
+                  onClick={() => {
+                    setCurrentPage(prev => Math.max(prev - 1, 1));
+                    document.getElementById('farsan-catalog')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 bg-brand-cream disabled:opacity-50 rounded-xl text-xs font-semibold text-brand-brown border border-brand-gold/20 hover:bg-brand-gold hover:text-brand-brown transition-colors cursor-pointer disabled:cursor-not-allowed"
+                >
+                  Prev
+                </button>
+                {[...Array(totalPages)].map((_, idx) => {
+                  const pageNum = idx + 1;
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => {
+                        setCurrentPage(pageNum);
+                        document.getElementById('farsan-catalog')?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className={`w-9 h-9 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                        currentPage === pageNum 
+                          ? 'bg-brand-maroon text-brand-cream border border-brand-maroon shadow-md scale-105' 
+                          : 'bg-white text-brand-brown border border-brand-gold/15 hover:bg-brand-bg'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+                <button 
+                  onClick={() => {
+                    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+                    document.getElementById('farsan-catalog')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 bg-brand-cream disabled:opacity-50 rounded-xl text-xs font-semibold text-brand-brown border border-brand-gold/20 hover:bg-brand-gold hover:text-brand-brown transition-colors cursor-pointer disabled:cursor-not-allowed"
+                >
+                  Next
+                </button>
+              </div>
+            )}
 
           </main>
 

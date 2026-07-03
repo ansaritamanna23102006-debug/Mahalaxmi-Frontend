@@ -28,11 +28,8 @@ export default function AccountPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [orders, setOrders] = useState([]);
   const [addresses, setAddresses] = useState([]);
-  const [toast, setToast] = useState(null);
-
   const showToast = (message, type = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
+    window.dispatchEvent(new CustomEvent('show-toast', { detail: { message, type } }));
   };
 
   // Form states
@@ -55,12 +52,16 @@ export default function AccountPage() {
       if (token) {
         const data = await api.wishlist.get();
         if (data && data.products) {
-          setWishlist(data.products.map(p => ({
+          const populated = data.products.map(p => ({
             id: p._id,
+            slug: p.slug || p._id,
             name: p.name,
             price: p.discountPrice && p.discountPrice > 0 ? p.discountPrice : p.price,
-            image: p.images ? p.images[0] : p.image
-          })));
+            category: p.category,
+            image: p.images ? p.images[0] : 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500'
+          }));
+          setWishlist(populated);
+          localStorage.setItem('mahalaxmi-wishlist', JSON.stringify(populated));
           return;
         }
       }
@@ -298,16 +299,6 @@ export default function AccountPage() {
 
   return (
     <div className="bg-brand-bg text-brand-text min-h-screen mandala-pattern">
-      {/* Toast Notification */}
-      {toast && (
-        <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-xl text-sm font-poppins font-semibold ${
-          toast.type === 'info' ? 'bg-brand-brown text-brand-gold' : 'bg-green-600 text-white'
-        }`}>
-          <CheckCircle className="w-5 h-5 shrink-0" />
-          {toast.message}
-          <button onClick={() => setToast(null)} className="ml-2 opacity-70 hover:opacity-100"><X className="w-4 h-4" /></button>
-        </div>
-      )}
       <Navbar />
 
       {/* Header Banner */}

@@ -45,7 +45,16 @@ export default function ProductDetailClient({ id }) {
       if (token) {
         const wishlistData = await api.wishlist.get();
         if (wishlistData && wishlistData.products) {
-          setWishlist(wishlistData.products.map(p => ({ id: p._id })));
+          const populated = wishlistData.products.map(p => ({
+            id: p._id,
+            slug: p.slug || p._id,
+            name: p.name,
+            price: p.discountPrice && p.discountPrice > 0 ? p.discountPrice : p.price,
+            category: p.category,
+            image: p.images ? p.images[0] : 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500'
+          }));
+          setWishlist(populated);
+          localStorage.setItem('mahalaxmi-wishlist', JSON.stringify(populated));
           return;
         }
       }
@@ -152,6 +161,7 @@ export default function ProductDetailClient({ id }) {
       : [...cart, { ...item, quantity }];
     localStorage.setItem('mahalaxmi-cart', JSON.stringify(newCart));
     window.dispatchEvent(new Event('cart-updated'));
+    window.dispatchEvent(new CustomEvent('show-toast', { detail: { message: `${product.name} added to cart! 🛒`, type: 'success' } }));
 
     if (buyNow) {
       window.location.href = '/checkout';
@@ -179,6 +189,12 @@ export default function ProductDetailClient({ id }) {
         }
         loadWishlist();
         window.dispatchEvent(new Event('wishlist-updated'));
+        window.dispatchEvent(new CustomEvent('show-toast', { 
+          detail: { 
+            message: isFav ? `${product.name} removed from wishlist` : `${product.name} added to wishlist! ❤️`, 
+            type: isFav ? 'info' : 'success' 
+          } 
+        }));
         return;
       }
       
@@ -186,21 +202,47 @@ export default function ProductDetailClient({ id }) {
       if (isFav) {
         updated = wishlist.filter(i => i.id !== product.id);
       } else {
-        updated = [...wishlist, { id: product.id }];
+        updated = [...wishlist, { 
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.images?.[0] || 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500',
+          category: product.category,
+          slug: product.slug || product.id
+        }];
       }
       setWishlist(updated);
       localStorage.setItem('mahalaxmi-wishlist', JSON.stringify(updated));
       window.dispatchEvent(new Event('wishlist-updated'));
+      window.dispatchEvent(new CustomEvent('show-toast', { 
+        detail: { 
+          message: isFav ? `${product.name} removed from wishlist` : `${product.name} added to wishlist! ❤️`, 
+          type: isFav ? 'info' : 'success' 
+        } 
+      }));
     } catch (e) {
       let updated;
       if (isFav) {
         updated = wishlist.filter(i => i.id !== product.id);
       } else {
-        updated = [...wishlist, { id: product.id }];
+        updated = [...wishlist, { 
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.images?.[0] || 'https://images.unsplash.com/photo-1601050690597-df056fb4ce78?w=500',
+          category: product.category,
+          slug: product.slug || product.id
+        }];
       }
       setWishlist(updated);
       localStorage.setItem('mahalaxmi-wishlist', JSON.stringify(updated));
       window.dispatchEvent(new Event('wishlist-updated'));
+      window.dispatchEvent(new CustomEvent('show-toast', { 
+        detail: { 
+          message: isFav ? `${product.name} removed from wishlist` : `${product.name} added to wishlist! ❤️`, 
+          type: isFav ? 'info' : 'success' 
+        } 
+      }));
     }
   };
 
